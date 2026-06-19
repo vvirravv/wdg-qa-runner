@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: wdg-qa-runner
+    runtime: node
+    buildCommand: npm install && cd tests && npm install && npx playwright install --with-deps chromium
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: USERS
+        sync: false   # Set manually in Render dashboard

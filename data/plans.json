@@ -1,0 +1,132 @@
+[
+  {
+    "id": "smoke",
+    "name": "Smoke",
+    "description": "Мінімальна перевірка після будь-якого деплою — сайт відповідає, навігація працює.",
+    "browser": "chrome",
+    "groups": [
+      "homepage",
+      "header"
+    ],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  },
+  {
+    "id": "sanity-after-deploy",
+    "name": "Sanity — After Deploy",
+    "description": "Ключові сторінки після кожного деплою. Запускати автоматично.",
+    "browser": "chrome",
+    "groups": [
+      "homepage",
+      "header",
+      "global"
+    ],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  },
+  {
+    "id": "responsive",
+    "name": "Responsive",
+    "description": "Мобільна навігація і адаптивна верстка.",
+    "browser": "all",
+    "groups": [
+      "header"
+    ],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  },
+  {
+    "id": "strapi",
+    "name": "Strapi",
+    "description": "Цілісність контенту з CMS — ручна перевірка (автотести не передбачені).",
+    "browser": "chrome",
+    "groups": [],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  },
+  {
+    "id": "cross-browser",
+    "name": "Cross-Browser",
+    "description": "Повний набір тестів на Chrome та Firefox одночасно.",
+    "browser": "all",
+    "groups": [
+      "global",
+      "header",
+      "homepage",
+      "pages",
+      "work-contact"
+    ],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  },
+  {
+    "id": "sanity-deploy-alias",
+    "name": "Sanity — After Deploy",
+    "description": "Дублікат для розкладу — запускається окремим тригером.",
+    "browser": "chrome",
+    "groups": [
+      "homepage",
+      "header",
+      "global"
+    ],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  },
+  {
+    "id": "accessibility",
+    "name": "Accessibility",
+    "description": "A11Y перевірки: ролі, ARIA-атрибути, контраст, фокус.",
+    "browser": "all",
+    "groups": [
+      "global"
+    ],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  },
+  {
+    "id": "regression",
+    "name": "Regression Full Site",
+    "description": "Повна регресія — всі сторінки, всі тести.",
+    "browser": "all",
+    "groups": [
+      "global",
+      "header",
+      "homepage",
+      "pages",
+      "work-contact"
+    ],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  },
+  {
+    "id": "seo",
+    "name": "SEO Screaming Frog",
+    "description": "SEO аудит через Screaming Frog — ручна перевірка (автотести не передбачені).",
+    "browser": "chrome",
+    "groups": [],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  },
+  {
+    "id": "cookie-consent",
+    "name": "Cookie Consent",
+    "description": "Поведінка Cookie Banner і flow отримання згоди.",
+    "browser": "chrome",
+    "groups": [
+      "global"
+    ],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  },
+  {
+    "id": "security",
+    "name": "Security & Infrastructure",
+    "description": "Security headers, HTTPS redirect, вразливості.",
+    "browser": "chrome",
+    "groups": [
+      "global"
+    ],
+    "createdAt": "2026-06-19T16:03:01.161Z",
+    "updatedAt": "2026-06-19T16:03:01.161Z"
+  }
+]

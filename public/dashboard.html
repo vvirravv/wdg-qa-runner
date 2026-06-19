@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WDG QA Runner</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d0f17;
+      color: #c9d1e0;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: #13162280;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #ffffff0f;
+      padding: 0 28px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-brand { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; color: #f0f4ff; letter-spacing: -0.3px; }
+    .header-brand .dot { width: 8px; height: 8px; border-radius: 50%; background: #6366f1; box-shadow: 0 0 8px #6366f1aa; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .username-chip { font-size: 12px; color: #6b7490; background: #1c2033; border: 1px solid #252a40; border-radius: 20px; padding: 4px 12px; }
+    .btn-ghost { font-size: 12px; color: #6b7490; background: transparent; border: 1px solid #252a40; border-radius: 6px; padding: 5px 12px; cursor: pointer; transition: all .15s; }
+    .btn-ghost:hover { border-color: #6366f1; color: #a5b4fc; }
+
+    /* ── Tabs ── */
+    .tabs-bar { display: flex; gap: 2px; padding: 0 28px; background: #0d0f17; border-bottom: 1px solid #ffffff08; }
+    .tab-btn { font-size: 13px; font-weight: 500; color: #404768; background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 18px 12px; cursor: pointer; transition: color .15s, border-color .15s; }
+    .tab-btn:hover { color: #8890b0; }
+    .tab-btn.active { color: #a5b4fc; border-bottom-color: #6366f1; }
+
+    /* ── Main ── */
+    .main { max-width: 1000px; margin: 0 auto; padding: 28px 24px 60px; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Run tab ── */
+    .config-card { background: #13162280; border: 1px solid #ffffff0d; border-radius: 14px; padding: 22px 24px 20px; margin-bottom: 22px; }
+    .config-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .config-row:last-child { margin-bottom: 0; }
+    .config-label { font-size: 11px; font-weight: 600; color: #404768; text-transform: uppercase; letter-spacing: .1em; min-width: 64px; }
+    .pill { font-size: 13px; font-weight: 500; padding: 6px 15px; border-radius: 20px; border: 1px solid #252a40; background: #1c2033; color: #7b84a8; cursor: pointer; transition: all .15s; user-select: none; display: inline-flex; align-items: center; gap: 6px; }
+    .pill:hover { border-color: #6366f1; color: #a5b4fc; }
+    .pill.active { background: #312e6e; border-color: #6366f1; color: #c7d2fe; }
+    .pill.pill-manual, .pill:disabled { opacity: 0.35; cursor: not-allowed; }
+    .pill.pill-manual:hover, .pill:disabled:hover { border-color: #252a40; color: #7b84a8; }
+    .run-row { display: flex; justify-content: flex-end; margin-top: 18px; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: #6366f1; border: none; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 600; padding: 10px 24px; cursor: pointer; transition: background .15s, transform .1s; box-shadow: 0 4px 16px #6366f140; }
+    .btn-primary:hover:not(:disabled) { background: #4f46e5; transform: translateY(-1px); }
+    .btn-primary:disabled { background: #252a40; color: #404768; cursor: not-allowed; box-shadow: none; transform: none; }
+    .spinner { width: 13px; height: 13px; border: 2px solid rgba(255,255,255,.25); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .section-label { font-size: 11px; font-weight: 600; color: #404768; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 10px; }
+    .run-panel { background: #0a0c14; border: 1px solid #ffffff0d; border-radius: 14px; margin-bottom: 24px; overflow: hidden; }
+    .run-panel-hdr { display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; border-bottom: 1px solid #ffffff08; background: #0f1220; }
+    .run-panel-hdr-left { display: flex; align-items: center; gap: 10px; }
+    .status-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.idle    { background: #2a3050; }
+    .status-dot.running { background: #3b82f6; animation: glow-b 1.2s ease-in-out infinite; }
+    .status-dot.passed  { background: #22c55e; }
+    .status-dot.failed  { background: #ef4444; }
+    @keyframes glow-b { 0%,100% { box-shadow: 0 0 0 0 #3b82f660; } 50% { box-shadow: 0 0 0 4px #3b82f620; } }
+    .status-txt { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+    .status-txt.idle    { color: #363d5a; }
+    .status-txt.running { color: #60a5fa; }
+    .status-txt.passed  { color: #4ade80; }
+    .status-txt.failed  { color: #f87171; }
+    .run-meta { font-size: 11px; color: #363d5a; }
+    .log-box { font-family: 'SF Mono','Fira Code','Cascadia Code',monospace; font-size: 11.5px; line-height: 1.65; color: #6b7490; background: #0a0c14; padding: 16px 18px; height: 300px; overflow-y: auto; white-space: pre-wrap; word-break: break-all; }
+    .log-placeholder { color: #252a40; font-style: italic; }
+
+    /* ── Plans tab ── */
+    .plans-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .plans-topbar h2 { font-size: 15px; font-weight: 600; color: #c9d1e0; }
+    .btn-add { display: inline-flex; align-items: center; gap: 6px; background: #1c2033; border: 1px solid #252a40; border-radius: 8px; color: #a5b4fc; font-size: 13px; font-weight: 500; padding: 8px 16px; cursor: pointer; transition: all .15s; }
+    .btn-add:hover { border-color: #6366f1; background: #252a50; }
+
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+
+    .plan-card { background: #13162280; border: 1px solid #ffffff0d; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: border-color .15s; }
+    .plan-card:hover { border-color: #252a40; }
+    .plan-card-name { font-size: 14px; font-weight: 600; color: #e2e8f0; }
+    .plan-card-desc { font-size: 12px; color: #525b7a; line-height: 1.5; flex: 1; }
+    .plan-groups { display: flex; flex-wrap: wrap; gap: 5px; min-height: 22px; }
+    .group-tag { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: #1c2033; border: 1px solid #252a40; color: #7b84a8; }
+    .group-tag.manual { color: #404768; border-color: #1c2033; background: transparent; font-style: italic; }
+    .browser-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: .05em; }
+    .browser-tag.all     { background: #162040; color: #60a5fa; }
+    .browser-tag.chrome  { background: #1a2010; color: #86efac; }
+    .browser-tag.firefox { background: #251525; color: #d8b4fe; }
+    .plan-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid #ffffff08; margin-top: 2px; }
+    .plan-actions { display: flex; gap: 6px; }
+    .btn-icon { font-size: 11px; padding: 5px 10px; border-radius: 6px; border: 1px solid #252a40; background: transparent; color: #525b7a; cursor: pointer; transition: all .15s; }
+    .btn-icon:hover { border-color: #6366f1; color: #a5b4fc; }
+    .btn-icon.danger:hover { border-color: #ef4444; color: #f87171; }
+    .btn-run-plan { font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 6px; border: none; background: #6366f1; color: #fff; cursor: pointer; transition: background .15s; display: inline-flex; align-items: center; gap: 5px; }
+    .btn-run-plan:hover:not(:disabled) { background: #4f46e5; }
+    .btn-run-plan:disabled { background: #252a40; color: #404768; cursor: not-allowed; }
+
+    /* ── History tab ── */
+    .history-wrap { border: 1px solid #ffffff0d; border-radius: 14px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th { background: #0f1220; padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 600; color: #404768; text-transform: uppercase; letter-spacing: .08em; border-bottom: 1px solid #ffffff08; }
+    tbody tr.data-row { border-bottom: 1px solid #ffffff06; cursor: pointer; transition: background .1s; }
+    tbody tr.data-row:hover td { background: #13162250; }
+    tbody tr.data-row td { padding: 11px 16px; vertical-align: middle; }
+    tbody tr.expand-row td { padding: 0; border-bottom: 1px solid #ffffff0d; }
+    .expand-log { font-family: 'SF Mono','Fira Code',monospace; font-size: 11px; line-height: 1.6; color: #525b7a; background: #080a10; padding: 14px 18px; white-space: pre-wrap; word-break: break-all; max-height: 360px; overflow-y: auto; }
+    .badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 3px 8px; border-radius: 4px; }
+    .badge.running { background: #162040; color: #60a5fa; }
+    .badge.passed  { background: #0e2818; color: #4ade80; }
+    .badge.failed  { background: #2a0e0e; color: #f87171; }
+    .pass { color: #4ade80; font-weight: 600; }
+    .fail { color: #f87171; font-weight: 600; }
+    .dim  { color: #363d5a; }
+    .empty-state { padding: 48px; text-align: center; color: #2a3050; font-size: 13px; }
+
+    /* ── Modal ── */
+    .modal-overlay { position: fixed; inset: 0; background: #00000090; backdrop-filter: blur(4px); z-index: 200; display: none; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #13162a; border: 1px solid #252a40; border-radius: 16px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; }
+    .modal-hdr { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 16px; border-bottom: 1px solid #ffffff0d; }
+    .modal-hdr h3 { font-size: 15px; font-weight: 600; color: #f0f4ff; }
+    .modal-close { background: none; border: none; color: #525b7a; font-size: 20px; cursor: pointer; line-height: 1; padding: 2px 6px; border-radius: 4px; }
+    .modal-close:hover { color: #f87171; }
+    .modal-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 18px; }
+    .field label { display: block; font-size: 12px; font-weight: 600; color: #525b7a; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 7px; }
+    .field input, .field textarea, .field select {
+      width: 100%; background: #0d0f17; border: 1px solid #252a40; border-radius: 8px;
+      color: #e2e8f0; font-size: 13px; padding: 9px 12px; outline: none; transition: border-color .15s;
+      font-family: inherit;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: #6366f1; }
+    .field textarea { resize: vertical; min-height: 64px; }
+    .group-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .check-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px; border-radius: 8px; border: 1px solid #1c2033; background: #0d0f17; cursor: pointer; transition: border-color .15s; }
+    .check-item:hover { border-color: #363d5a; }
+    .check-item input[type=checkbox] { margin-top: 2px; accent-color: #6366f1; flex-shrink: 0; }
+    .check-item-text strong { display: block; font-size: 12px; font-weight: 600; color: #c9d1e0; }
+    .check-item-text span  { display: block; font-size: 11px; color: #404768; line-height: 1.4; margin-top: 2px; }
+    .browser-radios { display: flex; gap: 8px; }
+    .radio-item { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px; border-radius: 8px; border: 1px solid #1c2033; background: #0d0f17; cursor: pointer; font-size: 12px; font-weight: 500; color: #525b7a; transition: all .15s; }
+    .radio-item:has(input:checked) { border-color: #6366f1; color: #c7d2fe; background: #1a1d3a; }
+    .radio-item input { accent-color: #6366f1; }
+    .modal-footer { display: flex; justify-content: flex-end; gap: 8px; padding: 16px 24px 20px; border-top: 1px solid #ffffff0d; }
+    .btn-cancel { font-size: 13px; padding: 8px 18px; border-radius: 8px; border: 1px solid #252a40; background: transparent; color: #7b84a8; cursor: pointer; }
+    .btn-cancel:hover { border-color: #404768; }
+    .btn-save { font-size: 13px; font-weight: 600; padding: 8px 20px; border-radius: 8px; border: none; background: #6366f1; color: #fff; cursor: pointer; }
+    .btn-save:hover { background: #4f46e5; }
+
+    /* ── Toast ── */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: #2a0e0e; border: 1px solid #5a1a1a; border-radius: 10px; color: #f87171; font-size: 13px; padding: 12px 18px; z-index: 300; display: none; max-width: 340px; }
+    .toast.success { background: #0e2818; border-color: #1a5a30; color: #4ade80; }
+
+    /* ── Plan Detail ── */
+    .detail-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .btn-back { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 1px solid #252a40; border-radius: 8px; color: #7b84a8; font-size: 13px; padding: 7px 14px; cursor: pointer; transition: all .15s; }
+    .btn-back:hover { border-color: #6366f1; color: #a5b4fc; }
+    .detail-actions { display: flex; gap: 8px; }
+    .detail-fields { background: #13162280; border: 1px solid #ffffff0d; border-radius: 14px; padding: 20px 24px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .detail-field-row { display: flex; gap: 16px; align-items: flex-start; }
+    .detail-section-label { font-size: 11px; font-weight: 600; color: #404768; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
+    .test-group-block { background: #0d0f17; border: 1px solid #ffffff0d; border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+    .test-group-block.checked { border-color: #312e6e; }
+    .test-group-hdr { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #0f1220; }
+    .test-group-hdr input[type=checkbox] { accent-color: #6366f1; width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; }
+    .test-group-hdr-text { flex: 1; }
+    .test-group-hdr-text strong { display: block; font-size: 13px; font-weight: 600; color: #c9d1e0; }
+    .test-group-hdr-text small { font-size: 11px; color: #404768; }
+    .test-title-list { padding: 8px 16px 12px 43px; display: flex; flex-direction: column; gap: 5px; }
+    .test-title-item { font-size: 12px; color: #525b7a; display: flex; align-items: center; gap: 8px; }
+    .test-title-item::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: #252a40; flex-shrink: 0; }
+    .test-group-block.checked .test-title-item { color: #7b84a8; }
+    .test-group-block.checked .test-title-item::before { background: #6366f1; }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #252a40; border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-brand"><span class="dot"></span> WDG QA Runner</div>
+  <div class="header-right">
+    <span class="username-chip" id="usernameChip">—</span>
+    <button class="btn-ghost" id="logoutBtn">Sign out</button>
+  </div>
+</header>
+
+<nav class="tabs-bar">
+  <button class="tab-btn active" data-tab="run">Run</button>
+  <button class="tab-btn" data-tab="plans">Test Plans</button>
+  <button class="tab-btn" data-tab="history">History</button>
+</nav>
+
+<!-- ══ RUN TAB ══════════════════════════════════════════════════════════ -->
+<div id="tab-run" class="tab-panel active">
+  <div class="main">
+    <div class="config-card">
+      <div class="config-row">
+        <span class="config-label">Suite</span>
+        <div id="groupPills" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      </div>
+      <div class="config-row">
+        <span class="config-label">Browser</span>
+        <button class="pill active" data-browser="all">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          All
+        </button>
+        <button class="pill" data-browser="chrome">Chrome</button>
+        <button class="pill" data-browser="firefox">Firefox</button>
+      </div>
+      <div class="run-row">
+        <button class="btn-primary" id="runBtn">
+          <svg id="runIcon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+          <span id="runLabel">Run Tests</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="section-label">Current Run</div>
+    <div class="run-panel">
+      <div class="run-panel-hdr">
+        <div class="run-panel-hdr-left">
+          <div class="status-dot idle" id="statusDot"></div>
+          <span class="status-txt idle" id="statusTxt">Idle</span>
+        </div>
+        <span class="run-meta" id="runMeta"></span>
+      </div>
+      <div class="log-box" id="logBox"><span class="log-placeholder">No run in progress — configure a suite above and press Run Tests.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PLANS TAB ════════════════════════════════════════════════════════ -->
+<div id="tab-plans" class="tab-panel">
+
+  <!-- Plans list -->
+  <div class="main" id="plansListView">
+    <div class="plans-topbar">
+      <h2>Test Plans</h2>
+      <button class="btn-add" id="newPlanBtn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Plan
+      </button>
+    </div>
+    <div class="plans-grid" id="plansGrid"></div>
+  </div>
+
+  <!-- Plan detail view -->
+  <div class="main" id="planDetailView" style="display:none">
+    <div class="detail-topbar">
+      <button class="btn-back" id="backToPlans">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+        Test Plans
+      </button>
+      <div class="detail-actions">
+        <button class="btn-run-plan" id="detailRunBtn">▶ Run Plan</button>
+      </div>
+    </div>
+
+    <div class="detail-fields">
+      <input type="hidden" id="detailPlanId">
+      <div class="detail-field-row">
+        <div class="field" style="flex:1">
+          <label>Plan Name</label>
+          <input type="text" id="detailName" placeholder="Plan name">
+        </div>
+        <div class="field" style="width:220px">
+          <label>Browser</label>
+          <div class="browser-radios">
+            <label class="radio-item"><input type="radio" name="detailBrowser" value="all" checked> All</label>
+            <label class="radio-item"><input type="radio" name="detailBrowser" value="chrome"> Chrome</label>
+            <label class="radio-item"><input type="radio" name="detailBrowser" value="firefox"> Firefox</label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="detailDesc" placeholder="What does this plan verify?" rows="2"></textarea>
+      </div>
+    </div>
+
+    <div class="detail-section-label">Auto-tests</div>
+    <div id="detailGroupList"></div>
+
+    <div style="margin-top:24px">
+      <button class="btn-primary" id="detailSaveBtn" style="width:100%">Save Changes</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ HISTORY TAB ══════════════════════════════════════════════════════ -->
+<div id="tab-history" class="tab-panel">
+  <div class="main">
+    <div class="history-wrap" id="historyWrap">
+      <div class="empty-state">No runs yet.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL ════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="modalTitle">New Test Plan</h3>
+      <button class="modal-close" id="modalClose">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editingPlanId">
+      <div class="field">
+        <label>Plan Name</label>
+        <input type="text" id="planName" placeholder="e.g. Smoke">
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="planDesc" placeholder="What does this plan verify?"></textarea>
+      </div>
+      <div class="field">
+        <label>Auto-tests (select test groups to include)</label>
+        <div class="group-checks" id="groupChecks"></div>
+      </div>
+      <div class="field">
+        <label>Browser</label>
+        <div class="browser-radios">
+          <label class="radio-item"><input type="radio" name="planBrowser" value="all" checked> All browsers</label>
+          <label class="radio-item"><input type="radio" name="planBrowser" value="chrome"> Chrome</label>
+          <label class="radio-item"><input type="radio" name="planBrowser" value="firefox"> Firefox</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modalCancel">Cancel</button>
+      <button class="btn-save" id="modalSave">Save Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ════════════════════════════════════════════════════════════ -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────
+let selectedPlanId  = null;
+let selectedBrowser = 'all';
+let activeESS       = null;
+let historyTimer    = null;
+let clockTimer      = null;
+let runStartTime    = null;
+let availableGroups = [];
+
+// ── Init ──────────────────────────────────────────────────────────────────
+async function init() {
+  fetch('/api/me').then(r => r.json()).then(d => {
+    document.getElementById('usernameChip').textContent = d.username || '—';
+  });
+  await Promise.all([loadSuitePlans(), loadPlans(), loadHistory()]);
+  startHistoryPoll();
+  fetch('/api/runs').then(r => { if (r.status === 401) location.href = '/login'; });
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'history') loadHistory();
+    if (btn.dataset.tab === 'plans') loadPlans();
+  });
+});
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+}
+
+// ── Suite = Test Plans ────────────────────────────────────────────────────
+async function loadSuitePlans() {
+  try {
+    const plans = await fetch('/api/plans').then(r => r.json());
+    const container = document.getElementById('groupPills');
+    container.innerHTML = '';
+    plans.forEach((plan, i) => {
+      const hasAuto = plan.groups && plan.groups.length > 0;
+      const btn = document.createElement('button');
+      btn.className = 'pill' + (!hasAuto ? ' pill-manual' : '');
+      btn.dataset.planId = plan.id;
+      btn.textContent = plan.name;
+      btn.title = plan.description || '';
+      if (!hasAuto) {
+        btn.disabled = true;
+        btn.title = 'Manual only — no auto-tests';
+      } else {
+        btn.addEventListener('click', () => {
+          selectedPlanId = plan.id;
+          container.querySelectorAll('.pill').forEach(b => b.classList.toggle('active', b.dataset.planId === plan.id));
+        });
+        // Select first plan with auto-tests
+        if (selectedPlanId === null) {
+          selectedPlanId = plan.id;
+          btn.classList.add('active');
+        }
+      }
+      container.appendChild(btn);
+    });
+  } catch {}
+}
+
+document.querySelectorAll('[data-browser]').forEach(b => {
+  b.addEventListener('click', () => {
+    selectedBrowser = b.dataset.browser;
+    document.querySelectorAll('[data-browser]').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
+
+// ── Run ───────────────────────────────────────────────────────────────────
+document.getElementById('runBtn').addEventListener('click', async () => {
+  if (!selectedPlanId) { showToast('Select a test plan first.'); return; }
+  try {
+    const res = await fetch(`/api/plans/${selectedPlanId}/run`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ browser: selectedBrowser }),
+    });
+    if (res.status === 409) { showToast('A run is already in progress.'); return; }
+    if (!res.ok) { const e = await res.json(); showToast(e.error); return; }
+    openStream();
+  } catch { showToast('Network error — could not start run.'); }
+});
+
+// ── SSE ───────────────────────────────────────────────────────────────────
+function openStream() {
+  if (activeESS) { activeESS.close(); activeESS = null; }
+  clearLog();
+  setStatus('running');
+  setRunBusy(true);
+  stopHistoryPoll();
+  runStartTime = Date.now();
+  startClock();
+
+  const es = new EventSource('/api/run/stream');
+  activeESS = es;
+
+  es.onmessage = ({ data }) => {
+    if (data === '[DONE]') {
+      es.close(); activeESS = null;
+      setRunBusy(false); stopClock();
+      loadHistory().then(() => {
+        fetch('/api/runs').then(r => r.json()).then(runs => {
+          if (runs.length) setStatus(runs[0].status);
+        });
+      });
+      startHistoryPoll();
+      return;
+    }
+    if (data === '[IDLE]') {
+      es.close(); activeESS = null;
+      setStatus('idle'); setRunBusy(false); stopClock();
+      startHistoryPoll();
+      return;
+    }
+    try { appendLog(JSON.parse(data)); } catch {}
+  };
+
+  es.onerror = () => {
+    es.close(); activeESS = null;
+    setRunBusy(false); stopClock(); startHistoryPoll();
+  };
+}
+
+// ── Status / Log ──────────────────────────────────────────────────────────
+function setStatus(state) {
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusTxt');
+  dot.className = 'status-dot ' + state;
+  txt.className = 'status-txt ' + state;
+  txt.textContent = { idle:'Idle', running:'Running', passed:'Passed', failed:'Failed' }[state] || state;
+}
+function setRunBusy(busy) {
+  const btn = document.getElementById('runBtn');
+  btn.disabled = busy;
+  document.getElementById('runIcon').outerHTML = busy
+    ? '<span class="spinner" id="runIcon"></span>'
+    : '<svg id="runIcon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>';
+  document.getElementById('runLabel').textContent = busy ? 'Running…' : 'Run Tests';
+}
+function clearLog() {
+  document.getElementById('logBox').textContent = '';
+}
+function appendLog(text) {
+  const b = document.getElementById('logBox');
+  b.textContent += text;
+  b.scrollTop = b.scrollHeight;
+}
+function startClock() {
+  const m = document.getElementById('runMeta');
+  clockTimer = setInterval(() => {
+    const s = Math.floor((Date.now() - runStartTime) / 1000);
+    m.textContent = s >= 60 ? `${Math.floor(s/60)}m ${s%60}s` : `${s}s`;
+  }, 1000);
+}
+function stopClock() { clearInterval(clockTimer); clockTimer = null; }
+
+// ── Plans ─────────────────────────────────────────────────────────────────
+async function loadPlans() {
+  try {
+    const [plans, groups] = await Promise.all([
+      fetch('/api/plans').then(r => r.json()),
+      fetch('/api/plans/available-groups').then(r => r.json()),
+    ]);
+    availableGroups = groups;
+    renderPlans(plans);
+  } catch {}
+}
+
+function renderPlans(plans) {
+  const grid = document.getElementById('plansGrid');
+  if (!plans.length) { grid.innerHTML = '<p class="dim" style="padding:24px">No plans yet.</p>'; return; }
+  grid.innerHTML = plans.map(plan => {
+    const groupTags = plan.groups && plan.groups.length
+      ? plan.groups.map(gid => {
+          const g = availableGroups.find(x => x.id === gid);
+          return `<span class="group-tag">${g ? g.label : gid}</span>`;
+        }).join('')
+      : '<span class="group-tag manual">Manual only</span>';
+    const browserLabel = { all: 'All browsers', chrome: 'Chrome', firefox: 'Firefox' }[plan.browser] || plan.browser;
+    const hasAuto = plan.groups && plan.groups.length > 0;
+    return `
+      <div class="plan-card" data-id="${plan.id}">
+        <div class="plan-card-name">${esc(plan.name)}</div>
+        <div class="plan-card-desc">${esc(plan.description || '')}</div>
+        <div class="plan-groups">${groupTags}</div>
+        <div class="plan-card-footer">
+          <span class="browser-tag ${plan.browser}">${browserLabel}</span>
+          <div class="plan-actions">
+            <button class="btn-icon" onclick="openPlanDetail('${plan.id}')">Edit</button>
+            <button class="btn-icon danger" onclick="deletePlan('${plan.id}', this)">Delete</button>
+            <button class="btn-run-plan${hasAuto ? '' : ' disabled'}" ${hasAuto ? '' : 'disabled'}
+              onclick="runPlan('${plan.id}')">
+              ▶ Run
+            </button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+async function runPlan(planId) {
+  try {
+    const res = await fetch(`/api/plans/${planId}/run`, { method: 'POST' });
+    if (res.status === 409) { showToast('A run is already in progress.'); return; }
+    if (!res.ok) { const e = await res.json(); showToast(e.error); return; }
+    switchTab('run');
+    openStream();
+  } catch { showToast('Network error.'); }
+}
+
+const deletePendingIds = new Set();
+
+async function deletePlan(planId, btn) {
+  if (!deletePendingIds.has(planId)) {
+    deletePendingIds.add(planId);
+    btn.textContent = 'Sure?';
+    btn.style.borderColor = '#ef4444';
+    btn.style.color = '#f87171';
+    setTimeout(() => {
+      deletePendingIds.delete(planId);
+      if (btn.textContent === 'Sure?') {
+        btn.textContent = 'Delete';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+      }
+    }, 3000);
+    return;
+  }
+  deletePendingIds.delete(planId);
+  try {
+    const res = await fetch(`/api/plans/${planId}`, { method: 'DELETE' });
+    if (!res.ok) { const e = await res.json(); showToast(e.error); return; }
+    showToast('Plan deleted.', true);
+    selectedPlanId = null;
+    await Promise.all([loadPlans(), loadSuitePlans()]);
+  } catch { showToast('Network error.'); }
+}
+
+// ── New Plan Modal (for "+ New Plan" button only) ─────────────────────────
+document.getElementById('newPlanBtn').addEventListener('click', () => openNewModal());
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalCancel').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+function openNewModal() {
+  document.getElementById('modalTitle').textContent = 'New Test Plan';
+  document.getElementById('editingPlanId').value = '';
+  document.getElementById('planName').value = '';
+  document.getElementById('planDesc').value = '';
+  document.querySelector('input[name=planBrowser][value=all]').checked = true;
+  buildGroupChecks([]);
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('planName').focus();
+}
+
+function buildGroupChecks(selected) {
+  const container = document.getElementById('groupChecks');
+  container.innerHTML = availableGroups.map(g => `
+    <label class="check-item">
+      <input type="checkbox" name="planGroup" value="${g.id}" ${selected.includes(g.id) ? 'checked' : ''}>
+      <div class="check-item-text">
+        <strong>${g.label}</strong>
+        <span>${g.desc}</span>
+      </div>
+    </label>`).join('');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+document.getElementById('modalSave').addEventListener('click', async () => {
+  const id = document.getElementById('editingPlanId').value;
+  const name = document.getElementById('planName').value.trim();
+  if (!name) { document.getElementById('planName').focus(); return; }
+  const description = document.getElementById('planDesc').value.trim();
+  const browser = document.querySelector('input[name=planBrowser]:checked')?.value || 'all';
+  const groups = [...document.querySelectorAll('input[name=planGroup]:checked')].map(c => c.value);
+
+  try {
+    const url = id ? `/api/plans/${id}` : '/api/plans';
+    const method = id ? 'PUT' : 'POST';
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, description, browser, groups }),
+    });
+    if (!res.ok) { const e = await res.json(); showToast(e.error); return; }
+    closeModal();
+    showToast(id ? 'Plan updated.' : 'Plan created.', true);
+    selectedPlanId = null;
+    await Promise.all([loadPlans(), loadSuitePlans()]);
+  } catch { showToast('Network error.'); }
+});
+
+// ── Plan Detail Page ───────────────────────────────────────────────────────
+document.getElementById('backToPlans').addEventListener('click', closePlanDetail);
+document.getElementById('detailSaveBtn').addEventListener('click', savePlanDetail);
+document.getElementById('detailRunBtn').addEventListener('click', async () => {
+  const planId = document.getElementById('detailPlanId').value;
+  if (!planId) return;
+  // Save first, then run
+  const saved = await savePlanDetail(true);
+  if (!saved) return;
+  try {
+    const res = await fetch(`/api/plans/${planId}/run`, { method: 'POST' });
+    if (res.status === 409) { showToast('A run is already in progress.'); return; }
+    if (!res.ok) { const e = await res.json(); showToast(e.error); return; }
+    closePlanDetail();
+    switchTab('run');
+    openStream();
+  } catch { showToast('Network error.'); }
+});
+
+async function openPlanDetail(planId) {
+  try {
+    const plans = await fetch('/api/plans').then(r => r.json());
+    const plan = plans.find(p => p.id === planId);
+    if (!plan) return;
+
+    document.getElementById('detailPlanId').value = plan.id;
+    document.getElementById('detailName').value = plan.name;
+    document.getElementById('detailDesc').value = plan.description || '';
+    const bv = plan.browser || 'all';
+    document.querySelector(`input[name=detailBrowser][value=${bv}]`).checked = true;
+
+    buildDetailGroupList(plan.groups || []);
+
+    const hasAuto = plan.groups && plan.groups.length > 0;
+    document.getElementById('detailRunBtn').disabled = !hasAuto;
+
+    document.getElementById('plansListView').style.display = 'none';
+    document.getElementById('planDetailView').style.display = '';
+  } catch (e) { showToast('Could not load plan.'); }
+}
+
+function closePlanDetail() {
+  document.getElementById('planDetailView').style.display = 'none';
+  document.getElementById('plansListView').style.display = '';
+}
+
+function buildDetailGroupList(selectedGroups) {
+  const container = document.getElementById('detailGroupList');
+  container.innerHTML = availableGroups.map(g => {
+    const isChecked = selectedGroups.includes(g.id);
+    const titles = (g.tests || []).map(t =>
+      `<div class="test-title-item">${esc(t)}</div>`
+    ).join('');
+    return `
+      <div class="test-group-block${isChecked ? ' checked' : ''}" id="grpblock-${g.id}">
+        <div class="test-group-hdr">
+          <input type="checkbox" name="detailGroup" value="${g.id}" ${isChecked ? 'checked' : ''}
+            onchange="toggleGroupBlock('${g.id}', this.checked)">
+          <div class="test-group-hdr-text">
+            <strong>${esc(g.label)}</strong>
+            <small>${esc(g.desc || '')}</small>
+          </div>
+        </div>
+        <div class="test-title-list">${titles}</div>
+      </div>`;
+  }).join('');
+}
+
+function toggleGroupBlock(groupId, checked) {
+  const block = document.getElementById('grpblock-' + groupId);
+  if (block) block.classList.toggle('checked', checked);
+  // update Run button state
+  const any = [...document.querySelectorAll('input[name=detailGroup]:checked')].length > 0;
+  document.getElementById('detailRunBtn').disabled = !any;
+}
+
+async function savePlanDetail(silent = false) {
+  const id = document.getElementById('detailPlanId').value;
+  const name = document.getElementById('detailName').value.trim();
+  if (!name) { document.getElementById('detailName').focus(); return false; }
+  const description = document.getElementById('detailDesc').value.trim();
+  const browser = document.querySelector('input[name=detailBrowser]:checked')?.value || 'all';
+  const groups = [...document.querySelectorAll('input[name=detailGroup]:checked')].map(c => c.value);
+
+  try {
+    const res = await fetch(`/api/plans/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, description, browser, groups }),
+    });
+    if (!res.ok) { const e = await res.json(); showToast(e.error); return false; }
+    if (!silent) {
+      showToast('Plan saved.', true);
+      closePlanDetail();
+      selectedPlanId = null;
+      await Promise.all([loadPlans(), loadSuitePlans()]);
+    } else {
+      await Promise.all([loadPlans(), loadSuitePlans()]);
+    }
+    return true;
+  } catch { showToast('Network error.'); return false; }
+}
+
+// ── History ───────────────────────────────────────────────────────────────
+async function loadHistory() {
+  try {
+    const runs = await fetch('/api/runs').then(r => r.json());
+    renderHistory(runs);
+  } catch {}
+}
+
+function renderHistory(runs) {
+  const wrap = document.getElementById('historyWrap');
+  if (!runs.length) { wrap.innerHTML = '<div class="empty-state">No runs yet.</div>'; return; }
+  const rows = runs.map(r => `
+    <tr class="data-row" data-id="${r.id}">
+      <td>${fmtDate(r.startedAt)}</td>
+      <td>${esc(r.group || '—')}</td>
+      <td>${esc(r.browser || '—')}</td>
+      <td><span class="badge ${r.status}">${r.status}</span></td>
+      <td class="pass">${r.passed ?? '—'}</td>
+      <td class="fail">${r.failed ?? '—'}</td>
+      <td class="dim">${r.duration ?? '—'}</td>
+    </tr>
+    <tr class="expand-row" id="exp-${r.id}" style="display:none">
+      <td colspan="7"><div class="expand-log" id="log-${r.id}">Loading…</div></td>
+    </tr>`).join('');
+  wrap.innerHTML = `<table>
+    <thead><tr><th>Date</th><th>Suite</th><th>Browser</th><th>Status</th><th>✓</th><th>✗</th><th>Time</th></tr></thead>
+    <tbody>${rows}</tbody></table>`;
+  wrap.querySelectorAll('.data-row').forEach(row => {
+    row.addEventListener('click', () => toggleExpand(row.dataset.id));
+  });
+}
+
+async function toggleExpand(id) {
+  const row = document.getElementById('exp-' + id);
+  const log = document.getElementById('log-' + id);
+  if (row.style.display === 'none') {
+    row.style.display = '';
+    if (log.textContent === 'Loading…') {
+      try { const r = await fetch('/api/runs/' + id).then(x => x.json()); log.textContent = r.output || '(no output)'; }
+      catch { log.textContent = 'Failed to load.'; }
+    }
+  } else { row.style.display = 'none'; }
+}
+
+function startHistoryPoll() { stopHistoryPoll(); historyTimer = setInterval(loadHistory, 15000); }
+function stopHistoryPoll() { clearInterval(historyTimer); historyTimer = null; }
+
+// ── Helpers ───────────────────────────────────────────────────────────────
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }) + ' ' +
+         d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+}
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+let toastTimer;
+function showToast(msg, success = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (success ? ' success' : '');
+  t.style.display = 'block';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.style.display = 'none'; }, 4000);
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await fetch('/auth/logout', { method: 'POST' });
+  location.href = '/login';
+});
+
+init();
+</script>
+</body>
+</html>
