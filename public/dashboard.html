@@ -606,7 +606,12 @@ document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalCancel').addEventListener('click', closeModal);
 document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
 
-function openNewModal() {
+async function openNewModal() {
+  if (!availableGroups.length) {
+    try {
+      availableGroups = await fetch('/api/plans/available-groups').then(r => r.json());
+    } catch {}
+  }
   document.getElementById('modalTitle').textContent = 'New Test Plan';
   document.getElementById('editingPlanId').value = '';
   document.getElementById('planName').value = '';
