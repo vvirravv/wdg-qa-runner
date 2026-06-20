@@ -20,6 +20,7 @@ const requireAuth = require('./middleware/requireAuth');
 const authRoutes = require('./routes/auth');
 const runnerRoutes = require('./routes/runner');
 const plansRoutes = require('./routes/plans');
+const testsRoutes = require('./routes/tests');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -78,6 +79,7 @@ app.get('/dashboard', requireAuth, (req, res) => {
 
 app.use('/api', requireAuth, runnerRoutes);
 app.use('/api/plans', requireAuth, plansRoutes);
+app.use('/api/tests', requireAuth, testsRoutes);
 
 app.listen(PORT, () => {
   console.log(`WDG QA Runner started on http://localhost:${PORT}`);

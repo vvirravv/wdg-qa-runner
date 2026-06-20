@@ -199,6 +199,11 @@
     .tc-id  { color: #6366f1; font-size: 11px; font-weight: 600; font-family: monospace; width: 56px; }
     .tc-name { color: #c9d1e0; font-weight: 500; }
     .tc-group { color: #404768; font-size: 11px; text-align: right; white-space: nowrap; }
+    .tc-custom-row td { background: #0d1020; }
+    .tc-custom-badge { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; background: #1a2040; color: #6366f1; border-radius: 3px; padding: 1px 5px; margin-left: 7px; vertical-align: middle; }
+    .tc-notes { font-size: 9px; font-weight: 600; background: #1a2818; color: #4ade80; border-radius: 3px; padding: 1px 5px; margin-left: 5px; cursor: default; vertical-align: middle; }
+    .tc-del { opacity: 0; transition: opacity .15s; }
+    .tc-table tbody tr:hover .tc-del { opacity: 1; }
 
     /* scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -326,7 +331,13 @@
   <div class="main">
     <div class="plans-topbar" style="margin-bottom:20px">
       <h2>Auto-Tests</h2>
-      <span id="testsCount" style="font-size:12px;color:#404768"></span>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span id="testsCount" style="font-size:12px;color:#404768"></span>
+        <button class="btn-add" id="addTestBtn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Test
+        </button>
+      </div>
     </div>
     <div id="testsGroupList"></div>
   </div>
@@ -374,6 +385,41 @@
     <div class="modal-footer">
       <button class="btn-cancel" id="modalCancel" onclick="closeModal()">Cancel</button>
       <button class="btn-save" id="modalSave">Save Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADD TEST MODAL ═══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="addTestOverlay">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3>Add Auto-Test</h3>
+      <button class="modal-close" onclick="closeAddTest()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Test Title</label>
+        <input type="text" id="newTestTitle" placeholder="e.g. [9999] Homepage loads in under 2s">
+      </div>
+      <div class="field">
+        <label>Group</label>
+        <select id="newTestGroup">
+          <option value="Global Tests">Global Tests</option>
+          <option value="Header &amp; Navigation">Header &amp; Navigation</option>
+          <option value="Homepage">Homepage</option>
+          <option value="Content Pages">Content Pages</option>
+          <option value="Work / Contact / Shopify">Work / Contact / Shopify</option>
+          <option value="Custom">Custom</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Notes</label>
+        <textarea id="newTestNotes" placeholder="What should this test verify?" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeAddTest()">Cancel</button>
+      <button class="btn-save" id="saveTestBtn">Add Test</button>
     </div>
   </div>
 </div>
@@ -631,37 +677,77 @@ async function deletePlan(planId, btn) {
 
 // ── Auto-Tests Tab ────────────────────────────────────────────────────────
 async function loadTestsTab() {
-  if (!availableGroups.length) {
-    try {
-      availableGroups = await fetch('/api/plans/available-groups').then(r => r.json());
-    } catch {}
-  }
-  const allTests = availableGroups.flatMap(g =>
-    (g.tests || []).map(t => ({ title: t, group: g.label }))
-  );
-  document.getElementById('testsCount').textContent = `${allTests.length} auto-tests`;
+  try {
+    const tests = await fetch('/api/tests').then(r => r.json());
+    document.getElementById('testsCount').textContent = `${tests.length} tests`;
 
-  const rows = allTests.map((t, i) => {
-    const idMatch = t.title.match(/^\[(\d+)\]/);
-    const id   = idMatch ? idMatch[1] : '—';
-    const name = idMatch ? t.title.replace(/^\[\d+\]\s*/, '') : t.title;
-    return `
-      <tr>
-        <td class="tc-num">${i + 1}</td>
-        <td class="tc-id">${id}</td>
-        <td class="tc-name">${esc(name)}</td>
-        <td class="tc-group">${esc(t.group)}</td>
-      </tr>`;
-  }).join('');
+    let customIdx = 0;
+    const rows = tests.map((t, i) => {
+      const isCustom = t.source === 'custom';
+      const cidx = isCustom ? customIdx++ : null;
+      const deleteBtn = isCustom
+        ? `<button class="btn-icon danger tc-del" onclick="deleteCustomTest(${cidx},this)" style="padding:3px 8px;font-size:10px">✕</button>`
+        : '';
+      const notesBadge = t.notes ? `<span class="tc-notes" title="${esc(t.notes)}">note</span>` : '';
+      const customBadge = isCustom ? `<span class="tc-custom-badge">custom</span>` : '';
+      return `
+        <tr class="${isCustom ? 'tc-custom-row' : ''}">
+          <td class="tc-num">${i + 1}</td>
+          <td class="tc-id">${t.id || '—'}</td>
+          <td class="tc-name">${esc(t.name)}${customBadge}${notesBadge}</td>
+          <td class="tc-group">${esc(t.group)}</td>
+          <td style="width:32px;text-align:right">${deleteBtn}</td>
+        </tr>`;
+    }).join('');
 
-  document.getElementById('testsGroupList').innerHTML = `
-    <div class="tc-wrap">
-      <table class="tc-table">
-        <thead><tr><th>#</th><th>ID</th><th>Test</th><th>Group</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>`;
+    document.getElementById('testsGroupList').innerHTML = `
+      <div class="tc-wrap">
+        <table class="tc-table">
+          <thead><tr><th>#</th><th>ID</th><th>Test</th><th>Group</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  } catch { showToast('Could not load tests.'); }
 }
+
+async function deleteCustomTest(customIdx, btn) {
+  if (!deletePendingIds.has('ct-' + customIdx)) {
+    deletePendingIds.add('ct-' + customIdx);
+    btn.textContent = '?';
+    setTimeout(() => { deletePendingIds.delete('ct-' + customIdx); if (btn.textContent === '?') btn.textContent = '✕'; }, 3000);
+    return;
+  }
+  deletePendingIds.delete('ct-' + customIdx);
+  const res = await fetch(`/api/tests/custom/${customIdx}`, { method: 'DELETE' });
+  if (res.ok) { showToast('Test removed.', true); loadTestsTab(); }
+  else showToast('Error removing test.');
+}
+
+document.getElementById('addTestBtn').addEventListener('click', () => {
+  document.getElementById('newTestTitle').value = '';
+  document.getElementById('newTestNotes').value = '';
+  document.getElementById('newTestGroup').value = 'Global Tests';
+  document.getElementById('addTestOverlay').classList.add('open');
+  document.getElementById('newTestTitle').focus();
+});
+function closeAddTest() { document.getElementById('addTestOverlay').classList.remove('open'); }
+document.getElementById('addTestOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeAddTest(); });
+
+document.getElementById('saveTestBtn').addEventListener('click', async () => {
+  const title = document.getElementById('newTestTitle').value.trim();
+  if (!title) { document.getElementById('newTestTitle').focus(); return; }
+  const group = document.getElementById('newTestGroup').value;
+  const notes = document.getElementById('newTestNotes').value.trim();
+  const res = await fetch('/api/tests', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title, group, notes }),
+  });
+  if (!res.ok) { const e = await res.json(); showToast(e.error); return; }
+  closeAddTest();
+  showToast('Test added.', true);
+  loadTestsTab();
+});
 
 // ── New Plan Modal (for "+ New Plan" button only) ─────────────────────────
 document.getElementById('newPlanBtn').addEventListener('click', () => openNewModal());
