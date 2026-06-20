@@ -206,6 +206,7 @@
 <nav class="tabs-bar">
   <button class="tab-btn active" data-tab="run">Run</button>
   <button class="tab-btn" data-tab="plans">Test Plans</button>
+  <button class="tab-btn" data-tab="tests">Auto-Tests</button>
   <button class="tab-btn" data-tab="history">History</button>
 </nav>
 
@@ -307,6 +308,17 @@
 
 </div>
 
+<!-- ══ AUTO-TESTS TAB ═══════════════════════════════════════════════════ -->
+<div id="tab-tests" class="tab-panel">
+  <div class="main">
+    <div class="plans-topbar" style="margin-bottom:20px">
+      <h2>Auto-Tests</h2>
+      <span id="testsCount" style="font-size:12px;color:#404768"></span>
+    </div>
+    <div id="testsGroupList"></div>
+  </div>
+</div>
+
 <!-- ══ HISTORY TAB ══════════════════════════════════════════════════════ -->
 <div id="tab-history" class="tab-panel">
   <div class="main">
@@ -385,6 +397,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
     if (btn.dataset.tab === 'history') loadHistory();
     if (btn.dataset.tab === 'plans') loadPlans();
+    if (btn.dataset.tab === 'tests') loadTestsTab();
   });
 });
 
@@ -601,6 +614,34 @@ async function deletePlan(planId, btn) {
     selectedPlanId = null;
     await Promise.all([loadPlans(), loadSuitePlans()]);
   } catch { showToast('Network error.'); }
+}
+
+// ── Auto-Tests Tab ────────────────────────────────────────────────────────
+async function loadTestsTab() {
+  if (!availableGroups.length) {
+    try {
+      availableGroups = await fetch('/api/plans/available-groups').then(r => r.json());
+    } catch {}
+  }
+  const container = document.getElementById('testsGroupList');
+  const total = availableGroups.reduce((n, g) => n + (g.tests?.length || 0), 0);
+  document.getElementById('testsCount').textContent = `${total} tests across ${availableGroups.length} groups`;
+
+  container.innerHTML = availableGroups.map(g => {
+    const titles = (g.tests || []).map(t => `
+      <div class="test-title-item">${esc(t)}</div>`).join('');
+    return `
+      <div class="test-group-block checked" style="margin-bottom:12px">
+        <div class="test-group-hdr">
+          <div class="test-group-hdr-text">
+            <strong>${esc(g.label)}</strong>
+            <small>${esc(g.file || '')}</small>
+          </div>
+          <span style="font-size:11px;color:#404768;margin-left:auto">${g.tests?.length || 0} tests</span>
+        </div>
+        <div class="test-title-list">${titles}</div>
+      </div>`;
+  }).join('');
 }
 
 // ── New Plan Modal (for "+ New Plan" button only) ─────────────────────────
