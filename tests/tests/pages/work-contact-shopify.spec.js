@@ -208,14 +208,7 @@ test.describe('[1880] Shopify Page (/shopify)', () => {
       await page.goto('/shopify', { waitUntil: 'domcontentloaded' });
       await page.waitForTimeout(3000);
     });
-    expect(errors.filter(e =>
-      !e.includes('extension') &&
-      !e.includes('cdn.devit.group') &&
-      !e.includes('cdn-cgi') &&
-      !e.includes('net::ERR_FAILED') &&
-      !e.includes('net::ERR_ABORTED') &&
-      !e.includes('Failed to load resource')
-    )).toHaveLength(0);
+    expect(errors.filter(e => !e.includes('extension'))).toHaveLength(0);
   });
 
   test('[9777] Hero animated text cycles', async ({ page }) => {

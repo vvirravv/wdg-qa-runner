@@ -60,27 +60,16 @@ test.describe('[1794] Footer', () => {
     await expect(page.locator('h1, h2').first()).toBeVisible();
   });
 
-  test('[9483] Cookie Policy link in footer and page works', async ({ browser }) => {
-    // Fresh context so cookie banner appears — accept it so it doesn't cover footer
-    const ctx = await browser.newContext();
-    const page = await ctx.newPage();
-    await page.goto('https://devit.group/');
-    await page.waitForLoadState('networkidle');
-    // Accept cookie banner so it doesn't overlap footer link
-    const acceptBtn = page.getByRole('button', { name: /^accept$/i });
-    if (await acceptBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-      await acceptBtn.click();
-      await page.waitForTimeout(400);
-    }
+  test('[9483] Cookie Policy link in footer and page works', async ({ page }) => {
+    await page.goto('/');
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await page.waitForTimeout(500);
     const link = page.locator('footer a[href="/cookie-policy"]').first();
     await expect(link).toBeVisible();
-    await page.goto('https://devit.group/cookie-policy');
+    await page.goto('/cookie-policy');
     await page.waitForLoadState('networkidle');
     expect(page.url()).toContain('/cookie-policy');
     await expect(page.locator('h1, h2').first()).toBeVisible();
-    await ctx.close();
   });
 
   test('[9485] Social media icons present', async ({ page }) => {
@@ -187,31 +176,16 @@ test.describe('[1802] Security', () => {
   test('[9534] XSS payload does not execute', async ({ page }) => {
     const dialogs = [];
     page.on('dialog', d => { dialogs.push(d.message()); d.dismiss(); });
-    await page.goto('/contact', { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(1500);
-    // Close 'Got a project?' popup if present
-    const stayHere = page.getByRole('button', { name: /stay here/i });
-    if (await stayHere.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await stayHere.click();
-      await page.waitForTimeout(400);
-    }
-    const closeBtn = page.locator('[class*="modal"] button[class*="close"], [class*="popup"] button').first();
-    if (await closeBtn.isVisible({ timeout: 1000 }).catch(() => false)) {
-      await closeBtn.click();
-      await page.waitForTimeout(300);
-    }
-    const input = page.locator('input').first();
+    await page.goto('/contact');
+    await page.waitForLoadState('networkidle');
+    const input = page.locator('input[name*="name"], input[placeholder*="Name"]').first();
     if (await input.count() > 0) await input.fill('<script>alert("xss")</script>');
     expect(dialogs).toHaveLength(0);
   });
 
   test('[9535] No 5xx errors on key pages', async ({ page }) => {
     const errors = [];
-    page.on('response', r => {
-      if (r.status() >= 500 && r.url().includes('devit.group') && !r.url().includes('cdn-cgi')) {
-        errors.push(`${r.status()} ${r.url()}`);
-      }
-    });
+    page.on('response', r => { if (r.status() >= 500) errors.push(`${r.status()} ${r.url()}`); });
     for (const p of ['/', '/work', '/contact', '/shopify']) {
       await page.goto(p, { waitUntil: 'domcontentloaded' });
       await page.waitForTimeout(500);
@@ -258,12 +232,7 @@ test.describe('[1804] Error Handling', () => {
 
   test('[9542] No 5xx during normal browsing', async ({ page }) => {
     const errors = [];
-    page.on('response', r => {
-      // Only catch 5xx on devit.group pages — ignore CDN/analytics/third-party
-      if (r.status() >= 500 && r.url().includes('devit.group') && !r.url().includes('cdn-cgi')) {
-        errors.push(`${r.status()} ${r.url()}`);
-      }
-    });
+    page.on('response', r => { if (r.status() >= 500) errors.push(r.url()); });
     for (const p of ['/', '/work', '/contact', '/shopify', '/about']) {
       await page.goto(p, { waitUntil: 'domcontentloaded' });
       await page.waitForTimeout(500);
@@ -312,14 +281,8 @@ test.describe('[4908] Forms — Global', () => {
   });
 
   test('[4907] Empty fields block submission', async ({ page }) => {
-    await page.goto('/contact', { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(1500);
-    // Close 'Got a project?' popup if present
-    const stayHere = page.getByRole('button', { name: /stay here/i });
-    if (await stayHere.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await stayHere.click();
-      await page.waitForTimeout(400);
-    }
+    await page.goto('/contact');
+    await page.waitForLoadState('networkidle');
     const bookBtn = page.locator('button[aria-label*="book a call"]').first();
     if (await bookBtn.isVisible().catch(() => false)) {
       await bookBtn.click();

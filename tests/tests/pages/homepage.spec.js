@@ -19,18 +19,9 @@ test.describe('[1809] Homepage (/)', () => {
 
   test('[9561] No broken images on homepage', async ({ page }) => {
     const broken = watchBrokenImages(page);
-    await page.goto('/', { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(1000);
-    // Scroll slowly to trigger lazy-load
-    for (let i = 1; i <= 5; i++) {
-      await page.evaluate(step => window.scrollTo(0, document.body.scrollHeight * step / 5), i);
-      await page.waitForTimeout(400);
-    }
+    await page.goto('/');
     await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1000);
-    // Filter out CDN prefetch hints (status 0) — not real broken images
-    const realBroken = broken.filter(url => !url.includes('cdn-cgi/imagedelivery'));
-    expect(realBroken).toHaveLength(0);
+    expect(broken).toHaveLength(0);
   });
 
   test('[9562] Let\'s talk opens form', async ({ page }) => {

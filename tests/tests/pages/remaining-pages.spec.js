@@ -76,14 +76,7 @@ test.describe('[1910] Calculator Page (/calculator)', () => {
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     await page.goto('/calculator', { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(2000);
-    expect(errors.filter(e =>
-      !e.includes('extension') &&
-      !e.includes('cdn.devit.group') &&
-      !e.includes('cdn-cgi') &&
-      !e.includes('net::ERR_FAILED') &&
-      !e.includes('net::ERR_ABORTED') &&
-      !e.includes('Failed to load resource')
-    )).toHaveLength(0);
+    expect(errors.filter(e => !e.includes('extension'))).toHaveLength(0);
   });
 
   test('[9845] Calculator has Next button', async ({ page }) => {
@@ -189,14 +182,7 @@ test.describe('[1932] Awards Page (/awards)', () => {
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     expect((await page.goto('/awards'))?.status()).toBe(200);
     await page.waitForLoadState('networkidle');
-    expect(errors.filter(e =>
-      !e.includes('extension') &&
-      !e.includes('cdn.devit.group') &&
-      !e.includes('cdn-cgi') &&
-      !e.includes('net::ERR_FAILED') &&
-      !e.includes('net::ERR_ABORTED') &&
-      !e.includes('Failed to load resource')
-    )).toHaveLength(0);
+    expect(errors.filter(e => !e.includes('extension'))).toHaveLength(0);
   });
 
   test('[9894] Platform sections: Clutch, Shopify visible', async ({ page }) => {
@@ -361,14 +347,7 @@ test.describe('[1972] ReSell App Page (/resell)', () => {
     const res = await page.goto('/resell', { waitUntil: 'domcontentloaded' });
     expect(res?.status()).toBe(200);
     await page.waitForTimeout(3000);
-    expect(errors.filter(e =>
-      !e.includes('extension') &&
-      !e.includes('cdn.devit.group') &&
-      !e.includes('cdn-cgi') &&
-      !e.includes('net::ERR_FAILED') &&
-      !e.includes('net::ERR_ABORTED') &&
-      !e.includes('Failed to load resource')
-    )).toHaveLength(0);
+    expect(errors.filter(e => !e.includes('extension'))).toHaveLength(0);
   });
 
   test('[9973] Hero: H1 and rating visible', async ({ page }) => {
@@ -379,17 +358,17 @@ test.describe('[1972] ReSell App Page (/resell)', () => {
   });
 
   test('[9974] Shopify App Store link present', async ({ page }) => {
-    await page.goto('/resell', { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(3000);
+    await page.goto('/resell');
+    await page.waitForLoadState('networkidle');
     const link = page.locator('a[href*="apps.shopify.com"]').first();
-    await expect(link).toBeVisible({ timeout: 15_000 });
+    await expect(link).toBeVisible({ timeout: 10_000 });
   });
 
   test('[9976] Monthly/Yearly pricing toggle works', async ({ page }) => {
-    await page.goto('/resell', { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(3000);
+    await page.goto('/resell');
+    await page.waitForLoadState('networkidle');
     const yearly = page.getByText('Yearly').first();
-    if (await yearly.count() > 0 && await yearly.isVisible({ timeout: 5000 }).catch(() => false)) {
+    if (await yearly.count() > 0 && await yearly.isVisible()) {
       await yearly.click();
       await page.waitForTimeout(500);
     }
@@ -450,14 +429,7 @@ test.describe('[3083] React Flow App Page (/react-flow)', () => {
     const res = await page.goto('/react-flow');
     expect(res?.status()).toBe(200);
     await page.waitForLoadState('networkidle');
-    expect(errors.filter(e =>
-      !e.includes('extension') &&
-      !e.includes('cdn.devit.group') &&
-      !e.includes('cdn-cgi') &&
-      !e.includes('net::ERR_FAILED') &&
-      !e.includes('net::ERR_ABORTED') &&
-      !e.includes('Failed to load resource')
-    )).toHaveLength(0);
+    expect(errors.filter(e => !e.includes('extension'))).toHaveLength(0);
   });
 
   test('[3333] CTAs on /react-flow have valid href', async ({ page }) => {
@@ -474,10 +446,9 @@ test.describe('[3083] React Flow App Page (/react-flow)', () => {
 
   test('[3334] No broken images on /react-flow', async ({ page }) => {
     const broken = watchBrokenImages(page);
-    const res = await page.goto('/react-flow', { waitUntil: 'domcontentloaded' });
+    const res = await page.goto('/react-flow');
     expect(res?.status()).toBe(200);
-    await page.waitForTimeout(2000);
-    // watchBrokenImages already filters CDN prefetch
+    await page.waitForTimeout(1500);
     expect(broken).toHaveLength(0);
   });
 
@@ -506,14 +477,7 @@ test.describe('[3087] Support Page (/support)', () => {
     const res = await page.goto('/support');
     expect(res?.status()).toBe(200);
     await page.waitForLoadState('networkidle');
-    expect(errors.filter(e =>
-      !e.includes('extension') &&
-      !e.includes('cdn.devit.group') &&
-      !e.includes('cdn-cgi') &&
-      !e.includes('net::ERR_FAILED') &&
-      !e.includes('net::ERR_ABORTED') &&
-      !e.includes('Failed to load resource')
-    )).toHaveLength(0);
+    expect(errors.filter(e => !e.includes('extension'))).toHaveLength(0);
   });
 
 });
