@@ -687,7 +687,7 @@ async function loadTestsTab() {
       const isCustom = t.source === 'custom';
       const cidx = isCustom ? customIdx++ : null;
       const deleteBtn = isCustom
-        ? `<button class="btn-icon danger tc-del" onclick="deleteCustomTest(${cidx},this)" style="padding:3px 8px;font-size:10px">✕</button>`
+        ? `<button class="btn-icon danger tc-del" data-cidx="${cidx}" style="padding:3px 8px;font-size:10px">✕</button>`
         : '';
       const notesBadge = t.notes ? `<span class="tc-notes" title="${esc(t.notes)}">note</span>` : '';
       const customBadge = isCustom ? `<span class="tc-custom-badge">custom</span>` : '';
@@ -701,24 +701,25 @@ async function loadTestsTab() {
         </tr>`;
     }).join('');
 
-    document.getElementById('testsGroupList').innerHTML = `
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `
       <div class="tc-wrap">
         <table class="tc-table">
           <thead><tr><th>#</th><th>ID</th><th>Test</th><th>Group</th><th></th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>`;
+    wrap.addEventListener('click', e => {
+      const btn = e.target.closest('.tc-del');
+      if (btn) deleteCustomTest(Number(btn.dataset.cidx));
+    });
+    const container = document.getElementById('testsGroupList');
+    container.innerHTML = '';
+    container.appendChild(wrap);
   } catch { showToast('Could not load tests.'); }
 }
 
-async function deleteCustomTest(customIdx, btn) {
-  if (!deletePendingIds.has('ct-' + customIdx)) {
-    deletePendingIds.add('ct-' + customIdx);
-    btn.textContent = '?';
-    setTimeout(() => { deletePendingIds.delete('ct-' + customIdx); if (btn.textContent === '?') btn.textContent = '✕'; }, 3000);
-    return;
-  }
-  deletePendingIds.delete('ct-' + customIdx);
+async function deleteCustomTest(customIdx) {
   const res = await fetch(`/api/tests/custom/${customIdx}`, { method: 'DELETE' });
   if (res.ok) { showToast('Test removed.', true); loadTestsTab(); }
   else showToast('Error removing test.');
