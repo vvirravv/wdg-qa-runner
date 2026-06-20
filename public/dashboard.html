@@ -143,12 +143,15 @@
     }
     .field input:focus, .field textarea:focus, .field select:focus { border-color: #6366f1; }
     .field textarea { resize: vertical; min-height: 64px; }
-    .group-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .check-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px; border-radius: 8px; border: 1px solid #1c2033; background: #0d0f17; cursor: pointer; transition: border-color .15s; }
-    .check-item:hover { border-color: #363d5a; }
-    .check-item input[type=checkbox] { margin-top: 2px; accent-color: #6366f1; flex-shrink: 0; }
-    .check-item-text strong { display: block; font-size: 12px; font-weight: 600; color: #c9d1e0; }
-    .check-item-text span  { display: block; font-size: 11px; color: #404768; line-height: 1.4; margin-top: 2px; }
+    .group-checks { display: flex; flex-direction: column; gap: 8px; }
+    .modal-group-item { border-radius: 8px; border: 1px solid #1c2033; background: #0d0f17; overflow: hidden; transition: border-color .15s; }
+    .modal-group-item.checked { border-color: #312e6e; }
+    .check-item-header { display: flex; align-items: center; gap: 10px; padding: 9px 12px; cursor: pointer; }
+    .check-item-header input[type=checkbox] { accent-color: #6366f1; width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; }
+    .check-item-header strong { font-size: 13px; font-weight: 600; color: #c9d1e0; }
+    .modal-test-list { padding: 4px 12px 10px 36px; display: flex; flex-direction: column; gap: 3px; }
+    .modal-test-title { font-size: 11.5px; color: #404768; line-height: 1.5; }
+    .modal-group-item.checked .modal-test-title { color: #6b7490; }
     .browser-radios { display: flex; gap: 8px; }
     .radio-item { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px; border-radius: 8px; border: 1px solid #1c2033; background: #0d0f17; cursor: pointer; font-size: 12px; font-weight: 500; color: #525b7a; transition: all .15s; }
     .radio-item:has(input:checked) { border-color: #6366f1; color: #c7d2fe; background: #1a1d3a; }
@@ -318,7 +321,7 @@
   <div class="modal">
     <div class="modal-hdr">
       <h3 id="modalTitle">New Test Plan</h3>
-      <button class="modal-close" id="modalClose">×</button>
+      <button class="modal-close" id="modalClose" onclick="closeModal()">×</button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="editingPlanId">
@@ -344,7 +347,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-cancel" id="modalCancel">Cancel</button>
+      <button class="btn-cancel" id="modalCancel" onclick="closeModal()">Cancel</button>
       <button class="btn-save" id="modalSave">Save Plan</button>
     </div>
   </div>
@@ -624,14 +627,19 @@ async function openNewModal() {
 
 function buildGroupChecks(selected) {
   const container = document.getElementById('groupChecks');
-  container.innerHTML = availableGroups.map(g => `
-    <label class="check-item">
-      <input type="checkbox" name="planGroup" value="${g.id}" ${selected.includes(g.id) ? 'checked' : ''}>
-      <div class="check-item-text">
-        <strong>${g.label}</strong>
-        <span>${g.desc}</span>
-      </div>
-    </label>`).join('');
+  container.innerHTML = availableGroups.map(g => {
+    const checked = selected.includes(g.id);
+    const titles = (g.tests || []).map(t => `<div class="modal-test-title">• ${esc(t)}</div>`).join('');
+    return `
+      <div class="modal-group-item${checked ? ' checked' : ''}" id="mgitem-${g.id}">
+        <label class="check-item-header">
+          <input type="checkbox" name="planGroup" value="${g.id}" ${checked ? 'checked' : ''}
+            onchange="document.getElementById('mgitem-${g.id}').classList.toggle('checked',this.checked)">
+          <strong>${esc(g.label)}</strong>
+        </label>
+        <div class="modal-test-list">${titles}</div>
+      </div>`;
+  }).join('');
 }
 
 function closeModal() {
