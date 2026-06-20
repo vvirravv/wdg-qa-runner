@@ -187,6 +187,19 @@
     .test-group-block.checked .test-title-item { color: #7b84a8; }
     .test-group-block.checked .test-title-item::before { background: #6366f1; }
 
+    /* ── Auto-Tests table ── */
+    .tc-wrap { border: 1px solid #ffffff0d; border-radius: 12px; overflow: hidden; }
+    .tc-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .tc-table thead th { background: #0f1220; padding: 9px 14px; text-align: left; font-size: 11px; font-weight: 600; color: #404768; text-transform: uppercase; letter-spacing: .08em; border-bottom: 1px solid #ffffff08; }
+    .tc-table tbody tr { border-bottom: 1px solid #ffffff06; transition: background .1s; }
+    .tc-table tbody tr:last-child { border-bottom: none; }
+    .tc-table tbody tr:hover td { background: #13162230; }
+    .tc-table tbody td { padding: 10px 14px; vertical-align: middle; }
+    .tc-num { color: #2a3050; font-size: 11px; width: 36px; }
+    .tc-id  { color: #6366f1; font-size: 11px; font-weight: 600; font-family: monospace; width: 56px; }
+    .tc-name { color: #c9d1e0; font-weight: 500; }
+    .tc-group { color: #404768; font-size: 11px; text-align: right; white-space: nowrap; }
+
     /* scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -623,25 +636,31 @@ async function loadTestsTab() {
       availableGroups = await fetch('/api/plans/available-groups').then(r => r.json());
     } catch {}
   }
-  const container = document.getElementById('testsGroupList');
-  const total = availableGroups.reduce((n, g) => n + (g.tests?.length || 0), 0);
-  document.getElementById('testsCount').textContent = `${total} tests across ${availableGroups.length} groups`;
+  const allTests = availableGroups.flatMap(g =>
+    (g.tests || []).map(t => ({ title: t, group: g.label }))
+  );
+  document.getElementById('testsCount').textContent = `${allTests.length} auto-tests`;
 
-  container.innerHTML = availableGroups.map(g => {
-    const titles = (g.tests || []).map(t => `
-      <div class="test-title-item">${esc(t)}</div>`).join('');
+  const rows = allTests.map((t, i) => {
+    const idMatch = t.title.match(/^\[(\d+)\]/);
+    const id   = idMatch ? idMatch[1] : '—';
+    const name = idMatch ? t.title.replace(/^\[\d+\]\s*/, '') : t.title;
     return `
-      <div class="test-group-block checked" style="margin-bottom:12px">
-        <div class="test-group-hdr">
-          <div class="test-group-hdr-text">
-            <strong>${esc(g.label)}</strong>
-            <small>${esc(g.file || '')}</small>
-          </div>
-          <span style="font-size:11px;color:#404768;margin-left:auto">${g.tests?.length || 0} tests</span>
-        </div>
-        <div class="test-title-list">${titles}</div>
-      </div>`;
+      <tr>
+        <td class="tc-num">${i + 1}</td>
+        <td class="tc-id">${id}</td>
+        <td class="tc-name">${esc(name)}</td>
+        <td class="tc-group">${esc(t.group)}</td>
+      </tr>`;
   }).join('');
+
+  document.getElementById('testsGroupList').innerHTML = `
+    <div class="tc-wrap">
+      <table class="tc-table">
+        <thead><tr><th>#</th><th>ID</th><th>Test</th><th>Group</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
 }
 
 // ── New Plan Modal (for "+ New Plan" button only) ─────────────────────────
