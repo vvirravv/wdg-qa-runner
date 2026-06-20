@@ -56,7 +56,7 @@ function saveCustom(list) {
 router.get('/', (req, res) => {
   const specTests = SPEC_FILES.flatMap(s => parseSpecFile(s.file, s.group));
   const custom = loadCustom();
-  res.json([...specTests, ...custom]);
+  res.json([...custom, ...specTests]);
 });
 
 // POST /api/tests — add a custom test entry
