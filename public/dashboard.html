@@ -696,7 +696,6 @@ async function loadTestsTab() {
           <td class="tc-num">${i + 1}</td>
           <td class="tc-id">${t.id || '—'}</td>
           <td class="tc-name">${esc(t.name)}${customBadge}${notesBadge}</td>
-          <td class="tc-group">${esc(t.group)}</td>
           <td style="width:32px;text-align:right">${deleteBtn}</td>
         </tr>`;
     }).join('');
@@ -705,7 +704,7 @@ async function loadTestsTab() {
     wrap.innerHTML = `
       <div class="tc-wrap">
         <table class="tc-table">
-          <thead><tr><th>#</th><th>ID</th><th>Test</th><th>Group</th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>ID</th><th>Test</th><th></th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>`;
