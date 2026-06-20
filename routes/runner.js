@@ -18,7 +18,14 @@ function generateRunId() {
 }
 
 router.get('/me', (req, res) => {
-  res.json({ username: req.session.user?.username || '—' });
+  res.json({
+    username: req.session.user?.username || '—',
+    role: req.session.user?.role || 'user',
+  });
+});
+
+router.get('/run/status', (req, res) => {
+  res.json({ running: runner.isRunning(), runId: runner.getCurrentRunId() });
 });
 
 router.get('/groups', (req, res) => {

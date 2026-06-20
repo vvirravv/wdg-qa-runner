@@ -12,6 +12,12 @@ router.get('/', (req, res) => res.json(plansLib.listPlans()));
 
 router.get('/available-groups', (req, res) => res.json(plansLib.AVAILABLE_GROUPS));
 
+router.get('/:id', (req, res) => {
+  const plan = plansLib.getPlan(req.params.id);
+  if (!plan) return res.status(404).json({ error: 'Plan not found' });
+  res.json(plan);
+});
+
 router.post('/', (req, res) => {
   const { name, description, browser, groups } = req.body;
   if (!name || !name.trim()) return res.status(400).json({ error: 'Name is required' });

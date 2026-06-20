@@ -11,16 +11,18 @@ try {
   if (!Array.isArray(parsedUsers) || parsedUsers.length === 0) throw new Error();
 } catch {
   console.error('ERROR: USERS environment variable must be a non-empty JSON array.');
-  console.error('Example: USERS=\'[{"username":"vera","password":"$2a$10$..."}]\'');
+  console.error('Example: USERS=\'[{"username":"vera","password":"$2a$10$...","role":"admin"}]\'');
   console.error('Generate a hash: node -e "require(\'bcryptjs\').hash(\'yourpass\',10).then(console.log)"');
   process.exit(1);
 }
 
-const requireAuth = require('./middleware/requireAuth');
-const authRoutes = require('./routes/auth');
-const runnerRoutes = require('./routes/runner');
-const plansRoutes = require('./routes/plans');
-const testsRoutes = require('./routes/tests');
+const requireAuth  = require('./middleware/requireAuth');
+const requireAdmin = require('./middleware/requireAdmin');
+const authRoutes       = require('./routes/auth');
+const runnerRoutes     = require('./routes/runner');
+const plansRoutes      = require('./routes/plans');
+const testsRoutes      = require('./routes/tests');
+const autotestsRoutes  = require('./routes/autotests');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,9 +32,12 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc:  ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+      workerSrc:  ["'self'", "blob:"],
+      styleSrc:   ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+      fontSrc:    ["'self'", "https://cdn.jsdelivr.net"],
       connectSrc: ["'self'"],
+      imgSrc:     ["'self'", "data:"],
     },
   },
 }));
@@ -47,14 +52,14 @@ app.use(session({
   cookie: {
     httpOnly: true,
     secure: isProd,
-    maxAge: 8 * 60 * 60 * 1000, // 8 hours
+    maxAge: 8 * 60 * 60 * 1000,
   },
 }));
 
 // Dev-only bypass (never runs in production)
 if (!isProd) {
   app.get('/__dev_login', (req, res) => {
-    req.session.user = { username: 'vera' };
+    req.session.user = { username: 'vera', role: 'admin' };
     res.redirect('/dashboard');
   });
 }
@@ -80,8 +85,9 @@ app.get('/dashboard', requireAuth, (req, res) => {
 app.use('/api', requireAuth, runnerRoutes);
 app.use('/api/plans', requireAuth, plansRoutes);
 app.use('/api/tests', requireAuth, testsRoutes);
+app.use('/api/autotests', requireAuth, requireAdmin, autotestsRoutes);
 
 app.listen(PORT, () => {
   console.log(`WDG QA Runner started on http://localhost:${PORT}`);
-  console.log(`Users loaded: ${parsedUsers.map(u => u.username).join(', ')}`);
+  console.log(`Users loaded: ${parsedUsers.map(u => `${u.username} (${u.role || 'user'})`).join(', ')}`);
 });
