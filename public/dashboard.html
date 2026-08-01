@@ -8,14 +8,23 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 :root{
-  --bg:#0f1117;--surface:#161b27;--surface2:#1e2535;--border:#2a3347;
-  --text:#e2e8f0;--text2:#8b95a9;--accent:#5b8af5;--accent-h:#4a79e4;
-  --green:#22c55e;--red:#ef4444;--yellow:#f59e0b;
+  --bg:#f0f2f7;--surface:#ffffff;--surface2:#f5f7fb;--border:#e2e8f2;
+  --text:#1a202c;--text2:#6b7a99;--accent:#4f46e5;--accent-h:#4338ca;
+  --green:#16a34a;--red:#dc2626;--yellow:#d97706;
   --sw:230px;
 }
 body{background:var(--bg);color:var(--text)}
 .app{display:flex;height:100vh;overflow:hidden}
-.sidebar{width:var(--sw);flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.sidebar{width:var(--sw);flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;transition:width .2s ease;box-shadow:1px 0 0 var(--border)}
+.sidebar.collapsed{width:56px}
+.sidebar.collapsed .brand-sub,.sidebar.collapsed .nav-item span,.sidebar.collapsed .user-info,.sidebar.collapsed .nav-label{display:none}
+.sidebar.collapsed .nav-item{justify-content:center;padding:9px 0}
+.sidebar.collapsed .brand{padding:16px 0;display:flex;justify-content:center}
+.sidebar.collapsed .brand-name{display:none}
+.sidebar.collapsed .sidebar-foot{padding:12px 0;justify-content:center}
+.sidebar.collapsed .btn-logout{margin:0}
+.toggle-btn{background:none;border:none;cursor:pointer;color:var(--text2);padding:4px 6px;border-radius:6px;transition:all .15s;line-height:0;flex-shrink:0}
+.toggle-btn:hover{background:var(--surface2);color:var(--text)}
 .main{flex:1;overflow-y:auto}
 
 /* Sidebar */
@@ -55,7 +64,7 @@ body{background:var(--bg);color:var(--text)}
 .btn-sm{padding:5px 12px;font-size:13px}
 
 /* Tables */
-.tbl-wrap{border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.tbl-wrap{border:1px solid var(--border);border-radius:10px;overflow-x:auto}
 table{width:100%;border-collapse:collapse}
 thead th{padding:11px 16px;text-align:left;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;background:var(--surface);border-bottom:1px solid var(--border);white-space:nowrap}
 tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
@@ -68,6 +77,7 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
 .badge-passed{background:rgba(34,197,94,.12);color:var(--green)}
 .badge-failed{background:rgba(239,68,68,.12);color:var(--red)}
 .badge-running{background:rgba(245,158,11,.12);color:var(--yellow)}
+.badge-review{background:rgba(245,158,11,.12);color:var(--yellow)}
 
 /* Active run card */
 .run-card{border:1px solid rgba(245,158,11,.35);background:rgba(245,158,11,.04);border-radius:10px;padding:20px;margin-bottom:28px}
@@ -76,9 +86,20 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 .run-card-title{font-size:15px;font-weight:600;flex:1}
 .run-card-sub{font-size:13px;color:var(--text2)}
+.rc-counter{font-size:13px;color:var(--text2);flex-shrink:0}
+.rc-tests{display:flex;flex-direction:column;gap:3px;max-height:200px;overflow-y:auto;margin-bottom:10px}
+.rc-test-row{display:flex;align-items:center;gap:9px;padding:5px 10px;border-radius:6px;background:rgba(0,0,0,.03);font-size:13px}
+.rc-test-row .rc-icon{flex-shrink:0;width:16px;text-align:center}
+.rc-test-row .rc-test-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rc-test-row .rc-dur{font-size:11px;color:var(--text2);flex-shrink:0}
+.rc-test-row.rc-ok .rc-icon{color:var(--green)}
+.rc-test-row.rc-fail .rc-icon{color:var(--red)}
+.rc-test-row.rc-running .rc-icon{color:var(--yellow)}
+.rc-log-toggle{background:none;border:none;cursor:pointer;color:var(--text2);font-size:12px;padding:0;text-decoration:underline;opacity:.7;transition:opacity .15s}
+.rc-log-toggle:hover{opacity:1}
 
 /* Log */
-.log{background:#090b10;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:#b0bcc8;line-height:1.7;height:260px;overflow-y:auto;white-space:pre-wrap;word-break:break-all}
+.log{background:#1e2130;border:1px solid #2d3250;border-radius:8px;padding:14px 16px;font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:#c8d0e0;line-height:1.7;height:260px;overflow-y:auto;white-space:pre-wrap;word-break:break-all}
 .log-sm{height:180px}
 
 /* Modals */
@@ -98,10 +119,52 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
 .field textarea{resize:vertical;min-height:80px}
 
+/* Autotest accordion cards */
+.at-cards{display:flex;flex-direction:column;gap:8px}
+.at-card{border:1px solid var(--border);border-radius:10px;background:var(--surface);overflow:hidden;transition:border-color .15s}
+.at-card:hover{border-color:rgba(79,70,229,.25)}
+.at-card-hdr{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
+.at-card-main{flex:1;min-width:0}
+.at-card-name{font-size:14px;font-weight:600;color:var(--text);line-height:1.35}
+.at-run-status{display:inline-flex;align-items:center;gap:5px;margin-top:4px;font-size:12px}
+.at-eye-btn{background:none;border:none;cursor:pointer;padding:0 2px;font-size:13px;line-height:1;opacity:.6;transition:opacity .15s;vertical-align:middle}
+.at-eye-btn:hover{opacity:1}
+.log-modal .modal{max-width:820px;width:95vw;max-height:88vh;display:flex;flex-direction:column}
+.log-modal .modal-body{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:10px}
+.log-modal .log{height:auto;flex:1;min-height:200px;max-height:60vh}
+.at-status-none{color:var(--text2)}
+.at-status-ok{color:var(--green)}
+.at-status-fail{color:var(--red)}
+.at-status-warn{color:var(--yellow)}
+.at-card-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.at-expand-arrow{font-size:14px;color:var(--text2);transition:transform .2s;flex-shrink:0;width:20px;text-align:center}
+.at-expand-arrow.open{transform:rotate(180deg)}
+.at-card-body{border-top:1px solid var(--border);padding:14px 16px;background:var(--surface2)}
+.at-card-desc{font-size:13px;color:var(--text2);margin:0 0 12px;line-height:1.6}
+.at-what-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:8px}
+.at-what-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px}
+.at-what-list li{font-size:12px;color:var(--text);padding:5px 10px;background:var(--bg);border-radius:6px;line-height:1.5}
+.at-what-list li::before{content:"▸ ";color:var(--accent);font-size:10px}
+
 /* Browser pills */
 .bpills{display:flex;gap:8px;flex-wrap:wrap}
 .bpill{padding:6px 16px;border-radius:20px;border:1px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s;background:none}
 .bpill.active{border-color:var(--accent);color:var(--accent);background:rgba(91,138,245,.1)}
+/* run type cards */
+.run-type-card{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;transition:border-color .2s}
+.run-type-card:hover{border-color:rgba(79,70,229,.25);background:rgba(79,70,229,.02)}
+.run-type-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.run-type-body{flex:1;min-width:0}
+.run-type-title{font-size:14px;font-weight:600;margin-bottom:3px}
+.run-type-desc{font-size:12px;color:var(--text2);line-height:1.4;margin-bottom:10px}
+.run-type-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.run-type-meta{font-size:12px;color:var(--text2);white-space:nowrap}
+.run-launch-btn{padding:7px 16px;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;white-space:nowrap;color:#fff;margin-left:auto}
+.run-launch-btn:hover{opacity:.88;transform:translateY(-1px)}
+.run-launch-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.run-launch-btn-auto{background:var(--accent);box-shadow:0 2px 10px rgba(99,102,241,.3)}
+.run-launch-btn-visual{background:linear-gradient(135deg,#7c3aed,#6366f1);box-shadow:0 2px 10px rgba(124,58,237,.35)}
+.headed-lbl{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);cursor:pointer;white-space:nowrap}
 
 /* Groups */
 .groups-list{display:flex;flex-direction:column;gap:10px}
@@ -131,12 +194,13 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
 .t-success{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:var(--green)}
 .t-error{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--red)}
 .t-info{background:rgba(91,138,245,.15);border:1px solid rgba(91,138,245,.3);color:var(--accent)}
+.t-warning{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--yellow)}
 @keyframes tIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 /* Misc */
 .empty{text-align:center;padding:56px 20px;color:var(--text2);font-size:14px}
 .empty-ico{font-size:36px;margin-bottom:10px}
-.c-muted{color:var(--text2)}.c-green{color:var(--green)}.c-red{color:var(--red)}
+.c-muted{color:var(--text2)}.c-green{color:var(--green)}.c-red{color:var(--red)}.c-yellow{color:var(--yellow)}
 .expand-row td{padding:0}
 .expand-inner{padding:14px 20px;border-top:1px solid var(--border);background:var(--surface)}
 .results-table{width:100%;border-collapse:collapse}
@@ -149,6 +213,15 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--text2)}
+
+/* Toggle switch */
+.sw{position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0}
+.sw input{opacity:0;width:0;height:0;position:absolute}
+.sw-track{position:absolute;inset:0;background:var(--border);border-radius:12px;transition:.2s;cursor:pointer}
+.sw-track::before{content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.sw input:checked + .sw-track{background:var(--accent)}
+.sw input:checked + .sw-track::before{transform:translateX(18px)}
+.sw input:disabled + .sw-track{opacity:.4;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -157,25 +230,32 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="brand">
-    <div class="brand-name">WDG QA</div>
-    <div class="brand-sub">Autotest Management</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div>
+        <div class="brand-name">WDG QA</div>
+        <div class="brand-sub">Autotest Management</div>
+      </div>
+      <button class="toggle-btn" onclick="toggleSidebar()" title="Toggle sidebar" style="margin-left:auto">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
   </div>
   <nav class="nav">
-    <button class="nav-item active" data-page="runs" onclick="navigate('runs')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      Runs
+    <button class="nav-item" data-page="autotests" onclick="navigate('autotests')" title="Репозиторій">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h6l2 3h10a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
+      <span class="nav-label">Репозиторій</span>
     </button>
-    <button class="nav-item" data-page="plans" onclick="navigate('plans')">
+    <button class="nav-item" data-page="plans" onclick="navigate('plans')" title="Тест-плани">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-      Test Plans
+      <span class="nav-label">Тест-плани</span>
     </button>
-    <button class="nav-item admin-only" data-page="autotests" onclick="navigate('autotests')" style="display:none">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-      Autotests
-    </button>
-    <button class="nav-item" data-page="history" onclick="navigate('history')">
+    <button class="nav-item" data-page="history" onclick="navigate('history')" title="Історія">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      History
+      <span class="nav-label">Історія</span>
+    </button>
+    <button id="navUsers" class="nav-item admin-only" data-page="users" onclick="navigate('users')" title="Користувачі" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      <span class="nav-label">Користувачі</span>
     </button>
   </nav>
   <div class="sidebar-foot">
@@ -192,37 +272,34 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
 <!-- MAIN -->
 <main class="main">
 
-<!-- RUNS PAGE -->
-<div id="page-runs" class="page">
-  <div class="ph">
-    <h1>Runs</h1>
-    <div class="ph-actions">
-      <button class="btn btn-primary" onclick="openRunModal()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        New Run
-      </button>
-    </div>
-  </div>
-  <div id="activeRunCard" class="run-card" style="display:none">
+<!-- GLOBAL ACTIVE RUN CARD (visible on any page while a run is in progress) -->
+<div id="activeRunCard" class="run-card" style="display:none;margin:20px 20px 0">
     <div class="run-card-hdr">
       <div class="run-dot"></div>
-      <div>
+      <div style="flex:1">
         <div class="run-card-title" id="rcTitle">Running...</div>
         <div class="run-card-sub" id="rcSub"></div>
       </div>
+      <div class="rc-counter" id="rcCounter"></div>
     </div>
-    <div class="log" id="rcLog"></div>
+    <div class="rc-tests" id="rcTests"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <button onclick="stopCurrentRun()" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:500">⬛ Зупинити</button>
+      <button class="rc-log-toggle" id="rcLogToggle" onclick="toggleRcLog()">Деталі ▸</button>
+    </div>
+    <div class="log" id="rcLog" style="display:none;margin-top:8px"></div>
   </div>
-  <div id="runsWrap"><div class="empty"><div class="empty-ico">▷</div>No runs yet. Click New Run to start.</div></div>
-</div>
-
 <!-- PLANS PAGE -->
 <div id="page-plans" class="page hidden">
   <div id="plans-list">
     <div class="ph">
-      <h1>Test Plans</h1>
+      <h1>Тест-плани</h1>
       <div class="ph-actions">
-        <button class="btn btn-primary" onclick="openNewPlanModal()">
+        <button class="btn btn-ghost admin-only" onclick="document.getElementById('xlsxFileInput').click()" style="display:none">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Імпорт XLSX
+        </button>
+        <button class="btn btn-primary admin-only" onclick="openNewPlanModal()" style="display:none">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           New Plan
         </button>
@@ -233,25 +310,23 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
   <div id="plans-detail" style="display:none">
     <button class="detail-back" onclick="closePlanDetail()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Test Plans
+      Тест-плани
     </button>
-    <div class="detail-hdr">
-      <h2 id="pdName"></h2>
-      <button class="btn btn-ghost btn-sm" onclick="savePlanDetail()">Save</button>
-      <button class="btn btn-primary btn-sm" onclick="runPlanDetail()">▶ Run</button>
-      <button class="btn btn-danger btn-sm" onclick="deletePlanDetail()">Delete</button>
+    <div class="detail-hdr" style="margin-bottom:6px">
+      <h2 id="pdName" style="flex:1;margin:0;font-size:18px"></h2>
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer">
+        <input type="checkbox" id="pdHeaded" style="width:14px;height:14px;cursor:pointer">
+        Відкрити вікно браузера
+      </label>
+      <button class="btn btn-primary btn-sm" onclick="runPlanDetail()">▶ Запустити</button>
+      <button class="btn btn-ghost btn-sm admin-only" onclick="deletePlanDetail()" style="display:none;color:var(--red);border-color:rgba(239,68,68,.3)">Видалити</button>
     </div>
-    <p id="pdDesc" style="color:var(--text2);font-size:14px;margin-bottom:24px"></p>
-    <div class="field" style="max-width:220px;margin-bottom:26px">
-      <label>Default Browser</label>
-      <select id="pdBrowser">
-        <option value="all">All Browsers</option>
-        <option value="chrome">Chrome</option>
-        <option value="firefox">Firefox</option>
-      </select>
+    <p id="pdTestCount" style="color:var(--text2);font-size:13px;margin:0 0 18px"></p>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div class="lbl-sec" style="margin:0">Тести в плані</div>
+      <button class="btn btn-ghost btn-sm admin-only" onclick="openAddTestsModal()" style="display:none">+ Додати тести</button>
     </div>
-    <div class="lbl-sec">Test Groups</div>
-    <div id="pdGroups" class="groups-list"></div>
+    <div id="pdTests"></div>
   </div>
 </div>
 
@@ -259,11 +334,13 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
 <div id="page-autotests" class="page hidden">
   <div id="at-list">
     <div class="ph">
-      <h1>Autotests</h1>
+      <h1>Репозиторій</h1>
       <div class="ph-actions">
-        <button class="btn btn-primary" onclick="createAutotest()">
+        <input id="atSearch" type="search" placeholder="Пошук тестів…" oninput="renderAutotests()"
+          style="padding:8px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;outline:none;width:220px">
+        <button id="atNewBtn" class="btn btn-primary admin-only" onclick="createAutotest()" style="display:none">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          New Autotest
+          Новий тест
         </button>
       </div>
     </div>
@@ -272,41 +349,80 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
   <div id="at-detail" style="display:none">
     <button class="detail-back" onclick="closeAtDetail()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Autotests
+      Автотести
     </button>
-    <div class="detail-hdr">
-      <input id="atName" placeholder="Test name" style="flex:1;padding:9px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:16px;font-weight:600;outline:none;min-width:0">
-      <button class="btn btn-ghost btn-sm" onclick="saveAutotest()">Save</button>
-      <button class="btn btn-primary btn-sm" id="atRunBtn" onclick="runAutotestNow()">▶ Run</button>
-      <button class="btn btn-danger btn-sm" onclick="deleteAtCurrent()">Delete</button>
+    <!-- File-based test info (read-only) -->
+    <div id="atFileInfo" style="display:none">
+      <div class="detail-hdr">
+        <h2 id="atFileTitle" style="flex:1;margin:0;font-size:17px"></h2>
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;user-select:none">
+          <input type="checkbox" id="atHeadedToggle" style="width:15px;height:15px;cursor:pointer">
+          Відкрити вікно браузера
+        </label>
+        <button class="btn btn-primary btn-sm" id="atRunBtn" onclick="runAutotestNow()">▶ Запустити</button>
+      </div>
+      <p id="atFileGroup" style="color:var(--text2);font-size:13px;margin:6px 0 4px"></p>
+      <div style="margin-bottom:14px">
+        <button onclick="toggleAtCode()" id="atCodeToggleBtn" style="background:none;border:none;cursor:pointer;color:var(--text2);font-size:12px;padding:0;text-decoration:underline;opacity:.7">Показати код ▸</button>
+      </div>
+      <div id="atFileEditorWrap" style="display:none">
+        <p id="atFileSpec" style="color:var(--text2);font-size:12px;margin:0 0 8px;opacity:.6"></p>
+        <div class="editor-wrap">
+          <div id="atFileMonaco" style="height:100%"></div>
+        </div>
+      </div>
     </div>
-    <div class="field" style="max-width:240px;margin-bottom:14px">
-      <label>Language</label>
-      <select id="atLang" onchange="updateEditorLang()">
-        <option value="javascript">JavaScript / Playwright</option>
-        <option value="typescript">TypeScript / Playwright</option>
-        <option value="python">Python</option>
-      </select>
-    </div>
-    <div class="editor-wrap">
-      <div id="monacoContainer"></div>
+    <!-- Code-based test editor -->
+    <div id="atCodeEditor">
+      <div class="detail-hdr">
+        <input id="atName" placeholder="Test name" style="flex:1;padding:9px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:16px;font-weight:600;outline:none;min-width:0">
+        <button id="atSaveBtn" class="btn btn-ghost btn-sm admin-only" onclick="saveAutotest()" style="display:none">Зберегти</button>
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;user-select:none">
+          <input type="checkbox" id="atHeadedToggleCode" style="width:15px;height:15px;cursor:pointer">
+          Відкрити вікно браузера
+        </label>
+        <button class="btn btn-primary btn-sm" id="atRunBtnCode" onclick="runAutotestNow()">▶ Запустити</button>
+        <button id="atDeleteBtn" class="btn btn-danger btn-sm admin-only" onclick="deleteAtCurrent()" style="display:none">Видалити</button>
+      </div>
+      <div class="field" style="margin-bottom:14px">
+        <label>Description</label>
+        <textarea id="atDesc" placeholder="What does this test check?" rows="2" style="resize:vertical"></textarea>
+      </div>
+      <div class="field" style="max-width:240px;margin-bottom:14px">
+        <label>Language</label>
+        <select id="atLang" onchange="updateEditorLang()">
+          <option value="javascript">JavaScript / Playwright</option>
+          <option value="typescript">TypeScript / Playwright</option>
+          <option value="python">Python</option>
+        </select>
+      </div>
+      <div class="editor-wrap">
+        <div id="monacoContainer"></div>
+      </div>
     </div>
     <div id="atRunResult" style="display:none;margin-top:16px">
-      <div class="lbl-sec" style="margin-bottom:8px">Run Output</div>
+      <div class="lbl-sec" style="margin-bottom:8px">Вивід</div>
       <div class="log log-sm" id="atRunLog"></div>
+      <div id="atRunSummary" style="display:none;margin-top:10px;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:600"></div>
     </div>
   </div>
 </div>
 
+<!-- USERS PAGE -->
+<div id="page-users" class="page hidden">
+  <div class="ph">
+    <h1>Користувачі</h1>
+  </div>
+  <div id="usersWrap"><div class="empty">Loading…</div></div>
+</div>
+
 <!-- HISTORY PAGE -->
 <div id="page-history" class="page hidden">
-  <div class="ph">
-    <h1>History</h1>
-    <div class="ph-actions">
-      <button class="btn btn-ghost btn-sm" onclick="loadHistory()">↻ Refresh</button>
-    </div>
+  <div class="ph" style="display:flex;align-items:center;justify-content:space-between">
+    <h1>Історія</h1>
+    <button id="clearHistoryBtn" class="btn btn-ghost admin-only" style="display:none;color:var(--red);border-color:rgba(239,68,68,.3);font-size:13px" onclick="clearAllRuns()">Очистити все</button>
   </div>
-  <div id="histWrap"><div class="empty">No history yet</div></div>
+  <div id="runsWrap"><div class="empty"><div class="empty-ico">▷</div>Запусків ще немає</div></div>
 </div>
 
 </main>
@@ -316,78 +432,160 @@ tbody td{padding:13px 16px;font-size:14px;vertical-align:middle}
 <div id="runModal" class="overlay hidden">
   <div class="modal">
     <div class="modal-hdr">
-      <div class="modal-title">New Run</div>
+      <div class="modal-title">Новий запуск</div>
       <button class="modal-close" onclick="closeRunModal()">×</button>
     </div>
     <div class="field">
-      <label>Test Plan</label>
+      <label>Тест-план</label>
       <select id="runPlanSel"></select>
     </div>
     <div class="field">
-      <label>Browser</label>
+      <label>Браузер</label>
       <div class="bpills" id="runBpills">
-        <button class="bpill active" data-b="all" onclick="pickBrowser(this,'runBpills')">All</button>
+        <button class="bpill active" data-b="all" onclick="pickBrowser(this,'runBpills')">Всі</button>
         <button class="bpill" data-b="chrome" onclick="pickBrowser(this,'runBpills')">Chrome</button>
         <button class="bpill" data-b="firefox" onclick="pickBrowser(this,'runBpills')">Firefox</button>
       </div>
     </div>
+    <div class="field" style="margin-bottom:4px">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:normal">
+        <input type="checkbox" id="runHeadedToggle" style="width:15px;height:15px;cursor:pointer">
+        Відкрити вікно браузера
+      </label>
+    </div>
     <div class="modal-foot">
-      <button class="btn btn-ghost" onclick="closeRunModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="startRun()">▶ Start Run</button>
+      <button class="btn btn-ghost" onclick="closeRunModal()">Скасувати</button>
+      <button class="btn btn-primary" onclick="startRun()">▶ Запустити</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="xlsxFileInput" accept=".xlsx,.xls" style="display:none" onchange="handleXlsxFile(event)">
+
+<!-- XLSX IMPORT MODAL -->
+<div id="xlsxImportModal" class="overlay hidden" onclick="if(event.target===this)closeXlsxModal()">
+  <div class="modal" style="max-width:700px;width:95vw;max-height:88vh;display:flex;flex-direction:column">
+    <div class="modal-hdr">
+      <div class="modal-title">Імпорт тест-планів з XLSX</div>
+      <button class="modal-close" onclick="closeXlsxModal()">×</button>
+    </div>
+    <div id="xlsxPreview" style="flex:1;overflow-y:auto;padding:4px 0"></div>
+    <div class="modal-foot">
+      <span id="xlsxSelCount" style="flex:1;font-size:13px;color:var(--text2)"></span>
+      <button class="btn btn-ghost" onclick="closeXlsxModal()">Скасувати</button>
+      <button class="btn btn-primary" id="xlsxImportBtn" onclick="confirmXlsxImport()" disabled>Імпортувати</button>
     </div>
   </div>
 </div>
 
 <!-- NEW PLAN MODAL -->
 <div id="newPlanModal" class="overlay hidden">
-  <div class="modal" style="max-width:640px">
+  <div class="modal" style="max-width:420px">
     <div class="modal-hdr">
-      <div class="modal-title">New Test Plan</div>
+      <div class="modal-title">Новий тест-план</div>
       <button class="modal-close" onclick="closeNewPlanModal()">×</button>
     </div>
     <div class="field">
-      <label>Name</label>
-      <input id="npName" placeholder="Smoke, Regression, Sprint 12…" onkeydown="if(event.key==='Enter')createPlan()">
-    </div>
-    <div class="field">
-      <label>Description</label>
-      <textarea id="npDesc" placeholder="What does this plan test?"></textarea>
-    </div>
-    <div class="field">
-      <label>Browser</label>
-      <div class="bpills" id="npBpills">
-        <button class="bpill" data-b="all" onclick="pickBrowser(this,'npBpills')">All</button>
-        <button class="bpill active" data-b="chrome" onclick="pickBrowser(this,'npBpills')">Chrome</button>
-        <button class="bpill" data-b="firefox" onclick="pickBrowser(this,'npBpills')">Firefox</button>
-      </div>
-    </div>
-    <div class="field">
-      <label>Test Groups</label>
-      <div id="npGroups" class="groups-list"></div>
+      <label>Назва</label>
+      <input id="npName" placeholder="Smoke, Regression, Sprint 42…" onkeydown="if(event.key==='Enter')createPlan()">
     </div>
     <div class="modal-foot">
-      <button class="btn btn-ghost" onclick="closeNewPlanModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="createPlan()">Create Plan</button>
+      <button class="btn btn-ghost" onclick="closeNewPlanModal()">Скасувати</button>
+      <button class="btn btn-primary" onclick="createPlan()">Створити план</button>
     </div>
   </div>
+</div>
+
+<!-- ADD TESTS TO PLAN MODAL -->
+<div id="addTestsModal" class="overlay hidden">
+  <div class="modal" style="max-width:600px;max-height:80vh;display:flex;flex-direction:column">
+    <div class="modal-hdr">
+      <div class="modal-title">Додати тести до плану</div>
+      <button class="modal-close" onclick="closeAddTestsModal()">×</button>
+    </div>
+    <input id="addTestsSearch" type="search" placeholder="Пошук тестів…" oninput="renderAddTestsList()"
+      style="margin:0 0 12px;padding:8px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none;width:100%;box-sizing:border-box">
+    <div id="addTestsList" style="flex:1;overflow-y:auto;min-height:200px;max-height:50vh"></div>
+    <div class="modal-foot" style="margin-top:12px">
+      <button class="btn btn-ghost" onclick="closeAddTestsModal()">Скасувати</button>
+      <button class="btn btn-primary" onclick="saveAddedTests()">Зберегти</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW AUTOTEST MODAL -->
+<div id="newAtModal" class="overlay hidden">
+  <div class="modal" style="min-width:380px;max-width:440px">
+    <div class="modal-hdr">
+      <div class="modal-title">Новий автотест</div>
+      <button class="modal-close" onclick="closeNewAtModal()">×</button>
+    </div>
+    <div class="field">
+      <label>Назва</label>
+      <input id="newAtName" placeholder="Login flow, Homepage check…" onkeydown="if(event.key==='Enter')submitNewAt()">
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeNewAtModal()">Скасувати</button>
+      <button class="btn btn-primary" onclick="submitNewAt()">Створити</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div id="confirmModal" class="overlay hidden">
+  <div class="modal" style="min-width:340px;max-width:420px">
+    <div class="modal-hdr">
+      <div class="modal-title" id="confirmTitle">Confirm</div>
+    </div>
+    <p id="confirmMsg" style="color:var(--text2);font-size:14px;margin-bottom:4px"></p>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeConfirm(false)">Cancel</button>
+      <button class="btn btn-danger" onclick="closeConfirm(true)" id="confirmOkBtn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOG VIEWER MODAL -->
+<div id="logViewModal" class="overlay hidden log-modal" onclick="if(event.target===this)closeLogView()">
+  <div class="modal" style="display:flex;flex-direction:column;max-height:90vh">
+    <div class="modal-hdr">
+      <div style="flex:1;min-width:0">
+        <div class="modal-title" id="logViewTitle" style="font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
+        <div id="logViewStatus" style="font-size:12px;margin-top:3px"></div>
+      </div>
+      <button class="modal-close" onclick="closeLogView()">×</button>
+    </div>
+    <div id="logViewTabs" class="hidden" style="display:none;border-bottom:1px solid var(--border);padding:0 20px">
+      <button id="tabBtnVideo" onclick="switchLogTab('video')" style="background:none;border:none;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);margin-bottom:-1px">Відео</button>
+      <button id="tabBtnLogs" onclick="switchLogTab('logs')" style="background:none;border:none;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);margin-bottom:-1px">Логи</button>
+    </div>
+    <div id="logViewBody" style="flex:1;overflow-y:auto;padding:16px 20px"></div>
+    <div id="logViewVideoPane" class="hidden" style="display:none;flex:1;overflow-y:auto;padding:16px 20px"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightboxModal" class="overlay hidden" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" style="max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.5)">
 </div>
 
 <!-- TOAST -->
 <div class="toast-wrap" id="toastWrap"></div>
 
 <!-- Monaco CDN -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs/loader.js"></script>
 <script>
 'use strict';
 
 /* ===== STATE ===== */
-let currentUser = { username: '', role: 'user' };
-let groups = [];
+let currentUser = { username: '', role: 'user', canRunAutotests: false };
 let plans = [];
 let runs = [];
 let autotests = [];
 let currentPlanId = null;
 let currentAtId = null;
+const atLastRun = {};
 let monacoReady = false;
 let monacoEditor = null;
 let sseSource = null;
@@ -406,29 +604,28 @@ async function init() {
     if (role === 'admin') {
       document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
     }
+    plans = await api('/api/plans');
 
-    [groups, plans] = await Promise.all([
-      api('/api/plans/available-groups'),
-      api('/api/plans'),
-    ]);
-
-    navigate('runs');
+    const pages = ['plans', 'autotests', 'history', 'users'];
+    const hash = location.hash.replace('#', '');
+    navigate(pages.includes(hash) ? hash : 'plans');
   } catch { window.location.href = '/login'; }
 }
 
 /* ===== NAVIGATION ===== */
 function navigate(page) {
-  if (page === 'autotests' && currentUser.role !== 'admin') return;
+  if (page === 'users' && currentUser.role !== 'admin') return;
 
+  location.hash = page;
   document.querySelectorAll('.nav-item').forEach(el =>
     el.classList.toggle('active', el.dataset.page === page));
   document.querySelectorAll('.page').forEach(el =>
     el.classList.toggle('hidden', el.id !== `page-${page}`));
 
-  if (page === 'runs')      loadRuns();
   if (page === 'plans')     renderPlans();
   if (page === 'autotests') loadAutotests();
-  if (page === 'history')   loadHistory();
+  if (page === 'history')   loadRuns();
+  if (page === 'users')     loadUsers();
 }
 
 /* ===== RUNS ===== */
@@ -441,25 +638,50 @@ async function loadRuns() {
   } catch {}
 }
 
+async function deleteRunById(id) {
+  if (!await showConfirm('Видалити цей запуск з історії?')) return;
+  await api(`/api/runs/${id}`, 'DELETE');
+  runs = runs.filter(r => r.id !== id);
+  renderRuns();
+  toast('Видалено', 'success');
+}
+
+async function clearAllRuns() {
+  if (!await showConfirm('Очистити всю історію запусків?')) return;
+  await api('/api/runs', 'DELETE');
+  runs = [];
+  renderRuns();
+  toast('Історію очищено', 'success');
+}
+
+function stripId(name) { return (name || '').replace(/^\[\d+\]\s*/, ''); }
+
 function renderRuns() {
   const w = document.getElementById('runsWrap');
   if (!runs.length) {
-    w.innerHTML = '<div class="empty"><div class="empty-ico">▷</div>No runs yet. Click New Run to start.</div>';
+    w.innerHTML = '<div class="empty"><div class="empty-ico">▷</div>Запусків ще немає. Натисни "Запустити" вище.</div>';
     return;
   }
+  const isAdmin = currentUser?.role === 'admin';
+  document.getElementById('clearHistoryBtn').style.display = isAdmin ? '' : 'none';
   w.innerHTML = `<div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Plan</th><th>Browser</th><th>Status</th><th>✓</th><th>✗</th><th>Duration</th><th>Started</th><th>By</th></tr></thead>
-    <tbody>${runs.map((r, i) => `<tr>
-      <td class="c-muted">${runs.length - i}</td>
-      <td><strong>${esc(r.group || 'All Tests')}</strong></td>
-      <td class="c-muted">${bicon(r.browser)} ${esc(r.browser || 'all')}</td>
-      <td>${sbadge(r.status)}</td>
-      <td class="c-green">${r.passed ?? '—'}</td>
-      <td class="c-red">${r.failed ?? '—'}</td>
-      <td class="c-muted">${r.duration || '—'}</td>
-      <td class="c-muted" style="font-size:12px">${fdate(r.startedAt)}</td>
-      <td class="c-muted">${esc(r.triggeredBy || '—')}</td>
-    </tr>`).join('')}
+    <thead><tr><th>#</th><th>Тип</th><th>Браузер</th><th>Статус</th><th>Час</th><th>Дата</th><th>Хто</th>${isAdmin ? '<th></th>' : ''}</tr></thead>
+    <tbody>${runs.map((r, i) => {
+      const stale = r.status === 'running' && !sseSource;
+      const total = (r.passed ?? 0) + (r.failed ?? 0);
+      const counts = total > 0 ? ` <span style="font-size:11px;color:var(--text2)">${r.passed}/${total}</span>` : '';
+      const badge = stale ? '<span class="badge badge-running" title="Можливо зависло">⚠ зависло?</span>' : sbadge(r.status);
+      return `<tr>
+        <td class="c-muted">${runs.length - i}</td>
+        <td><strong>${esc(stripId(r.group) || 'Всі тести')}</strong></td>
+        <td class="c-muted">${bicon(r.browser)} ${esc(r.browser || 'all')}</td>
+        <td style="white-space:nowrap">${badge}${counts} <button class="at-eye-btn" onclick="showRunLog('${r.id}')" title="Лог запуску">👁</button></td>
+        <td class="c-muted">${r.duration || '—'}</td>
+        <td class="c-muted" style="font-size:12px">${fdate(r.startedAt)}</td>
+        <td class="c-muted">${esc(r.triggeredBy || '—')}</td>
+        ${isAdmin ? `<td><button class="at-eye-btn" onclick="deleteRunById('${r.id}')" title="Видалити запуск" style="color:var(--red)">✕</button></td>` : ''}
+      </tr>`;
+    }).join('')}
     </tbody></table></div>`;
 }
 
@@ -477,10 +699,11 @@ function closeRunModal() { document.getElementById('runModal').classList.add('hi
 async function startRun() {
   const planId = document.getElementById('runPlanSel').value;
   if (!planId) { toast('Select a test plan', 'error'); return; }
+  const headed = !!document.getElementById('runHeadedToggle')?.checked;
   closeRunModal();
   try {
     const plan = plans.find(p => p.id === planId);
-    await api(`/api/plans/${planId}/run`, 'POST', { browser: runBrowser });
+    await api(`/api/plans/${planId}/run`, 'POST', { browser: runBrowser, headed });
     showRunCard(plan?.name || planId, runBrowser);
     connectSSE();
     toast('Run started', 'success');
@@ -492,13 +715,77 @@ async function startRun() {
 function showRunCard(title, browser) {
   document.getElementById('activeRunCard').style.display = 'block';
   document.getElementById('rcTitle').textContent = title;
-  document.getElementById('rcSub').textContent = 'Browser: ' + (browser || 'all');
+  const sub = (!browser || browser === 'all') ? 'Chrome + Firefox' : (browser.charAt(0).toUpperCase() + browser.slice(1));
+  document.getElementById('rcSub').textContent = sub;
   document.getElementById('rcLog').textContent = '';
+  document.getElementById('rcLog').style.display = 'none';
+  document.getElementById('rcTests').innerHTML = '';
+  document.getElementById('rcCounter').textContent = '';
+  document.getElementById('rcLogToggle').textContent = 'Деталі ▸';
+}
+
+function toggleRcLog() {
+  const log = document.getElementById('rcLog');
+  const btn = document.getElementById('rcLogToggle');
+  if (log.style.display === 'none') { log.style.display = 'block'; btn.textContent = 'Деталі ▴'; }
+  else { log.style.display = 'none'; btn.textContent = 'Деталі ▸'; }
+}
+
+function toggleAtCode() {
+  const wrap = document.getElementById('atFileEditorWrap');
+  const btn = document.getElementById('atCodeToggleBtn');
+  if (wrap.style.display === 'none') { wrap.style.display = 'block'; btn.textContent = 'Приховати код ▴'; }
+  else { wrap.style.display = 'none'; btn.textContent = 'Показати код ▸'; }
+}
+
+async function stopCurrentRun() {
+  try {
+    await api('/api/run/stop', 'POST');
+    toast('Запуск зупинено', 'info');
+  } catch(e) { toast(e.message || 'Не вдалось зупинити', 'error'); }
 }
 
 function connectSSE() {
   if (sseSource) { sseSource.close(); sseSource = null; }
   const logEl = document.getElementById('rcLog');
+  const testsEl = document.getElementById('rcTests');
+  const counterEl = document.getElementById('rcCounter');
+  const testMap = new Map();
+  let lineBuffer = '';
+  let passedCnt = 0, totalCnt = 0;
+
+  function parseLine(line) {
+    // Playwright list reporter: "  ✓  [chromium] › ..." or "  ✓  3 [visual] › ..."
+    const m = line.match(/^\s+([✓✗×✘])\s+(?:\d+\s+)?\[([^\]]+)\]\s+›.*?›\s+([^(\n]+?)(?:\s+\([\d.]+(?:ms|s|m)\))?\s*$/);
+    if (!m) return null;
+    const ok = m[1] === '✓';
+    const title = m[3].replace(/\s*\(retry #\d+\)\s*$/, '').trim();
+    const durM = line.match(/\((\d+(?:\.\d+)?(?:ms|s|m))\)\s*$/);
+    return { ok, title, dur: durM ? durM[1] : '' };
+  }
+
+  function renderTest(result) {
+    const { ok, title, dur } = result;
+    const key = title;
+    const cls = ok ? 'rc-ok' : 'rc-fail';
+    const icon = ok ? '✓' : '✗';
+    if (testMap.has(key)) {
+      const row = testMap.get(key);
+      row.className = `rc-test-row ${cls}`;
+      row.querySelector('.rc-icon').textContent = icon;
+      row.querySelector('.rc-dur').textContent = dur;
+    } else {
+      const row = document.createElement('div');
+      row.className = `rc-test-row ${cls}`;
+      row.innerHTML = `<span class="rc-icon">${icon}</span><span class="rc-test-name">${esc(title)}</span><span class="rc-dur">${esc(dur)}</span>`;
+      testsEl.appendChild(row);
+      testsEl.scrollTop = testsEl.scrollHeight;
+      testMap.set(key, row);
+      if (ok) passedCnt++;
+      totalCnt++;
+      counterEl.textContent = `${passedCnt} / ${totalCnt}`;
+    }
+  }
 
   sseSource = new EventSource('/api/run/stream');
   sseSource.onmessage = async (e) => {
@@ -507,130 +794,351 @@ function connectSSE() {
       document.getElementById('activeRunCard').style.display = 'none';
       runs = await api('/api/runs');
       renderRuns();
-      toast('Run completed', 'success');
+      const r = runs[0];
+      if (r) {
+        if (r.status === 'passed' && r.passed > 0) toast(`✅ Всі ${r.passed} тестів пройшли`, 'success');
+        else if (r.status === 'passed' && !r.passed) toast(`❌ Жоден тест не запустився — перевір логи`, 'error');
+        else if (r.status === 'review') toast(`⚠️ ${r.review} ${r.review === 1 ? 'сторінка відрізняється' : 'сторінок відрізняються'} від Figma-макету — дивись нижче`, 'warning');
+        else toast(`❌ ${r.failed} ${r.failed === 1 ? 'тест не пройшов' : 'тестів не пройшло'} — дивись нижче`, 'error');
+        if (r.results?.length) setTimeout(() => {
+          toggleHist(r.id);
+          document.getElementById(`ehist-${r.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 80);
+      }
       return;
     }
     if (e.data === '[IDLE]') { sseSource.close(); sseSource = null; return; }
     try {
-      logEl.textContent += JSON.parse(e.data);
+      const text = JSON.parse(e.data);
+      logEl.textContent += text;
       logEl.scrollTop = logEl.scrollHeight;
+      lineBuffer += text;
+      const parts = lineBuffer.split('\n');
+      lineBuffer = parts.pop();
+      for (const line of parts) {
+        const result = parseLine(line);
+        if (result) renderTest(result);
+      }
     } catch {}
   };
   sseSource.onerror = () => { if (sseSource) { sseSource.close(); sseSource = null; } };
 }
 
+/* ===== RUNS — big play button ===== */
+async function runAll() {
+  if (sseSource) { toast('Вже виконується запуск', 'error'); return; }
+  const browser = document.querySelector('#runAllBpills .bpill.active')?.dataset.b || 'all';
+  const headed = !!document.getElementById('runAllHeaded')?.checked;
+  const btn = document.getElementById('runAllBtn');
+  btn.disabled = true; btn.style.opacity = '.5';
+  try {
+    await api('/api/run', 'POST', { group: 'all', browser, headed });
+    showRunCard('All Tests', browser);
+    connectSSE();
+    runs = await api('/api/runs');
+    renderRuns();
+    toast('Запуск розпочато', 'success');
+  } catch(e) { toast(e.message || 'Failed', 'error'); }
+  finally { btn.disabled = false; btn.style.opacity = ''; }
+}
+
+async function runVisual() {
+  if (sseSource) { toast('Вже виконується запуск', 'error'); return; }
+  const btn = document.getElementById('runVisualBtn');
+  btn.disabled = true; btn.style.opacity = '.5';
+  try {
+    await api('/api/run', 'POST', { group: 'visual', browser: 'all' });
+    showRunCard('Visual', 'all');
+    connectSSE();
+    runs = await api('/api/runs');
+    renderRuns();
+    toast('Visual-запуск розпочато', 'success');
+  } catch(e) { toast(e.message || 'Failed', 'error'); }
+  finally { btn.disabled = false; btn.style.opacity = ''; }
+}
+
 /* ===== PLANS ===== */
+let currentPlanAutotestIds = [];
+let currentPlanTestCases = [];
+
 function renderPlans() {
   const w = document.getElementById('plansWrap');
-  if (!plans.length) { w.innerHTML = '<div class="empty">No plans yet</div>'; return; }
-  const gmap = Object.fromEntries(groups.map(g => [g.id, g.label]));
+  if (!plans.length) {
+    w.innerHTML = '<div class="empty">Немає планів. Натисни "New Plan" щоб створити.</div>';
+    return;
+  }
+  const isAdmin = currentUser?.role === 'admin';
   w.innerHTML = `<div class="tbl-wrap"><table>
-    <thead><tr><th>Name</th><th>Groups</th><th>Browser</th><th>Created</th><th>Actions</th></tr></thead>
-    <tbody>${plans.map(p => {
-      const gl = (p.groups || []).map(id => gmap[id] || id).join(', ') ||
-        '<em style="opacity:.5">No groups</em>';
-      return `<tr style="cursor:pointer" onclick="openPlanDetail('${esc(p.id)}')">
-        <td><strong>${esc(p.name)}</strong></td>
-        <td class="c-muted" style="font-size:13px">${gl}</td>
-        <td class="c-muted">${bicon(p.browser)} ${esc(p.browser || 'all')}</td>
-        <td class="c-muted" style="font-size:12px">${fdate(p.createdAt)}</td>
-        <td onclick="event.stopPropagation()" style="width:1px">
-          <div style="display:flex;gap:6px">
-            <button class="btn btn-primary btn-sm" onclick="runPlanById('${esc(p.id)}')">▶ Run</button>
-            <button class="btn btn-ghost btn-sm" onclick="openPlanDetail('${esc(p.id)}')">Edit</button>
-          </div>
-        </td>
-      </tr>`;
-    }).join('')}
+    <thead><tr><th>Назва</th><th>Тестів</th><th>Створено</th><th>Дії</th></tr></thead>
+    <tbody>${plans.map(p => `<tr style="cursor:pointer" onclick="openPlanDetail('${esc(p.id)}')">
+      <td><strong>${esc(p.name)}</strong></td>
+      <td class="c-muted">${(p.autotestIds || []).length + (p.testCases || []).length}</td>
+      <td class="c-muted" style="font-size:12px">${fdate(p.createdAt)}</td>
+      <td onclick="event.stopPropagation()" style="width:1px;white-space:nowrap">
+        <div style="display:flex;gap:6px;align-items:center">
+          <button class="btn btn-primary btn-sm" onclick="runPlanById('${esc(p.id)}')">▶ Запустити</button>
+          ${isAdmin ? `<button class="btn btn-ghost btn-sm" onclick="deletePlanById('${esc(p.id)}')" style="color:var(--red);border-color:rgba(239,68,68,.3);padding:5px 8px" title="Видалити">✕</button>` : ''}
+        </div>
+      </td>
+    </tr>`).join('')}
     </tbody></table></div>`;
 }
 
 async function openPlanDetail(id) {
-  const plan = await api(`/api/plans/${id}`);
+  const [plan] = await Promise.all([
+    api(`/api/plans/${id}`),
+    autotests.length ? Promise.resolve() : loadAutotests(),
+  ]);
   currentPlanId = id;
+  currentPlanAutotestIds = [...(plan.autotestIds || [])];
+  currentPlanTestCases = [...(plan.testCases || [])];
   document.getElementById('plans-list').style.display = 'none';
   document.getElementById('plans-detail').style.display = 'block';
   document.getElementById('pdName').textContent = plan.name;
-  document.getElementById('pdDesc').textContent = plan.description || '';
-  document.getElementById('pdBrowser').value = plan.browser || 'all';
+  const cnt = currentPlanAutotestIds.length + currentPlanTestCases.length;
+  document.getElementById('pdTestCount').textContent = cnt ? `${cnt} тест${cnt === 1 ? '' : 'и'}` : 'Тестів немає — додай через кнопку нижче';
+  renderPlanTests();
+}
 
-  const sel = new Set(plan.groups || []);
-  document.getElementById('pdGroups').innerHTML = groups.map(g => {
-    const tItems = (g.tests || []).map(t => `<div class="group-test">${esc(t)}</div>`).join('');
-    return `<div class="group-item">
-      <div class="group-hdr">
-        <input type="checkbox" id="pdg-${g.id}" data-gid="${g.id}" ${sel.has(g.id) ? 'checked' : ''}>
-        <label for="pdg-${g.id}" class="group-lbl">${esc(g.label)}</label>
-        <span class="group-count">${(g.tests || []).length} tests</span>
+function renderPlanTests() {
+  const w = document.getElementById('pdTests');
+  const hasAny = currentPlanAutotestIds.length || currentPlanTestCases.length;
+  if (!hasAny) {
+    w.innerHTML = '<div class="empty" style="padding:20px 0">Тести не додані</div>';
+    return;
+  }
+
+  const autoRows = currentPlanAutotestIds.map(tid => {
+    const at = autotests.find(t => t.id === tid);
+    if (!at) return '';
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;background:var(--surface2);margin-bottom:6px">
+      <span style="font-size:11px;background:rgba(79,70,229,.12);color:var(--accent);padding:2px 7px;border-radius:10px;flex-shrink:0">авто</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(at.name)}</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:2px">${esc(at.description || '')}</div>
       </div>
-      ${tItems ? `<div class="group-tests">${tItems}</div>` : ''}
+      <button class="btn btn-ghost btn-sm admin-only" onclick="removePlanTest('${esc(tid)}')" style="display:none;flex-shrink:0;padding:2px 8px;font-size:12px">✕</button>
     </div>`;
   }).join('');
+
+  const manualRows = currentPlanTestCases.map((tc, i) => {
+    const prioColor = tc.priority === 'High' ? 'var(--red)' : tc.priority === 'Medium' ? 'var(--yellow)' : 'var(--text2)';
+    const stepsHtml = tc.steps?.length ? `<div style="margin-top:8px;padding-left:8px;border-left:2px solid var(--border)">
+      ${tc.steps.map((s, si) => `<div style="font-size:12px;color:var(--text2);padding:3px 0">
+        <span style="opacity:.5">${si + 1}.</span> ${esc(s.action)}
+        ${s.expected ? `<span style="color:var(--green);font-size:11px"> → ${esc(s.expected)}</span>` : ''}
+      </div>`).join('')}
+    </div>` : '';
+    return `<details style="border-radius:8px;background:var(--surface2);margin-bottom:6px;overflow:hidden">
+      <summary style="display:flex;align-items:center;gap:10px;padding:8px 12px;cursor:pointer;list-style:none">
+        <span style="font-size:11px;background:rgba(22,163,74,.12);color:var(--green);padding:2px 7px;border-radius:10px;flex-shrink:0">мануал</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(tc.title)}</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:1px">${tc.externalId ? `#${tc.externalId} · ` : ''}${tc.tags ? esc(tc.tags) : ''}</div>
+        </div>
+        ${tc.priority ? `<span style="font-size:11px;color:${prioColor};flex-shrink:0">${esc(tc.priority)}</span>` : ''}
+        <button class="btn btn-ghost btn-sm admin-only" onclick="event.preventDefault();removePlanManualTest(${i})" style="display:none;flex-shrink:0;padding:2px 8px;font-size:12px">✕</button>
+      </summary>
+      <div style="padding:0 12px 10px 12px">
+        ${tc.description ? `<div style="font-size:12px;color:var(--text2);margin-bottom:6px">${esc(tc.description)}</div>` : ''}
+        ${tc.preconditions ? `<div style="font-size:12px;color:var(--text2);margin-bottom:6px"><strong>Передумови:</strong> ${esc(tc.preconditions)}</div>` : ''}
+        ${stepsHtml}
+      </div>
+    </details>`;
+  }).join('');
+
+  w.innerHTML = autoRows + manualRows;
+  if (currentUser?.role === 'admin') {
+    w.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+  }
+}
+
+function removePlanManualTest(idx) {
+  currentPlanTestCases.splice(idx, 1);
+  savePlanTests();
+  renderPlanTests();
+  const cnt = currentPlanAutotestIds.length + currentPlanTestCases.length;
+  document.getElementById('pdTestCount').textContent = `${cnt} тестів`;
+}
+
+function removePlanTest(tid) {
+  currentPlanAutotestIds = currentPlanAutotestIds.filter(id => id !== tid);
+  savePlanTests();
+  renderPlanTests();
+  document.getElementById('pdTestCount').textContent = `${currentPlanAutotestIds.length} тестів`;
+}
+
+async function savePlanTests() {
+  if (!currentPlanId) return;
+  await api(`/api/plans/${currentPlanId}`, 'PUT', { autotestIds: currentPlanAutotestIds, testCases: currentPlanTestCases });
+  const idx = plans.findIndex(p => p.id === currentPlanId);
+  if (idx !== -1) { plans[idx].autotestIds = [...currentPlanAutotestIds]; plans[idx].testCases = [...currentPlanTestCases]; }
 }
 
 function closePlanDetail() {
   document.getElementById('plans-list').style.display = 'block';
   document.getElementById('plans-detail').style.display = 'none';
   currentPlanId = null;
-}
-
-async function savePlanDetail() {
-  if (!currentPlanId) return;
-  const selGroups = [...document.querySelectorAll('#pdGroups input[type=checkbox]:checked')]
-    .map(el => el.dataset.gid);
-  const browser = document.getElementById('pdBrowser').value;
-  await api(`/api/plans/${currentPlanId}`, 'PUT', { groups: selGroups, browser });
-  plans = await api('/api/plans');
-  toast('Saved', 'success');
+  currentPlanAutotestIds = [];
+  currentPlanTestCases = [];
 }
 
 async function runPlanDetail() {
   if (!currentPlanId) return;
-  const plan = plans.find(p => p.id === currentPlanId);
+  if (!currentPlanAutotestIds.length) { toast('Немає тестів у плані', 'error'); return; }
+  const headed = !!document.getElementById('pdHeaded')?.checked;
+  const id = currentPlanId;
   closePlanDetail();
-  navigate('runs');
-  await runPlanById(currentPlanId);
+  navigate('history');
+  try {
+    await api(`/api/plans/${id}/run`, 'POST', { headed });
+    const plan = plans.find(p => p.id === id);
+    showRunCard(plan?.name || id, 'all');
+    connectSSE();
+    runs = await api('/api/runs');
+    renderRuns();
+    toast('Запуск розпочато', 'success');
+  } catch(e) { toast(e.message || 'Failed', 'error'); }
 }
 
 async function deletePlanDetail() {
-  if (!currentPlanId || !confirm('Delete this plan?')) return;
+  if (!currentPlanId || !await showConfirm('Видалити цей план?')) return;
   await api(`/api/plans/${currentPlanId}`, 'DELETE');
   plans = plans.filter(p => p.id !== currentPlanId);
   closePlanDetail();
   renderPlans();
-  toast('Deleted', 'success');
+  toast('Видалено', 'success');
+}
+
+async function deletePlanById(id) {
+  if (!await showConfirm('Видалити цей план?')) return;
+  await api(`/api/plans/${id}`, 'DELETE');
+  plans = plans.filter(p => p.id !== id);
+  renderPlans();
+  toast('Видалено', 'success');
+}
+
+/* ===== XLSX IMPORT ===== */
+let xlsxParsedSuites = [];
+
+function handleXlsxFile(evt) {
+  const file = evt.target.files[0];
+  if (!file) return;
+  evt.target.value = '';
+  if (typeof XLSX === 'undefined') { toast('Бібліотека XLSX не завантажена — перевір з\'єднання', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const wb = XLSX.read(e.target.result, { type: 'array' });
+      const tcSheet = wb.Sheets['Test Cases'];
+      if (!tcSheet) { toast('Аркуш "Test Cases" не знайдено в файлі', 'error'); return; }
+      const rows = XLSX.utils.sheet_to_json(tcSheet);
+
+      const stepsMap = {};
+      const stSheet = wb.Sheets['classic'];
+      if (stSheet) {
+        for (const s of XLSX.utils.sheet_to_json(stSheet)) {
+          const id = String(s['Case ID']);
+          if (!stepsMap[id]) stepsMap[id] = [];
+          if (s['Action'] || s['Expected Result'])
+            stepsMap[id].push({ action: s['Action'] || '', expected: s['Expected Result'] || '' });
+        }
+      }
+
+      const suitesMap = {};
+      for (const row of rows) {
+        const suite = row['Suite Title'] || 'Без категорії';
+        if (!suitesMap[suite]) suitesMap[suite] = [];
+        suitesMap[suite].push({
+          externalId: String(row['ID']),
+          title: row['Title'] || '',
+          description: row['Description'] || '',
+          preconditions: row['Preconditions'] || '',
+          priority: row['Priority'] || '',
+          severity: row['Severity'] || '',
+          type: row['Type'] || '',
+          tags: row['Tags'] || '',
+          steps: stepsMap[String(row['ID'])] || []
+        });
+      }
+
+      xlsxParsedSuites = Object.entries(suitesMap).map(([name, cases]) => ({ name, cases, selected: true }));
+      if (!xlsxParsedSuites.length) { toast('Тест-кейсів не знайдено', 'error'); return; }
+      renderXlsxPreview();
+      document.getElementById('xlsxImportModal').classList.remove('hidden');
+    } catch(err) { toast('Помилка читання файлу: ' + err.message, 'error'); }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function renderXlsxPreview() {
+  const existing = new Set(plans.map(p => p.name));
+  document.getElementById('xlsxPreview').innerHTML = xlsxParsedSuites.map((suite, i) => {
+    const dup = existing.has(suite.name);
+    return `<div style="border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden">
+      <div style="display:flex;align-items:center;gap:10px;padding:11px 16px;background:var(--surface2)">
+        <input type="checkbox" ${suite.selected ? 'checked' : ''} style="width:15px;height:15px;cursor:pointer;flex-shrink:0"
+          onchange="xlsxParsedSuites[${i}].selected=this.checked;updateXlsxCount()">
+        <strong style="flex:1;font-size:14px">${esc(suite.name)}</strong>
+        <span style="font-size:12px;color:var(--text2)">${suite.cases.length} тест${suite.cases.length===1?'':'и'}</span>
+        ${dup ? '<span style="font-size:11px;color:var(--yellow);background:rgba(245,158,11,.15);padding:2px 8px;border-radius:10px;white-space:nowrap">вже існує</span>' : ''}
+      </div>
+      <div style="padding:6px 16px 8px">
+        ${suite.cases.map(c=>`<div style="font-size:13px;padding:4px 0;display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--border)">
+          <span style="font-size:11px;color:var(--text2);flex-shrink:0">#${c.externalId}</span>
+          <span style="flex:1;color:var(--text)">${esc(c.title)}</span>
+          ${c.priority?`<span style="font-size:11px;color:var(--text2);flex-shrink:0">${esc(c.priority)}</span>`:''}
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  updateXlsxCount();
+}
+
+function updateXlsxCount() {
+  const n = xlsxParsedSuites.filter(s => s.selected).length;
+  document.getElementById('xlsxSelCount').textContent = n ? `Обрано ${n} план${n===1?'':'и'}` : 'Нічого не вибрано';
+  document.getElementById('xlsxImportBtn').disabled = n === 0;
+}
+
+function closeXlsxModal() {
+  document.getElementById('xlsxImportModal').classList.add('hidden');
+  xlsxParsedSuites = [];
+}
+
+async function confirmXlsxImport() {
+  const selected = xlsxParsedSuites.filter(s => s.selected);
+  if (!selected.length) return;
+  const btn = document.getElementById('xlsxImportBtn');
+  btn.disabled = true; btn.textContent = 'Імпортується…';
+  try {
+    const result = await api('/api/plans/import', 'POST', { suites: selected.map(s => ({ name: s.name, testCases: s.cases })) });
+    closeXlsxModal();
+    plans = await api('/api/plans');
+    renderPlans();
+    toast(`Імпортовано ${result.created} ${result.created===1?'план':'планів'}`, 'success');
+  } catch(err) {
+    toast(err.message || 'Помилка імпорту', 'error');
+    btn.disabled = false; btn.textContent = 'Імпортувати';
+  }
 }
 
 async function runPlanById(id) {
   const plan = plans.find(p => p.id === id);
-  if (!plan?.groups?.length) { toast('This plan has no test groups configured', 'error'); return; }
+  if (!plan?.autotestIds?.length) { toast('У плані немає тестів', 'error'); return; }
   try {
-    await api(`/api/plans/${id}/run`, 'POST', { browser: plan.browser || 'all' });
-    showRunCard(plan.name, plan.browser || 'all');
+    await api(`/api/plans/${id}/run`, 'POST', {});
+    showRunCard(plan.name, 'all');
     connectSSE();
-    navigate('runs');
+    navigate('history');
     runs = await api('/api/runs');
     renderRuns();
-    toast('Run started', 'success');
+    toast('Запуск розпочато', 'success');
   } catch(e) { toast(e.message || 'Failed', 'error'); }
 }
 
-async function openNewPlanModal() {
+function openNewPlanModal() {
   document.getElementById('npName').value = '';
-  document.getElementById('npDesc').value = '';
-  document.querySelectorAll('#npBpills .bpill').forEach(b =>
-    b.classList.toggle('active', b.dataset.b === 'chrome'));
-  document.getElementById('npGroups').innerHTML = groups.map(g => {
-    const tItems = (g.tests || []).map(t => `<div class="group-test">${esc(t)}</div>`).join('');
-    return `<div class="group-item">
-      <div class="group-hdr">
-        <input type="checkbox" id="npg-${g.id}" data-gid="${g.id}">
-        <label for="npg-${g.id}" class="group-lbl">${esc(g.label)}</label>
-        <span class="group-count">${(g.tests || []).length} tests</span>
-      </div>
-      ${tItems ? `<div class="group-tests">${tItems}</div>` : ''}
-    </div>`;
-  }).join('');
   document.getElementById('newPlanModal').classList.remove('hidden');
   setTimeout(() => document.getElementById('npName').focus(), 50);
 }
@@ -638,15 +1146,67 @@ function closeNewPlanModal() { document.getElementById('newPlanModal').classList
 
 async function createPlan() {
   const name = document.getElementById('npName').value.trim();
-  if (!name) { toast('Name required', 'error'); return; }
-  const selGroups = [...document.querySelectorAll('#npGroups input:checked')].map(el => el.dataset.gid);
-  const browser = document.querySelector('#npBpills .bpill.active')?.dataset.b || 'chrome';
-  const desc = document.getElementById('npDesc').value.trim();
-  const plan = await api('/api/plans', 'POST', { name, description: desc, browser, groups: selGroups });
+  if (!name) { toast("Введи назву плану", 'error'); return; }
+  const plan = await api('/api/plans', 'POST', { name });
   plans.push(plan);
   closeNewPlanModal();
   renderPlans();
-  toast('Plan created', 'success');
+  openPlanDetail(plan.id);
+  toast('План створено', 'success');
+}
+
+/* ===== ADD TESTS MODAL ===== */
+async function openAddTestsModal() {
+  if (!autotests.length) autotests = await api('/api/autotests');
+  document.getElementById('addTestsSearch').value = '';
+  renderAddTestsList();
+  document.getElementById('addTestsModal').classList.remove('hidden');
+}
+function closeAddTestsModal() { document.getElementById('addTestsModal').classList.add('hidden'); }
+
+function renderAddTestsList() {
+  const q = document.getElementById('addTestsSearch').value.toLowerCase();
+  const list = q ? autotests.filter(t =>
+    t.name.toLowerCase().includes(q) || (t.description || '').toLowerCase().includes(q)
+  ) : autotests;
+  const w = document.getElementById('addTestsList');
+  if (!list.length) { w.innerHTML = '<div class="empty">Нічого не знайдено</div>'; return; }
+  w.innerHTML = list.map(t => {
+    const checked = currentPlanAutotestIds.includes(t.id) ? 'checked' : '';
+    return `<label style="display:flex;align-items:center;gap:10px;padding:7px 4px;cursor:pointer;border-bottom:1px solid var(--border)">
+      <input type="checkbox" data-tid="${esc(t.id)}" ${checked} style="width:15px;height:15px;flex-shrink:0;cursor:pointer">
+      <div style="min-width:0">
+        <div style="font-size:13px;font-weight:500">${esc(t.name)}</div>
+        <div style="font-size:11px;color:var(--text2)">${esc(t.description || '')}</div>
+      </div>
+    </label>`;
+  }).join('');
+}
+
+async function saveAddedTests() {
+  const checked = [...document.querySelectorAll('#addTestsList input[type=checkbox]:checked')];
+  const unchecked = [...document.querySelectorAll('#addTestsList input[type=checkbox]:not(:checked)')];
+  const q = document.getElementById('addTestsSearch').value.toLowerCase();
+
+  // Add newly checked ids
+  for (const cb of checked) {
+    const tid = cb.dataset.tid;
+    if (!currentPlanAutotestIds.includes(tid)) currentPlanAutotestIds.push(tid);
+  }
+  // Remove unchecked that are visible in current search results
+  const uncheckedIds = new Set(unchecked.map(cb => cb.dataset.tid));
+  if (q) {
+    // Only remove unchecked visible items
+    currentPlanAutotestIds = currentPlanAutotestIds.filter(id => !uncheckedIds.has(id));
+  } else {
+    currentPlanAutotestIds = currentPlanAutotestIds.filter(id => !uncheckedIds.has(id));
+  }
+
+  await savePlanTests();
+  document.getElementById('pdTestCount').textContent = `${currentPlanAutotestIds.length} тестів`;
+  renderPlanTests();
+  closeAddTestsModal();
+  toast('Тести збережено', 'success');
 }
 
 /* ===== AUTOTESTS ===== */
@@ -658,26 +1218,65 @@ async function loadAutotests() {
 
 function renderAutotests() {
   const w = document.getElementById('atWrap');
-  if (!autotests.length) {
-    w.innerHTML = '<div class="empty"><div class="empty-ico">⌨</div>No autotests yet. Click New Autotest to create one.</div>';
+  const q = (document.getElementById('atSearch')?.value || '').toLowerCase();
+  const list = q ? autotests.filter(t =>
+    t.name.toLowerCase().includes(q) || (t.description || '').toLowerCase().includes(q)
+  ) : autotests;
+  if (!list.length) {
+    w.innerHTML = q
+      ? `<div class="empty">Нічого не знайдено за "${esc(q)}"</div>`
+      : '<div class="empty"><div class="empty-ico">⌨</div>Автотестів ще немає.</div>';
     return;
   }
-  w.innerHTML = `<div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Name</th><th>Language</th><th>Created</th><th>Modified</th><th>Actions</th></tr></thead>
-    <tbody>${autotests.map((t, i) => `<tr style="cursor:pointer" onclick="openAtDetail('${esc(t.id)}')">
-      <td class="c-muted">${i + 1}</td>
-      <td><strong>${esc(t.name)}</strong></td>
-      <td class="c-muted">${esc(t.language || 'javascript')}</td>
-      <td class="c-muted" style="font-size:12px">${fdate(t.createdAt)}</td>
-      <td class="c-muted" style="font-size:12px">${fdate(t.updatedAt)}</td>
-      <td onclick="event.stopPropagation()" style="width:1px">
-        <div style="display:flex;gap:6px">
-          <button class="btn btn-ghost btn-sm" onclick="openAtDetail('${esc(t.id)}')">Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteAt('${esc(t.id)}')">Delete</button>
+  const fmtRunTime = (iso) => {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return d.toLocaleDateString('uk-UA', { day:'numeric', month:'short' })
+      + ' ' + d.toLocaleTimeString('uk-UA', { hour:'2-digit', minute:'2-digit' });
+  };
+  const statusBadge = (t) => {
+    const lr = t.lastRun || atLastRun[t.id];
+    if (!lr) return `<span class="at-run-status at-status-none">● Ще не запускали</span>`;
+    const s = typeof lr === 'string' ? lr : lr.status;
+    const time = typeof lr === 'object' && lr.time ? ' · ' + fmtRunTime(lr.time) : '';
+    const hasMedia = typeof lr === 'object' && lr !== null;
+    const eye = hasMedia ? ` <button class="at-eye-btn" onclick="event.stopPropagation();showLastOutput('${t.id}')" title="Переглянути запис останнього запуску">👁</button>` : '';
+    if (s === 'passed') return `<span class="at-run-status at-status-ok">✓ Пройдено${time}${eye}</span>`;
+    if (s === 'failed') return `<span class="at-run-status at-status-fail">✗ Не пройдено${time}${eye}</span>`;
+    return `<span class="at-run-status at-status-warn">⏱ Тайм-аут${time}${eye}</span>`;
+  };
+  const whatTestedHtml = (t) => {
+    const items = t.whatsTested || [];
+    if (!items.length) return '';
+    return `<div class="at-what-title">Що тестується</div>
+      <ul class="at-what-list">${items.map(i => `<li>${esc(i)}</li>`).join('')}</ul>`;
+  };
+  w.innerHTML = `<div class="at-cards">${list.map(t => `
+    <div class="at-card" id="atcard-${esc(t.id)}">
+      <div class="at-card-hdr" onclick="toggleAtDesc('${esc(t.id)}')">
+        <div class="at-card-main">
+          <div class="at-card-name">${esc(stripId(t.name))}</div>
+          ${statusBadge(t)}
         </div>
-      </td>
-    </tr>`).join('')}
-    </tbody></table></div>`;
+        <div class="at-card-actions" onclick="event.stopPropagation()">
+          <button class="btn btn-primary btn-sm" onclick="runAtById('${esc(t.id)}')">▶ Запустити</button>
+        </div>
+        <div class="at-expand-arrow" id="atarrow-${esc(t.id)}">▾</div>
+      </div>
+      <div class="at-card-body" id="atbody-${esc(t.id)}" style="display:none">
+        ${t.description ? `<p class="at-card-desc">${esc(t.description)}</p>` : ''}
+        ${whatTestedHtml(t)}
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function toggleAtDesc(id) {
+  const body  = document.getElementById(`atbody-${id}`);
+  const arrow = document.getElementById(`atarrow-${id}`);
+  if (!body) return;
+  const open = body.style.display === 'none';
+  body.style.display  = open ? 'block' : 'none';
+  if (arrow) arrow.classList.toggle('open', open);
 }
 
 function initMonaco() {
@@ -692,31 +1291,53 @@ async function openAtDetail(id) {
   document.getElementById('at-list').style.display = 'none';
   document.getElementById('at-detail').style.display = 'block';
   document.getElementById('atRunResult').style.display = 'none';
-  document.getElementById('atName').value = at.name;
-  document.getElementById('atLang').value = at.language || 'javascript';
 
-  if (monacoEditor) { monacoEditor.dispose(); monacoEditor = null; }
+  const isFileBased = !!(at.specFile && at.testName);
+  document.getElementById('atFileInfo').style.display   = isFileBased ? 'block' : 'none';
+  document.getElementById('atCodeEditor').style.display = isFileBased ? 'none'  : 'block';
 
-  const spawnEditor = () => {
-    const lang = (at.language || 'javascript') === 'python' ? 'python' : 'javascript';
-    monacoEditor = monaco.editor.create(document.getElementById('monacoContainer'), {
-      value: at.code || defaultCode(at.name),
-      language: lang,
-      theme: 'vs-dark',
-      minimap: { enabled: false },
-      fontSize: 13,
-      scrollBeyondLastLine: false,
-      wordWrap: 'on',
-      automaticLayout: true,
-      padding: { top: 12, bottom: 12 },
-    });
-  };
+  if (isFileBased) {
+    document.getElementById('atFileTitle').textContent = stripId(at.name);
+    document.getElementById('atFileGroup').textContent = stripId(at.description || '');
+    document.getElementById('atFileSpec').textContent = at.specFile || '';
+    document.getElementById('atFileEditorWrap').style.display = 'none';
+    document.getElementById('atCodeToggleBtn').textContent = 'Показати код ▸';
 
-  if (monacoReady) {
-    spawnEditor();
+    if (monacoEditor) { monacoEditor.dispose(); monacoEditor = null; }
+    const spawnFileEditor = () => {
+      monacoEditor = monaco.editor.create(document.getElementById('atFileMonaco'), {
+        value: at.code || '// code not available',
+        language: 'javascript', theme: 'vs', minimap: { enabled: false },
+        fontSize: 13, scrollBeyondLastLine: false, wordWrap: 'on',
+        automaticLayout: true, padding: { top: 12, bottom: 12 },
+        readOnly: true,
+      });
+    };
+    if (monacoReady) { spawnFileEditor(); }
+    else {
+      require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs' } });
+      require(['vs/editor/editor.main'], () => { monacoReady = true; spawnFileEditor(); });
+    }
   } else {
-    require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs' } });
-    require(['vs/editor/editor.main'], () => { monacoReady = true; spawnEditor(); });
+    document.getElementById('atName').value = at.name;
+    document.getElementById('atDesc').value = at.description || '';
+    document.getElementById('atLang').value = at.language || 'javascript';
+
+    if (monacoEditor) { monacoEditor.dispose(); monacoEditor = null; }
+    const spawnEditor = () => {
+      const lang = (at.language || 'javascript') === 'python' ? 'python' : 'javascript';
+      monacoEditor = monaco.editor.create(document.getElementById('monacoContainer'), {
+        value: at.code || defaultCode(at.name),
+        language: lang, theme: 'vs-dark', minimap: { enabled: false },
+        fontSize: 13, scrollBeyondLastLine: false, wordWrap: 'on',
+        automaticLayout: true, padding: { top: 12, bottom: 12 },
+      });
+    };
+    if (monacoReady) { spawnEditor(); }
+    else {
+      require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs' } });
+      require(['vs/editor/editor.main'], () => { monacoReady = true; spawnEditor(); });
+    }
   }
 }
 
@@ -733,50 +1354,200 @@ function updateEditorLang() {
   monaco.editor.setModelLanguage(monacoEditor.getModel(), lang === 'python' ? 'python' : 'javascript');
 }
 
-async function createAutotest() {
-  const name = prompt('Autotest name:');
-  if (!name?.trim()) return;
-  const at = await api('/api/autotests', 'POST', { name: name.trim() });
-  autotests.unshift(at);
-  renderAutotests();
-  openAtDetail(at.id);
+function createAutotest() {
+  document.getElementById('newAtName').value = '';
+  document.getElementById('newAtModal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('newAtName').focus(), 50);
 }
 
-async function saveAutotest() {
+function closeNewAtModal() {
+  document.getElementById('newAtModal').classList.add('hidden');
+}
+
+async function submitNewAt() {
+  const name = document.getElementById('newAtName').value.trim();
+  if (!name) { toast('Name required', 'error'); return; }
+  closeNewAtModal();
+  try {
+    const at = await api('/api/autotests', 'POST', { name });
+    autotests.unshift(at);
+    renderAutotests();
+    openAtDetail(at.id);
+  } catch(e) { toast(e.message || 'Failed to create', 'error'); }
+}
+
+async function saveAutotest(silent = false) {
   if (!currentAtId) return;
   const name = document.getElementById('atName').value.trim();
+  const description = document.getElementById('atDesc').value;
   const language = document.getElementById('atLang').value;
   const code = monacoEditor ? monacoEditor.getValue() : '';
-  const updated = await api(`/api/autotests/${currentAtId}`, 'PUT', { name, language, code });
+  const updated = await api(`/api/autotests/${currentAtId}`, 'PUT', { name, description, language, code });
   const idx = autotests.findIndex(t => t.id === currentAtId);
   if (idx !== -1) autotests[idx] = updated;
-  toast('Saved', 'success');
+  if (!silent) toast('Saved', 'success');
+}
+
+function humanizeError(msg) {
+  if (/Executable doesn't exist/.test(msg) || /browserType\.launch/.test(msg)) {
+    const b = msg.match(/ms-playwright\/(\w+)-/)?.[1] || 'браузер';
+    return `${b} не встановлений на цьому комп'ютері`;
+  }
+  if (/Test timeout of (\d+)ms exceeded/.test(msg)) {
+    const sec = (+msg.match(/(\d+)ms/)[1] / 1000).toFixed(0);
+    return `Тест не завершився за ${sec} секунд (timeout)`;
+  }
+  if (/net::ERR_NAME_NOT_RESOLVED|net::ERR_CONNECTION_REFUSED|net::ERR_INTERNET_DISCONNECTED/.test(msg))
+    return 'Сайт недоступний — перевір підключення або URL';
+  if (/net::ERR_/.test(msg)) return 'Помилка мережі — сайт не відповів';
+  if (/expect\(received\)/.test(msg) || /Expected.*Received/.test(msg))
+    return 'Очікуваний результат не збігся з реальним';
+  if (/waiting for locator|Locator/.test(msg)) return 'Елемент не знайдений на сторінці';
+  if (/page\.goto|Navigation/.test(msg)) return 'Не вдалося перейти на сторінку';
+  return msg.replace(/\/Users\/\S+\//g, '…/').replace(/\s+at\s+.+/g, '').slice(0, 120);
+}
+
+function parseFailureReasons(text) {
+  const reasons = [];
+  const parts = text.split(/\n\s+\d+\) /);
+  for (let i = 1; i < parts.length; i++) {
+    const lines = parts[i].split('\n').map(l => l.trim()).filter(Boolean);
+    const browserM = (lines[0] || '').match(/\[(desktop-\w+|mobile-\w+)\]/);
+    const browser = browserM ? browserM[1].replace('desktop-', '').replace('mobile-', '') : '';
+    let msg = '';
+    for (let j = 1; j < Math.min(lines.length, 20); j++) {
+      const l = lines[j];
+      if (!l || l.startsWith('at ') || l.startsWith('=') || l.match(/^-{3,}/)) continue;
+      msg = humanizeError(l.replace(/^Error:\s*/, ''));
+      break;
+    }
+    if (browser || msg) reasons.push({ browser, msg });
+  }
+  return reasons;
+}
+
+function showRunSummary(status, out, _vf) {
+  const sumEl = document.getElementById('atRunSummary');
+  if (status === 'timeout') {
+    sumEl.style.cssText = 'display:block;margin-top:10px;padding:10px 16px;border-radius:8px;font-size:14px;background:rgba(234,179,8,.15);color:#eab308';
+    sumEl.textContent = '⏱ Час вийшов — тест не завершився';
+    if (currentAtId) { atLastRun[currentAtId] = { status: 'timeout', time: new Date().toISOString(), output: out, videoFile: _vf }; renderAutotests(); }
+    return;
+  }
+  const passedM = out.match(/(\d+)\s+passed/);
+  const failedM = out.match(/(\d+)\s+failed/);
+  const passed = passedM ? +passedM[1] : 0;
+  const failed = failedM ? +failedM[1] : 0;
+  if (failed === 0 && passed > 0) {
+    sumEl.style.cssText = 'display:block;margin-top:10px;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:600;background:rgba(34,197,94,.15);color:#22c55e';
+    sumEl.textContent = '✓ Пройдено';
+    if (currentAtId) { atLastRun[currentAtId] = { status: 'passed', time: new Date().toISOString(), output: out, videoFile: _vf }; renderAutotests(); }
+  } else {
+    const reasons = parseFailureReasons(out);
+    let html = `<div style="font-weight:600;margin-bottom:${reasons.length ? 8 : 0}px">✗ ${passed > 0 ? `Пройшло ${passed}, не пройшло ${failed}` : 'Не пройдено'}</div>`;
+    for (const r of reasons)
+      html += `<div style="font-size:13px;margin-top:4px;opacity:.9">${r.browser ? `<span style="font-weight:600">${r.browser}:</span> ` : ''}${esc(r.msg || 'невідома помилка')}</div>`;
+    sumEl.style.cssText = 'display:block;margin-top:10px;padding:10px 16px;border-radius:8px;background:rgba(239,68,68,.15);color:#ef4444';
+    sumEl.innerHTML = html;
+    if (currentAtId) { atLastRun[currentAtId] = { status: 'failed', time: new Date().toISOString(), output: out, videoFile: _vf }; renderAutotests(); }
+  }
+}
+
+function showLastOutput(id) {
+  const t = autotests.find(x => x.id === id);
+  if (!t) return;
+  const lr = atLastRun[id] || t.lastRun;
+  if (!lr) return;
+  const s = typeof lr === 'string' ? lr : lr.status;
+  const statusLabel = s === 'passed' ? '✓ Пройдено' : s === 'failed' ? '✗ Не пройдено' : '⏱ Тайм-аут';
+  const statusColor = s === 'passed' ? '#22c55e' : s === 'failed' ? '#ef4444' : '#eab308';
+  const timeStr = lr.time ? ` · ${new Date(lr.time).toLocaleDateString('uk-UA',{day:'numeric',month:'short'})} ${new Date(lr.time).toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})}` : '';
+  document.getElementById('logViewTitle').textContent = t.name.replace(/^\[[\w-]+\]\s*/,'');
+  document.getElementById('logViewStatus').innerHTML = `<span style="color:${statusColor};font-weight:600">${statusLabel}</span><span style="color:var(--text2)">${timeStr}</span>`;
+  const body = document.getElementById('logViewBody');
+  if (lr.videoFile) {
+    body.innerHTML = `<video id="logViewVideo" controls autoplay playsinline
+      style="width:100%;max-height:58vh;border-radius:8px;background:#000;display:block"
+      src="/api/autotests/${encodeURIComponent(id)}/video">
+      Ваш браузер не підтримує відео.
+    </video>
+    ${lr.output ? `<details style="margin-top:10px"><summary style="cursor:pointer;font-size:12px;color:var(--text2);user-select:none">Показати лог</summary><pre class="log" style="margin-top:8px;height:160px">${esc(lr.output)}</pre></details>` : ''}`;
+  } else {
+    body.innerHTML = `<pre class="log" id="logViewPre" style="height:auto;min-height:200px;max-height:60vh;margin:0">${esc(lr.output || '(вивід не збережено)')}</pre>`;
+  }
+  document.getElementById('logViewModal').classList.remove('hidden');
+}
+
+function closeLogView() {
+  document.querySelectorAll('#logViewVideoPane video, #logViewBody video').forEach(v => { v.pause(); v.src = ''; });
+  document.getElementById('logViewModal').classList.add('hidden');
 }
 
 async function runAutotestNow() {
   if (!currentAtId) return;
-  await saveAutotest();
-  const btn = document.getElementById('atRunBtn');
+  const at = autotests.find(t => t.id === currentAtId);
+  const isFileBased = !!(at?.specFile && at?.testName);
+  if (!isFileBased) await saveAutotest(true);
+  const btn = document.getElementById(isFileBased ? 'atRunBtn' : 'atRunBtnCode');
   btn.disabled = true; btn.textContent = '⏳ Running…';
   const logEl = document.getElementById('atRunLog');
   document.getElementById('atRunResult').style.display = 'block';
-  logEl.textContent = 'Running autotest…\n';
+  logEl.textContent = '';
+  document.getElementById('atRunSummary').style.display = 'none';
+  const headed = !!(document.getElementById('atHeadedToggle')?.checked || document.getElementById('atHeadedToggleCode')?.checked);
+  let fullOutput = '';
   try {
-    const res = await api(`/api/autotests/${currentAtId}/run`, 'POST', {});
-    logEl.textContent = res.output || '(no output)';
-    logEl.scrollTop = logEl.scrollHeight;
-    toast(res.status === 'passed' ? '✓ Test passed' : '✗ Test failed',
-      res.status === 'passed' ? 'success' : 'error');
+    const response = await fetch(`/api/autotests/${currentAtId}/run`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ headed }),
+    });
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || `Помилка ${response.status}`);
+    }
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop();
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        try {
+          const ev = JSON.parse(line.slice(6));
+          if (ev.type === 'output') {
+            fullOutput += ev.text;
+            logEl.textContent = fullOutput;
+            logEl.scrollTop = logEl.scrollHeight;
+          } else if (ev.type === 'done') {
+            showRunSummary(ev.status, ev.output || fullOutput, ev.videoFile || null);
+          }
+        } catch {}
+      }
+    }
   } catch(e) {
     logEl.textContent = e.message || 'Run failed';
-    toast('Run failed', 'error');
+    document.getElementById('atRunSummary').style.display = 'none';
+    toast('Запуск не вдався', 'error');
   } finally {
-    btn.disabled = false; btn.textContent = '▶ Run';
+    btn.disabled = false; btn.textContent = '▶ Запустити';
   }
 }
 
+async function runAtById(id) {
+  const t = autotests.find(t => t.id === id);
+  if (!t) return;
+  openAtDetail(id);
+  await new Promise(r => setTimeout(r, 300));
+  runAutotestNow();
+}
+
 async function deleteAt(id) {
-  if (!confirm('Delete this autotest?')) return;
+  if (!await showConfirm('Delete this autotest?')) return;
   await api(`/api/autotests/${id}`, 'DELETE');
   autotests = autotests.filter(t => t.id !== id);
   renderAutotests();
@@ -784,7 +1555,7 @@ async function deleteAt(id) {
 }
 
 async function deleteAtCurrent() {
-  if (!currentAtId || !confirm('Delete this autotest?')) return;
+  if (!currentAtId || !await showConfirm('Delete this autotest?')) return;
   await api(`/api/autotests/${currentAtId}`, 'DELETE');
   autotests = autotests.filter(t => t.id !== currentAtId);
   closeAtDetail();
@@ -792,48 +1563,115 @@ async function deleteAtCurrent() {
   toast('Deleted', 'success');
 }
 
-/* ===== HISTORY ===== */
-async function loadHistory() {
-  const allRuns = await api('/api/runs');
-  renderHistory(allRuns);
+/* ===== USERS ===== */
+async function loadUsers() {
+  const users = await api('/api/users');
+  renderUsers(users);
 }
 
+function renderUsers(users) {
+  const w = document.getElementById('usersWrap');
+  if (!users.length) { w.innerHTML = '<div class="empty">Користувачів немає</div>'; return; }
+  w.innerHTML = `<div class="tbl-wrap"><table>
+    <thead><tr><th>Користувач</th><th>Роль</th><th>Може запускати автотести</th></tr></thead>
+    <tbody>${users.map(u => {
+      const isAdmin = u.role === 'admin';
+      const badge = isAdmin
+        ? '<span class="badge badge-passed">admin</span>'
+        : '<span class="badge" style="background:rgba(139,149,169,.12);color:var(--text2)">user</span>';
+      return `<tr>
+        <td><strong>${esc(u.username)}</strong></td>
+        <td>${badge}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px">
+            <label class="sw" title="${isAdmin ? 'Адміни мають повний доступ завжди' : ''}">
+              <input type="checkbox" ${u.canRunAutotests ? 'checked' : ''} ${isAdmin ? 'disabled' : ''}
+                onchange="toggleUserPerm('${esc(u.username)}', this.checked)">
+              <span class="sw-track"></span>
+            </label>
+            <span style="font-size:13px;color:var(--text2)">${isAdmin ? 'Завжди' : (u.canRunAutotests ? 'Увімкнено' : 'Вимкнено')}</span>
+          </div>
+        </td>
+      </tr>`;
+    }).join('')}
+    </tbody></table></div>`;
+}
+
+async function toggleUserPerm(username, value) {
+  try {
+    await api(`/api/users/${encodeURIComponent(username)}`, 'PUT', { canRunAutotests: value });
+    toast(`${username}: ${value ? 'доступ надано' : 'доступ вимкнено'}`, value ? 'success' : 'info');
+    const users = await api('/api/users');
+    renderUsers(users);
+  } catch(e) { toast(e.message || 'Failed to update', 'error'); }
+}
+
+/* ===== HISTORY (visual — legacy, kept for reference) ===== */
 function renderHistory(allRuns) {
   const w = document.getElementById('histWrap');
+  if (!w) return;
   if (!allRuns.length) { w.innerHTML = '<div class="empty">No history yet</div>'; return; }
 
   let tbody = '';
   allRuns.forEach((r, i) => {
     const hasRes = r.results && r.results.length > 0;
+    const total = (r.passed ?? 0) + (r.failed ?? 0);
+    const counts = total > 0 ? ` <span style="font-size:11px;color:var(--text2)">${r.passed}/${total}</span>` : '';
     tbody += `<tr class="${hasRes ? 'expandable' : ''}" onclick="${hasRes ? `toggleHist('${r.id}')` : ''}">
       <td class="c-muted">${allRuns.length - i}</td>
       <td>
-        <strong>${esc(r.group || 'All Tests')}</strong>
+        <strong>${esc(stripId(r.group) || 'Всі тести')}</strong>
         ${hasRes ? `<span class="exc" id="exc-${r.id}"> ▶</span>` : ''}
       </td>
       <td class="c-muted">${bicon(r.browser)} ${esc(r.browser || 'all')}</td>
-      <td>${sbadge(r.status)}</td>
-      <td class="c-green">${r.passed ?? '—'}</td>
-      <td class="c-red">${r.failed ?? '—'}</td>
+      <td style="white-space:nowrap">${sbadge(r.status)}${counts} <button class="at-eye-btn" onclick="event.stopPropagation();showRunLog('${r.id}')" title="Лог запуску">👁</button></td>
       <td class="c-muted">${r.duration || '—'}</td>
       <td class="c-muted" style="font-size:12px">${fdate(r.startedAt)}</td>
       <td class="c-muted">${esc(r.triggeredBy || '—')}</td>
     </tr>`;
 
     if (hasRes) {
-      const tRows = r.results.map(t => `<tr>
-        <td>${t.status === 'passed'
-          ? '<span class="c-green">✓</span>'
-          : '<span class="c-red">✗</span>'}</td>
-        <td style="font-size:13px">${esc(t.title || '')}</td>
-        <td class="c-muted" style="font-size:12px">${esc(t.browser || '')}</td>
-        <td class="c-muted" style="font-size:12px">${esc(t.duration || '')}</td>
-      </tr>`).join('');
+      const tRows = r.results.map(t => {
+        const icon = t.status === 'passed' ? '<span class="c-green">✓</span>'
+          : (t.status === 'design-mismatch' || t.status === 'no-baseline') ? '<span class="c-yellow">⚠</span>'
+          : '<span class="c-red">✗</span>';
+        const row = `<tr>
+          <td>${icon}</td>
+          <td style="font-size:13px">${esc(t.title || '')}</td>
+          <td class="c-muted" style="font-size:12px">${esc(t.browser || '')}</td>
+          <td class="c-muted" style="font-size:12px">${esc(t.duration || '')}</td>
+        </tr>`;
+        if (!t.visualDiff) return row;
+        const vd = t.visualDiff;
+        const thumb = (label, src) => !src ? '' : `
+          <div>
+            <div style="font-size:11px;color:var(--text2);margin-bottom:4px">${label}</div>
+            <img src="${src}" style="width:160px;border:1px solid var(--border);border-radius:4px;cursor:pointer;display:block" onclick="openLightbox('${src}')">
+          </div>`;
+        const sizeLine = t.status === 'design-mismatch'
+          ? `<div style="font-size:12px;color:var(--text2);margin-bottom:10px">Макет: ${esc(vd.expectedSize)} · Сайт: ${esc(vd.actualSize)} · Відрізняється ${vd.diffPercent}% пікселів</div>`
+          : '';
+        const thumbs = t.status === 'design-mismatch'
+          ? `${thumb('Очікувано (Figma)', vd.expected)}${thumb('Отримано (сайт)', vd.actual)}${thumb('Різниця', vd.diff)}`
+          : thumb('Новий скрін сайту', vd.actual);
+        return row + `<tr>
+          <td></td>
+          <td colspan="3" style="padding:0 10px 16px">
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px">
+              <div style="font-size:13px;margin-bottom:4px">${esc(vd.message)}</div>
+              ${sizeLine}
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:${sizeLine ? '0' : '10px'}">
+                ${thumbs}
+              </div>
+            </div>
+          </td>
+        </tr>`;
+      }).join('');
       tbody += `<tr class="expand-row" id="ehist-${r.id}" style="display:none">
-        <td colspan="9">
+        <td colspan="10">
           <div class="expand-inner">
             <table class="results-table">
-              <thead><tr><th>Status</th><th>Test</th><th>Browser</th><th>Duration</th></tr></thead>
+              <thead><tr><th>Статус</th><th>Тест</th><th>Браузер</th><th>Час</th></tr></thead>
               <tbody>${tRows}</tbody>
             </table>
           </div>
@@ -843,7 +1681,7 @@ function renderHistory(allRuns) {
   });
 
   w.innerHTML = `<div class="tbl-wrap"><table>
-    <thead><tr><th>#</th><th>Plan</th><th>Browser</th><th>Status</th><th>✓</th><th>✗</th><th>Duration</th><th>Started</th><th>By</th></tr></thead>
+    <thead><tr><th>#</th><th>Тип</th><th>Браузер</th><th>Статус</th><th>Час</th><th>Дата</th><th>Хто</th></tr></thead>
     <tbody>${tbody}</tbody>
   </table></div>`;
 }
@@ -857,11 +1695,39 @@ function toggleHist(runId) {
   if (exc) exc.textContent = open ? ' ▶' : ' ▼';
 }
 
+/* ===== LIGHTBOX ===== */
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxModal').classList.remove('hidden');
+}
+function closeLightbox() {
+  document.getElementById('lightboxModal').classList.add('hidden');
+}
+
+/* ===== CONFIRM MODAL ===== */
+let _confirmResolve = null;
+function showConfirm(msg, okText = 'Delete') {
+  return new Promise(resolve => {
+    _confirmResolve = resolve;
+    document.getElementById('confirmMsg').textContent = msg;
+    document.getElementById('confirmOkBtn').textContent = okText;
+    document.getElementById('confirmModal').classList.remove('hidden');
+  });
+}
+function closeConfirm(val) {
+  document.getElementById('confirmModal').classList.add('hidden');
+  if (_confirmResolve) { _confirmResolve(val); _confirmResolve = null; }
+}
+
 /* ===== SHARED ===== */
 function pickBrowser(el, cid) {
   document.querySelectorAll(`#${cid} .bpill`).forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   if (cid === 'runBpills') runBrowser = el.dataset.b;
+}
+
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('collapsed');
 }
 
 async function logout() {
@@ -902,13 +1768,61 @@ function fdate(iso) {
 }
 
 function sbadge(s) {
-  const cls = s === 'passed' ? 'badge-passed' : s === 'failed' ? 'badge-failed' : 'badge-running';
-  const ico = s === 'passed' ? '✓' : s === 'failed' ? '✗' : '⏳';
-  return `<span class="badge ${cls}">${ico} ${esc(s || 'running')}</span>`;
+  const cls = s === 'passed' ? 'badge-passed' : s === 'failed' ? 'badge-failed' : s === 'review' ? 'badge-review' : 'badge-running';
+  const ico = s === 'passed' ? '✓' : s === 'failed' ? '✗' : s === 'review' ? '⚠' : '⏳';
+  const label = s === 'passed' ? 'Пройдено' : s === 'failed' ? 'Не пройдено' : s === 'review' ? 'На огляд' : 'Запуск';
+  return `<span class="badge ${cls}">${ico} ${label}</span>`;
+}
+
+async function showRunLog(id) {
+  try {
+    const r = await api(`/api/runs/${id}`);
+    document.getElementById('logViewTitle').textContent = stripId(r.group) || 'Всі тести';
+
+    const logsPane = document.getElementById('logViewBody');
+    const videoPane = document.getElementById('logViewVideoPane');
+    const tabsBar = document.getElementById('logViewTabs');
+
+    logsPane.innerHTML = `<pre class="log" style="background:#1e1e2e;color:#cdd6f4;padding:16px;border-radius:8px;font-size:12px;white-space:pre-wrap">${esc(r.output || '(лог відсутній)')}</pre>`;
+
+    if (r.videos?.length) {
+      videoPane.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">
+        ${r.videos.map(v => {
+          const name = v.split('/').pop().replace(/\.webm$|\.mp4$/, '');
+          return `<div style="background:var(--surface2);border-radius:8px;overflow:hidden">
+            <video src="${esc(v)}" controls style="width:100%;display:block;background:#000"></video>
+            <div style="font-size:11px;color:var(--text2);padding:4px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${esc(name)}">${esc(name)}</div>
+          </div>`;
+        }).join('')}
+      </div>`;
+      tabsBar.style.display = 'block';
+      switchLogTab('video');
+    } else {
+      tabsBar.style.display = 'none';
+      logsPane.style.display = 'block';
+      videoPane.style.display = 'none';
+    }
+
+    document.getElementById('logViewModal').classList.remove('hidden');
+  } catch(e) { toast('Не вдалось завантажити лог', 'error'); }
+}
+
+function switchLogTab(tab) {
+  const logsPane = document.getElementById('logViewBody');
+  const videoPane = document.getElementById('logViewVideoPane');
+  const btnVideo = document.getElementById('tabBtnVideo');
+  const btnLogs = document.getElementById('tabBtnLogs');
+  const isVideo = tab === 'video';
+  videoPane.style.display = isVideo ? 'block' : 'none';
+  logsPane.style.display = isVideo ? 'none' : 'block';
+  btnVideo.style.borderBottom = isVideo ? '2px solid var(--accent)' : '2px solid transparent';
+  btnVideo.style.color = isVideo ? 'var(--accent)' : 'var(--text2)';
+  btnLogs.style.borderBottom = isVideo ? '2px solid transparent' : '2px solid var(--accent)';
+  btnLogs.style.color = isVideo ? 'var(--text2)' : 'var(--accent)';
 }
 
 function bicon(b) {
-  return b === 'chrome' ? '🌐' : b === 'firefox' ? '🦊' : '🖥️';
+  return b === 'chrome' ? '🌐' : b === 'firefox' ? '🦊' : '💻';
 }
 
 function defaultCode(name) {

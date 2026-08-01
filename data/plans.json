@@ -1,132 +1,93 @@
 [
   {
-    "id": "smoke",
+    "id": "mrx7hlz0dobx",
     "name": "Smoke",
-    "description": "Мінімальна перевірка після будь-якого деплою — сайт відповідає, навігація працює.",
-    "browser": "chrome",
-    "groups": [
-      "homepage",
-      "header"
+    "autotestIds": [
+      "19f88b0a7761d08",
+      "19f88b0a77721e2",
+      "19f88b0a7d85815",
+      "19f88b0a778853b",
+      "19f88b0a77a8f55",
+      "19f88b0a77b6bb8",
+      "19f88b0a77c5954",
+      "19f88b0a77d70e7",
+      "19f88b0a7ec4b6",
+      "19f88b0a77fb288",
+      "19f88b0a7803aab",
+      "19f88b0a78138b3",
+      "19f88b0a7829f8d",
+      "19f88b0a7849e1b",
+      "19f88b0a7856f11",
+      "19f88b0a7866720",
+      "19f88b0a7a347c3"
     ],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
+    "testCases": [],
+    "createdAt": "2026-07-23T07:44:55.932Z",
+    "updatedAt": "2026-07-23T07:53:40.323Z"
   },
   {
-    "id": "sanity-after-deploy",
-    "name": "Sanity — After Deploy",
-    "description": "Ключові сторінки після кожного деплою. Запускати автоматично.",
-    "browser": "chrome",
-    "groups": [
-      "homepage",
-      "header",
-      "global"
+    "id": "sanity-plan-001",
+    "name": "Sanity",
+    "autotestIds": [
+      "19f88b0a7b71ede",
+      "19f88b0a7b93100",
+      "19f88b0a7baa4f7",
+      "19f88b0a7bb3fdd",
+      "19f88b0a7ab5a76",
+      "19f88b0a7c38a3",
+      "19f88b0a7c44179",
+      "19f88b0a7c55d08",
+      "19f88b0a7c66cd6",
+      "19f88b0a7c82d2c",
+      "19f88b0a78b625f",
+      "19f88b0a78718d8",
+      "19f88b0a7a82b9c",
+      "19f88b0a70bb40b",
+      "19f88b0a709a0ff",
+      "19f88b0a7761d08",
+      "19f88b0a7cb7dae",
+      "19f88b0a7cd7572",
+      "19f88b0a7ce77aa",
+      "19f88b0a7cf5937",
+      "19f88b0a7d0b462",
+      "19f88b0a7d2401d",
+      "19f88b0a7d32ffd",
+      "san001sec01",
+      "san002sec02",
+      "san003sec03",
+      "san004sec04",
+      "san005sec05",
+      "san006h08consent",
+      "san007h08reload",
+      "san008h08modal",
+      "san009nav80037",
+      "san010home80097",
+      "san011home80098",
+      "19f88b0a7bc720e",
+      "19f88b0a7be62c7",
+      "19f88b0a7bf2862",
+      "19f88b0a7c02f04",
+      "19f88b0a7c177d1",
+      "19f88b0a7c92494",
+      "19f88b0a7ca2a5f",
+      "19f88b0a78c6c75",
+      "19f88b0a78ea4aa",
+      "19f88b0a7ac4cb2",
+      "19f88b0a7ad83b",
+      "19f88b0a7ae82c0",
+      "19f88b0a7b05368",
+      "19f88b0a7b17784",
+      "19f88b0a7b28d17",
+      "19f88b0a7b4abbc",
+      "19f88b0a7b53d9a",
+      "19f88b0a7b6160",
+      "19f88b0a7a96db",
+      "19f88b0a7889014",
+      "19f88b0a78a46a2",
+      "19f88b0a70c4225"
     ],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
-  },
-  {
-    "id": "responsive",
-    "name": "Responsive",
-    "description": "Мобільна навігація і адаптивна верстка.",
-    "browser": "all",
-    "groups": [
-      "header"
-    ],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
-  },
-  {
-    "id": "strapi",
-    "name": "Strapi",
-    "description": "Цілісність контенту з CMS — ручна перевірка (автотести не передбачені).",
-    "browser": "chrome",
-    "groups": [],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
-  },
-  {
-    "id": "cross-browser",
-    "name": "Cross-Browser",
-    "description": "Повний набір тестів на Chrome та Firefox одночасно.",
-    "browser": "all",
-    "groups": [
-      "global",
-      "header",
-      "homepage",
-      "pages",
-      "work-contact"
-    ],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
-  },
-  {
-    "id": "sanity-deploy-alias",
-    "name": "Sanity — After Deploy",
-    "description": "Дублікат для розкладу — запускається окремим тригером.",
-    "browser": "chrome",
-    "groups": [
-      "homepage",
-      "header",
-      "global"
-    ],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
-  },
-  {
-    "id": "accessibility",
-    "name": "Accessibility",
-    "description": "A11Y перевірки: ролі, ARIA-атрибути, контраст, фокус.",
-    "browser": "all",
-    "groups": [
-      "global"
-    ],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
-  },
-  {
-    "id": "regression",
-    "name": "Regression Full Site",
-    "description": "Повна регресія — всі сторінки, всі тести.",
-    "browser": "all",
-    "groups": [
-      "global",
-      "header",
-      "homepage",
-      "pages",
-      "work-contact"
-    ],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
-  },
-  {
-    "id": "seo",
-    "name": "SEO Screaming Frog",
-    "description": "SEO аудит через Screaming Frog — ручна перевірка (автотести не передбачені).",
-    "browser": "chrome",
-    "groups": [],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
-  },
-  {
-    "id": "cookie-consent",
-    "name": "Cookie Consent",
-    "description": "Поведінка Cookie Banner і flow отримання згоди.",
-    "browser": "chrome",
-    "groups": [
-      "global"
-    ],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
-  },
-  {
-    "id": "security",
-    "name": "Security & Infrastructure",
-    "description": "Security headers, HTTPS redirect, вразливості.",
-    "browser": "chrome",
-    "groups": [
-      "global"
-    ],
-    "createdAt": "2026-06-19T16:03:01.161Z",
-    "updatedAt": "2026-06-19T16:03:01.161Z"
+    "testCases": [],
+    "createdAt": "2026-07-23T00:00:00.000Z",
+    "updatedAt": "2026-07-23T11:05:43.839Z"
   }
 ]

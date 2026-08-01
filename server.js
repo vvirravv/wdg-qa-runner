@@ -23,6 +23,7 @@ const runnerRoutes     = require('./routes/runner');
 const plansRoutes      = require('./routes/plans');
 const testsRoutes      = require('./routes/tests');
 const autotestsRoutes  = require('./routes/autotests');
+const usersRoutes      = require('./routes/users');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,8 +37,9 @@ app.use(helmet({
       workerSrc:  ["'self'", "blob:"],
       styleSrc:   ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
       fontSrc:    ["'self'", "https://cdn.jsdelivr.net"],
-      connectSrc: ["'self'"],
-      imgSrc:     ["'self'", "data:"],
+      connectSrc:    ["'self'"],
+      imgSrc:        ["'self'", "data:"],
+      scriptSrcAttr: ["'unsafe-inline'"],
     },
   },
 }));
@@ -56,11 +58,19 @@ app.use(session({
   },
 }));
 
-// Dev-only bypass (never runs in production)
+// Dev-only: auto-login as vera/admin, no password needed
 if (!isProd) {
   app.get('/__dev_login', (req, res) => {
     req.session.user = { username: 'vera', role: 'admin' };
     res.redirect('/dashboard');
+  });
+
+  // Any unauthenticated page request in dev → auto-login instead of showing login form
+  app.use((req, res, next) => {
+    if (!req.session.user && !req.path.startsWith('/auth') && !req.path.startsWith('/api')) {
+      req.session.user = { username: 'vera', role: 'admin' };
+    }
+    next();
   });
 }
 
@@ -82,10 +92,14 @@ app.get('/dashboard', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public/dashboard.html'));
 });
 
+app.use('/visual-diffs', requireAuth, express.static(path.join(__dirname, 'public/visual-diffs')));
+app.use('/plan-videos', requireAuth, express.static(path.join(__dirname, 'public/plan-videos')));
+
 app.use('/api', requireAuth, runnerRoutes);
 app.use('/api/plans', requireAuth, plansRoutes);
 app.use('/api/tests', requireAuth, testsRoutes);
-app.use('/api/autotests', requireAuth, requireAdmin, autotestsRoutes);
+app.use('/api/autotests', requireAuth, autotestsRoutes);
+app.use('/api/users', requireAuth, requireAdmin, usersRoutes);
 
 app.listen(PORT, () => {
   console.log(`WDG QA Runner started on http://localhost:${PORT}`);

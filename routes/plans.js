@@ -1,8 +1,17 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const router = express.Router();
 const plansLib = require('../lib/plans');
 const runner = require('../lib/runner');
-const storage = require('../lib/storage');
+const requireAdmin = require('../middleware/requireAdmin');
+
+const AUTOTESTS_FILE = path.join(__dirname, '../data/autotests.json');
+
+function loadAutotests() {
+  try { return JSON.parse(fs.readFileSync(AUTOTESTS_FILE, 'utf8')); }
+  catch { return []; }
+}
 
 function generateRunId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2);
@@ -10,55 +19,55 @@ function generateRunId() {
 
 router.get('/', (req, res) => res.json(plansLib.listPlans()));
 
-router.get('/available-groups', (req, res) => res.json(plansLib.AVAILABLE_GROUPS));
-
 router.get('/:id', (req, res) => {
   const plan = plansLib.getPlan(req.params.id);
   if (!plan) return res.status(404).json({ error: 'Plan not found' });
   res.json(plan);
 });
 
-router.post('/', (req, res) => {
-  const { name, description, browser, groups } = req.body;
-  if (!name || !name.trim()) return res.status(400).json({ error: 'Name is required' });
-  const plan = plansLib.createPlan({ name: name.trim(), description, browser, groups });
-  res.status(201).json(plan);
+router.post('/', requireAdmin, (req, res) => {
+  const { name } = req.body;
+  if (!name?.trim()) return res.status(400).json({ error: 'Name is required' });
+  res.status(201).json(plansLib.createPlan({ name }));
 });
 
-router.put('/:id', (req, res) => {
-  const { name, description, browser, groups } = req.body;
-  const plan = plansLib.updatePlan(req.params.id, { name, description, browser, groups });
+router.post('/import', requireAdmin, (req, res) => {
+  const { suites } = req.body;
+  if (!Array.isArray(suites) || !suites.length) return res.status(400).json({ error: 'No suites provided' });
+  let created = 0;
+  for (const suite of suites) {
+    if (!suite.name?.trim()) continue;
+    plansLib.createPlan({ name: suite.name.trim(), testCases: suite.testCases || [] });
+    created++;
+  }
+  res.json({ ok: true, created });
+});
+
+router.put('/:id', requireAdmin, (req, res) => {
+  const { name, autotestIds } = req.body;
+  const plan = plansLib.updatePlan(req.params.id, { name, autotestIds });
   if (!plan) return res.status(404).json({ error: 'Plan not found' });
   res.json(plan);
 });
 
-router.delete('/:id', (req, res) => {
-  const ok = plansLib.deletePlan(req.params.id);
-  if (!ok) return res.status(404).json({ error: 'Plan not found' });
+router.delete('/:id', requireAdmin, (req, res) => {
+  if (!plansLib.deletePlan(req.params.id)) return res.status(404).json({ error: 'Plan not found' });
   res.json({ ok: true });
 });
 
 router.post('/:id/run', (req, res) => {
-  if (runner.isRunning()) {
-    return res.status(409).json({ error: 'A run is already in progress' });
-  }
+  if (runner.isRunning()) return res.status(409).json({ error: 'A run is already in progress' });
   const plan = plansLib.getPlan(req.params.id);
   if (!plan) return res.status(404).json({ error: 'Plan not found' });
-  if (!plan.groups || plan.groups.length === 0) {
-    return res.status(400).json({ error: 'This plan has no auto-tests — it is manual only' });
-  }
+  if (!plan.autotestIds?.length) return res.status(400).json({ error: 'Plan has no autotests' });
 
-  const groupDefs = plansLib.AVAILABLE_GROUPS.filter(g => plan.groups.includes(g.id));
-  const files = groupDefs.map(g => g.file);
-  // Allow browser override from request body (Run tab selector)
-  const browser = req.body.browser || plan.browser || 'all';
+  const allAutotests = loadAutotests();
+  const autotests = plan.autotestIds.map(id => allAutotests.find(t => t.id === id)).filter(Boolean);
+  if (!autotests.length) return res.status(400).json({ error: 'No matching autotests found' });
 
+  const headed = !!req.body.headed;
   const runId = generateRunId();
-  runner.startRun(
-    runId,
-    { group: plan.name, browser, files },
-    req.session.user.username
-  );
+  runner.startPlanRun(runId, { planName: plan.name, autotests, headed }, req.session.user.username);
   res.json({ runId });
 });
 

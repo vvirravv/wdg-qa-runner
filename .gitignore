@@ -5,3 +5,8 @@ tests/test-results/
 data/runs.json
 .env
 *.log
+public/plan-videos/
+public/visual-diffs/
+tests/playwright-report/
+tests/snapshots/
+test-results/

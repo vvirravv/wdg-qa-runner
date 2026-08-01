@@ -1,6 +1,8 @@
 const express = require('express');
 const runner = require('../lib/runner');
 const storage = require('../lib/storage');
+const permsLib = require('../lib/users-perms');
+const requireAdmin = require('../middleware/requireAdmin');
 const router = express.Router();
 
 const GROUPS = {
@@ -9,6 +11,7 @@ const GROUPS = {
   header:   { label: 'Header & Nav',        files: ['tests/global/header.spec.js'] },
   homepage: { label: 'Homepage',            files: ['tests/pages/homepage.spec.js'] },
   pages:    { label: 'Pages',               files: ['tests/pages/remaining-pages.spec.js', 'tests/pages/work-contact-shopify.spec.js'] },
+  visual:   { label: 'Visual',              files: ['visual/visual.spec.js'], project: 'visual' },
 };
 
 const BROWSERS = ['all', 'chrome', 'firefox'];
@@ -18,9 +21,12 @@ function generateRunId() {
 }
 
 router.get('/me', (req, res) => {
+  const user = req.session.user;
+  const perms = permsLib.getPerms(user?.username || '');
   res.json({
-    username: req.session.user?.username || '—',
-    role: req.session.user?.role || 'user',
+    username: user?.username || '—',
+    role: user?.role || 'user',
+    canRunAutotests: user?.role === 'admin' ? true : (perms.canRunAutotests ?? false),
   });
 });
 
@@ -47,8 +53,10 @@ router.post('/run', (req, res) => {
     return res.status(400).json({ error: 'Invalid browser. Use: all, chrome, firefox' });
   }
 
+  const headed = !!req.body.headed;
   const runId = generateRunId();
-  runner.startRun(runId, { group, browser, files: GROUPS[group].files }, req.session.user.username);
+  const g = GROUPS[group];
+  runner.startRun(runId, { group, browser, files: g.files, project: g.project, headed }, req.session.user.username);
   res.json({ runId });
 });
 
@@ -71,12 +79,28 @@ router.get('/run/stream', (req, res) => {
   req.on('close', () => runner.removeSseClient(res));
 });
 
+router.post('/run/stop', (req, res) => {
+  if (!runner.isRunning()) return res.status(400).json({ error: 'No run in progress' });
+  runner.stopRun();
+  res.json({ ok: true });
+});
+
 router.get('/runs', (req, res) => res.json(storage.listRuns()));
 
 router.get('/runs/:runId', (req, res) => {
   const run = storage.getRun(req.params.runId);
   if (!run) return res.status(404).json({ error: 'Run not found' });
   res.json(run);
+});
+
+router.delete('/runs', requireAdmin, (req, res) => {
+  storage.clearRuns();
+  res.json({ ok: true });
+});
+
+router.delete('/runs/:runId', requireAdmin, (req, res) => {
+  if (!storage.deleteRun(req.params.runId)) return res.status(404).json({ error: 'Run not found' });
+  res.json({ ok: true });
 });
 
 module.exports = router;

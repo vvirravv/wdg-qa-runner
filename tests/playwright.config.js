@@ -8,6 +8,8 @@ module.exports = defineConfig({
   fullyParallel: true,
   retries: 1,
   workers: 3,
+  snapshotDir: './snapshots',
+  snapshotPathTemplate: '{snapshotDir}/{arg}{ext}',
 
   reporter: [
     ['list'],
@@ -19,17 +21,27 @@ module.exports = defineConfig({
     baseURL: 'https://devit.group',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'off',
+    video: process.env.PW_VIDEO === 'on' ? 'on' : 'off',
+    launchOptions: {
+      slowMo: process.env.PW_SLOW_MO ? parseInt(process.env.PW_SLOW_MO) : 0,
+    },
   },
 
   projects: [
     {
       name: 'desktop-chrome',
+      testIgnore: ['**/visual/**'],
       use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'desktop-firefox',
+      testIgnore: ['**/visual/**'],
       use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'visual',
+      testDir: './visual',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1920, height: 1080 } },
     },
   ],
 });

@@ -6,9 +6,11 @@ const BASE = 'https://devit.group';
 /** Plain HTTP GET without browser */
 async function httpGet(path) {
   const ctx = await request.newContext();
-  const res  = await ctx.get(`${BASE}${path}`);
+  const res = await ctx.get(`${BASE}${path}`);
+  const status = res.status();
+  const body = await res.text().catch(() => '');
   await ctx.dispose();
-  return res;
+  return { status: () => status, text: () => Promise.resolve(body) };
 }
 
 /** Listen for JS errors while fn() runs, return filtered list */
