@@ -1,0 +1,479 @@
+qase_id,automation,severity,priority,suite,title,spec,note
+25146,automated,critical,high,Global / Shared Components,Smoke — visual layout intact on all key pages (no broken CSS),tests/global/smoke.spec.ts,
+25147,automated,normal,high,Global / Shared Components > Header & Navigation,"Header — Logo: visible, renders correctly, links to homepage from any page",tests/global/header.spec.ts,
+25148,automated,normal,high,Global / Shared Components > Header & Navigation,Navigation — all menu items present and correctly labelled,tests/global/header.spec.ts,
+25149,automated,normal,high,Global / Shared Components > Header & Navigation,"Navigation — all menu items open correct pages, dropdowns work",tests/global/header.spec.ts,
+25150,automated,normal,high,Global / Shared Components > Header & Navigation,Navigation — Products dropdown: all items present and each navigates/acts correctly,tests/global/header.spec.ts,
+25151,automated,normal,high,Global / Shared Components > Header & Navigation,Navigation — 'Book a call' button opens form/modal,tests/global/header.spec.ts,
+25152,partial,normal,low,Global / Shared Components > Header & Navigation,Navigation — hover effects on all menu items,tests/global/header.spec.ts,computed style changes on hover
+25153,automated,normal,medium,Global / Shared Components > Header & Navigation,Navigation — active state on current page menu item,tests/global/header.spec.ts,
+25154,automated,normal,medium,Global / Shared Components > Header & Navigation,Navigation — sticky header stays visible on scroll,tests/global/header.spec.ts,
+25155,automated,normal,high,Global / Shared Components > Header & Navigation,Navigation — no horizontal scrollbar (page content fits within 1440px viewport width),tests/global/header.spec.ts,
+25156,automated,normal,medium,Global / Shared Components > Header & Navigation,"Navigation — Contacts dropdown: Product support → /support, Agency contact → /contact",tests/global/header.spec.ts,
+25157,automated,critical,high,Global / Shared Components > Header & Navigation > Mobile/Tablet/Desktop Navigation (≤768px 1440px+),Mobile nav — burger menu button visible at ≤768px,tests/global/mobile-nav.spec.ts,
+25158,automated,critical,high,Global / Shared Components > Header & Navigation > Mobile/Tablet/Desktop Navigation (≤768px 1440px+),Mobile nav — burger opens menu with all nav items,tests/global/mobile-nav.spec.ts,
+25159,automated,critical,high,Global / Shared Components > Header & Navigation > Mobile/Tablet/Desktop Navigation (≤768px 1440px+),Mobile nav — each nav link and dropdown navigates correctly,tests/global/mobile-nav.spec.ts,
+25160,automated,normal,high,Global / Shared Components > Header & Navigation > Mobile/Tablet/Desktop Navigation (≤768px 1440px+),Mobile nav — close button / overlay tap closes menu,tests/global/mobile-nav.spec.ts,
+25161,automated,normal,high,Global / Shared Components > Header & Navigation > Mobile/Tablet/Desktop Navigation (≤768px 1440px+),Mobile nav — Market Badge visible in mobile header,tests/global/mobile-nav.spec.ts,
+25162,automated,normal,high,Global / Shared Components > Header & Navigation > Mobile/Tablet/Desktop Navigation (≤768px 1440px+),Mobile nav — logo links to homepage,tests/global/mobile-nav.spec.ts,
+25163,automated,normal,high,Global / Shared Components > Header & Navigation > Mobile/Tablet/Desktop Navigation (≤768px 1440px+),Mobile nav — no horizontal scroll after menu interaction,tests/global/mobile-nav.spec.ts,
+25164,partial,minor,medium,Global / Shared Components > Header & Navigation > Mobile/Tablet/Desktop Navigation (≤768px 1440px+),Mobile nav — burger icon animates to close (X) icon; menu open/close animation is smooth,tests/global/mobile-nav.spec.ts,icon toggles + rapid taps; smoothness manual
+25165,automated,normal,medium,Global / Shared Components > Header & Navigation > Mobile/Tablet/Desktop Navigation (≤768px 1440px+),Mobile nav — body scroll is locked while menu is open,tests/global/mobile-nav.spec.ts,
+25166,automated,normal,high,Global / Shared Components > Footer,Footer — all 5 columns visible and correctly labelled,tests/global/footer.spec.ts,
+25167,automated,normal,high,Global / Shared Components > Footer,Footer — Expertises: all 8 links navigate correctly,tests/global/footer.spec.ts,
+25168,automated,normal,high,Global / Shared Components > Footer,"Footer — Company column: all links work (internal, external, form, hover)",tests/global/footer.spec.ts,
+25169,automated,normal,high,Global / Shared Components > Footer,"Footer — Company: external links open in new tab (Support Ukraine, In-house Software)",tests/global/footer.spec.ts,
+25170,automated,normal,high,Global / Shared Components > Footer,Footer — Industries: all 5 links navigate correctly,tests/global/footer.spec.ts,
+25171,automated,normal,high,Global / Shared Components > Footer,Footer — Contacts: Book a call opens booking form,tests/global/footer.spec.ts,
+25172,automated,normal,medium,Global / Shared Components > Footer,Footer — Contacts: Live chat opens chat widget,tests/global/footer.spec.ts,
+25173,automated,normal,high,Global / Shared Components > Footer,"Footer — internal links open in same tab, external in new tab",tests/global/footer.spec.ts,
+25174,automated,normal,low,Global / Shared Components > Footer,Footer — hover animation line on footer links,tests/global/footer.spec.ts,
+25175,automated,normal,low,Global / Shared Components > Footer,Footer — no extra whitespace at bottom on high-resolution screens,tests/global/footer.spec.ts,
+25176,automated,normal,medium,Global / Shared Components > Footer,Footer — Contacts block: all links and actions work (both Agency and In-house sections),tests/global/footer.spec.ts,
+25177,automated,normal,medium,Global / Shared Components > Footer,Footer — Privacy Policy and Cookie Policy links work,tests/global/footer.spec.ts,
+25178,automated,normal,medium,Global / Shared Components > Footer,"Footer — social media icons: all present, load correctly, hover works, correct links",tests/global/footer.spec.ts,
+25179,automated,normal,medium,Global / Shared Components > Footer,Footer — 'Download Presentation' opens 'Request Our Company Overview' form,tests/global/footer.spec.ts,
+25180,automated,major,high,Global / Shared Components > Footer,Footer — phone link href is a valid tel: number on ALL pages (no 'tel:undefined'),tests/global/footer.spec.ts,
+25181,automated,critical,high,Global / Shared Components > Cookie Banner & Consent,Cookie banner appears on first visit,tests/global/cookie-consent.spec.ts,
+25182,automated,critical,high,Global / Shared Components > Cookie Banner & Consent,Cookie banner — accept all vs decline: consent stored correctly in DevTools,tests/global/cookie-consent.spec.ts,
+25183,automated,critical,high,Global / Shared Components > Cookie Banner & Consent,'Book a call' + Functional Cookies consent: mini-banner flow and accept behavior,tests/global/cookie-consent.spec.ts,
+25184,automated,normal,high,Global / Shared Components > Cookie Banner & Consent,Cookie banner — does not reappear after consent is given (reload + navigation),tests/global/cookie-consent.spec.ts,
+25185,automated,normal,high,Global / Shared Components > Cookie Banner & Consent,Cookie preferences modal — per-category toggles save and persist,tests/global/cookie-consent.spec.ts,
+25186,automated,normal,high,Global / Shared Components > Security,Security — SSL certificate is valid,tests/global/security.spec.ts,
+25187,automated,normal,high,Global / Shared Components > Security,Security — HTTP redirects to HTTPS for all key paths (Postman or DevTools),tests/global/security.spec.ts,
+25188,automated,normal,high,Global / Shared Components > Security,Security — security response headers present with correct values (Postman),tests/global/security.spec.ts,
+25189,partial,normal,high,Global / Shared Components > Security,Security — XSS: script in form field does not execute (Contact form + Pipedrive check),tests/global/security.spec.ts,client-side XSS only; submit + Pipedrive check manual
+25190,manual,normal,high,Global / Shared Components > Security,Security — SQL injection: payload in form field does not cause server error (HTTP 500 check),,SQLi requires real submit to prod Pipedrive
+25191,manual,normal,medium,Global / Shared Components > Security,Security — Risk Ledger: review asset findings for devit.group domain,,Risk Ledger platform (external account)
+25192,automated,normal,high,Global / Shared Components > Accessibility (A11Y),A11Y — keyboard navigation via Tab reaches all interactive elements,tests/global/a11y.spec.ts,
+25193,automated,normal,high,Global / Shared Components > Accessibility (A11Y),A11Y — focus indicator always visible,tests/global/a11y.spec.ts,
+25194,automated,normal,high,Global / Shared Components > Accessibility (A11Y),A11Y — text contrast ratio ≥ 4.5:1 (WCAG AA),tests/global/a11y.spec.ts,
+25195,automated,normal,high,Global / Shared Components > Accessibility (A11Y),A11Y — burger menu button has aria-expanded attribute (open/closed states),tests/global/a11y.spec.ts,
+25196,partial,normal,high,Global / Shared Components > Accessibility (A11Y),A11Y — page zoom to 200% does not cause horizontal scroll,tests/global/a11y.spec.ts,200% zoom emulated as 720px CSS viewport
+25197,automated,normal,medium,Global / Shared Components > Accessibility (A11Y),A11Y — Esc closes modal windows; focus is trapped inside and returned to trigger after close,tests/global/a11y.spec.ts,
+25198,partial,minor,low,Global / Shared Components > Accessibility (A11Y),A11Y — prefers-reduced-motion: animations are reduced/disabled,tests/global/a11y.spec.ts,running infinite animations + hidden content
+25199,automated,normal,medium,Global / Shared Components > Error Handling,Error — custom 404 page returns HTTP 404 status and has noindex meta tag,tests/global/errors.spec.ts,
+25200,automated,normal,high,Global / Shared Components > Error Handling,Error — no 5xx server errors during normal browsing,tests/global/errors.spec.ts,
+25201,automated,normal,medium,Global / Shared Components > Error Handling,404 — non-existent project slug returns HTTP 404 (/work/nonexistent-slug-xyz-404),tests/global/errors.spec.ts,
+25202,automated,normal,medium,Global / Shared Components > Error Handling,404 — non-existent blog article slug returns HTTP 404 (/blog/nonexistent-slug-xyz-404),tests/global/errors.spec.ts,
+25203,automated,normal,medium,Global / Shared Components > Error Handling,Redirect — trailing slash normalisation (no redirect loop),tests/global/errors.spec.ts,
+25204,automated,minor,low,Global / Shared Components > Error Handling,Offline indicator — offline/online toasts + green 'online' indicator on restore,tests/global/errors.spec.ts,
+25205,automated,critical,high,Global / Shared Components > Market Badge & Timezone,Badge — USA timezones (New_York + Los_Angeles): 'MADE IN USA' badge shown,tests/global/market-badge.spec.ts,
+25206,automated,normal,medium,Global / Shared Components > Market Badge & Timezone,Unknown/unsupported timezone → default badge shown,tests/global/market-badge.spec.ts,
+25207,automated,normal,high,Global / Shared Components > Market Badge & Timezone,Badge — Market Badge visible in header on ALL pages (global component check),tests/global/market-badge.spec.ts,
+25208,automated,normal,medium,Global / Shared Components > Market Badge & Timezone,Badge updates when timezone changes mid-session (hard-reload required),tests/global/market-badge.spec.ts,
+25209,automated,normal,high,"Global / Shared Components > Market Badge & Timezone > Canada (America/Toronto, America/Vancouver)",Badge — Canada timezone (America/Toronto): 'MADE IN CANADA' badge visible,tests/global/market-badge.spec.ts,
+25210,automated,normal,high,"Global / Shared Components > Market Badge & Timezone > Europe (Europe/Kyiv, Europe/London, Europe/Berlin)","Badge — Europe/Kyiv timezone: ""Made in Europe"" badge prominent",tests/global/market-badge.spec.ts,
+25211,automated,normal,high,"Global / Shared Components > Market Badge & Timezone > Europe (Europe/Kyiv, Europe/London, Europe/Berlin)",Badge — Europe timezone: badge same across EU regions,tests/global/market-badge.spec.ts,
+25212,partial,critical,high,"Global / Shared Components > Forms — Global (Booking form, Field Checks, Error States)","'Ready for cooperation?' form — submits via PipeDrive Webforms, lead appears in PipeDrive",tests/global/forms.spec.ts,form opens/validates; valid submit + Pipedrive lead manual
+25213,partial,critical,high,"Global / Shared Components > Forms — Global (Booking form, Field Checks, Error States)",'Request callback' form — full submission flow (SINGLE full check),tests/global/forms.spec.ts,opens + phone validation; real callback manual
+25214,automated,normal,high,"Global / Shared Components > Forms — Global (Booking form, Field Checks, Error States) > 'Book a call' — Booking form (Header & Footer)",Header 'Book a call' → cookie consent prompt shown when Functional Cookies disabled,tests/global/forms.spec.ts,
+25215,partial,critical,high,"Global / Shared Components > Forms — Global (Booking form, Field Checks, Error States) > 'Book a call' — Booking form (Header & Footer)","'Book a call' — booking form full flow (SINGLE full check, header entry point)",tests/global/forms.spec.ts,up to Calendly details step; no booking
+25216,partial,critical,high,"Global / Shared Components > Forms — Global (Booking form, Field Checks, Error States) > Error States & Edge Cases","Form — network offline during submit → error shown, no silent data loss",tests/global/forms.spec.ts,offline error only; online resubmit manual
+25217,manual,normal,high,"Global / Shared Components > Forms — Global (Booking form, Field Checks, Error States) > Error States & Edge Cases","Form — PipeDrive API timeout → user sees error, not blank screen",,needs real submission under Slow 3G
+25218,partial,minor,medium,"Global / Shared Components > Forms — Global (Booking form, Field Checks, Error States) > Error States & Edge Cases",Form — very long name (255+ chars) → handled gracefully,tests/global/forms.spec.ts,"input length only, no submit"
+25219,manual,major,medium,"Global / Shared Components > Forms — Global (Booking form, Field Checks, Error States) > Error States & Edge Cases",Form — double-submit protection: rapid double click on Submit creates only ONE lead,,double-submit needs real submission
+25220,partial,normal,medium,Global / Shared Components > Global — SEO & Technical,"AI Agent Readiness — verify site via isitagentready.com, log issues",tests/global/seo-technical.spec.ts,llms.txt + AI bots in robots; isitagentready.com manual
+25221,automated,normal,high,Global / Shared Components > Global — SEO & Technical,"H1 — every page has exactly one full, non-truncated H1 matching page topic",tests/global/seo-technical.spec.ts,
+25222,automated,normal,high,Global / Shared Components > Global — SEO & Technical > sitemap.xml,sitemap.xml — HTTP 200 and Content-Type,tests/global/seo-technical.spec.ts,
+25223,partial,normal,high,Global / Shared Components > Global — SEO & Technical > sitemap.xml,sitemap.xml — Valid XML structure (validate via online service),tests/global/seo-technical.spec.ts,local XML structure; online validators manual
+25224,partial,normal,high,Global / Shared Components > Global — SEO & Technical > sitemap.xml,sitemap.xml — URL count reflects actual published content,tests/global/seo-technical.spec.ts,static pages + counts vs portfolio; Strapi compare manual
+25225,automated,normal,high,Global / Shared Components > Global — SEO & Technical > sitemap.xml,sitemap.xml — Every listed URL returns HTTP 200,tests/global/seo-technical.spec.ts,
+25226,partial,normal,high,Global / Shared Components > Global — SEO & Technical > sitemap.xml,sitemap.xml — <lastmod> is present and in valid ISO 8601 / W3C date format,tests/global/seo-technical.spec.ts,format/dates; Strapi update check manual
+25227,automated,normal,high,Global / Shared Components > Global — SEO & Technical > sitemap.xml,sitemap.xml — <changefreq> and <priority> values are valid,tests/global/seo-technical.spec.ts,
+25228,automated,normal,high,Global / Shared Components > Global — SEO & Technical > robots.txt,robots.txt — HTTP 200 and Content-Type text/plain,tests/global/seo-technical.spec.ts,
+25229,automated,normal,high,Global / Shared Components > Global — SEO & Technical > robots.txt,robots.txt — Contains Sitemap directive,tests/global/seo-technical.spec.ts,
+25230,automated,normal,high,Global / Shared Components > Global — SEO & Technical > robots.txt,robots.txt — Key pages are not blocked,tests/global/seo-technical.spec.ts,
+25231,automated,normal,high,Global / Shared Components > Global — SEO & Technical > robots.txt,robots.txt — Syntax is valid,tests/global/seo-technical.spec.ts,
+25232,automated,critical,high,Pages > Homepage (/) > Homepage — Functional,"Homepage — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25233,automated,normal,high,Pages > Homepage (/) > Homepage — Functional,Homepage — no broken images (Network check),tests/pages/home.spec.ts,
+25234,automated,normal,medium,Pages > Homepage (/) > Homepage — Functional,"Homepage — Hero section: heading, subheading, and CTA visible",tests/pages/home.spec.ts,
+25235,partial,normal,high,Pages > Homepage (/) > Homepage — Functional,"Homepage — hero video: autoplay muted/looped, click toggles sound, cursor PLAY button",tests/pages/home.spec.ts,video state / play button
+25236,automated,normal,medium,Pages > Homepage (/) > Homepage — Functional,Homepage — stats counters: count-up animation on scroll + non-zero realistic values,tests/pages/home.spec.ts,
+25237,automated,normal,high,Pages > Homepage (/) > Homepage — Functional,"Homepage — Services section: 4 categories render (icons, sub-items), same size, hover animation",tests/pages/home.spec.ts,
+25238,automated,normal,high,Pages > Homepage (/) > Homepage — Functional,"Homepage — Industries carousel: 4 tabs (E-Commerce, Media, Social Networks, Fintech) switch content + videos",tests/pages/home.spec.ts,
+25239,automated,normal,high,Pages > Homepage (/) > Homepage — Functional,Homepage — Technologies section: tech stack icons render and animate,tests/pages/home.spec.ts,
+25240,automated,normal,high,Pages > Homepage (/) > Homepage — Functional,"Homepage — Our Projects: H2, project cards load with data, each card links to correct /work/{slug}, 'View all cases' works",tests/pages/home.spec.ts,
+25241,automated,normal,high,Pages > Homepage (/) > Homepage — Functional,"Homepage Four Reasons — section visible, hover shows description, card shadow animation",tests/pages/home.spec.ts,
+25242,automated,normal,high,Pages > Homepage (/) > Homepage — Functional,"Homepage — Achievements: H2 visible, logos same size + hover, 'See all awards' navigates to /awards",tests/pages/home.spec.ts,
+25243,partial,normal,medium,Pages > Homepage (/) > Homepage — Functional,"Homepage Testimonials — section visible, slider works, video plays, photos consistent",tests/pages/home.spec.ts,slider changes; video/photo checks manual
+25244,automated,normal,medium,Pages > Homepage (/) > Homepage — Functional,"Homepage Contact Us section — social icons, addresses, email hover, all correct",tests/pages/home.spec.ts,
+25245,partial,normal,medium,Pages > Homepage (/) > Homepage — Functional,Homepage — 'Get in touch' / 'Let's talk' CTA opens the form and submits (full flow),tests/pages/home.spec.ts,opens form; submit manual
+25246,automated,normal,high,Pages > Homepage (/) > Homepage — Functional,Modal — 'How did you hear about us?' dropdown opens and lists options,tests/global/forms.spec.ts,
+25247,automated,minor,medium,Pages > Homepage (/) > Homepage — Functional,"Homepage — scroll-reveal animations: sections animate in smoothly, content remains visible",tests/pages/home.spec.ts,
+25248,automated,normal,medium,Pages > Homepage (/) > Homepage — SEO,SSR — Homepage first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25249,automated,normal,high,Pages > Homepage (/) > Homepage — SEO,Homepage — canonical URL is set to the root domain,tests/templated/seo.spec.ts,
+25250,automated,normal,medium,Pages > Homepage (/) > Homepage — SEO,Homepage — structured data (JSON-LD) present,tests/templated/seo.spec.ts,
+25251,automated,normal,medium,Pages > Homepage (/) > Homepage — SEO,"Performance — PageSpeed: Homepage (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25252,automated,normal,high,Pages > Homepage (/) > Homepage — SEO,HTML SEO meta tags — Homepage,tests/templated/seo.spec.ts,
+25253,manual,normal,medium,Pages > Homepage (/) > Homepage — Markets Personalization,"Homepage — Reviews: EU market shows EU reviews first, correct on first paint (server-side by IP)",,server-side by IP -> needs VPN
+25254,manual,normal,medium,Pages > Homepage (/) > Homepage — Markets Personalization,"Homepage — Reviews: Canada market shows Canadian reviews first, correct on first paint (server-side by IP)",,server-side by IP -> needs VPN
+25255,manual,normal,medium,Pages > Homepage (/) > Homepage — Markets Personalization,"Homepage — Reviews: US market shows US reviews first, correct on first paint (server-side by IP)",,server-side by IP -> needs VPN
+25256,automated,normal,medium,Pages > Homepage (/) > Homepage — Markets Personalization,Homepage — Market Banner CTA link is functional,tests/global/market-badge.spec.ts,
+25257,automated,normal,medium,Pages > Homepage (/) > Homepage — Markets Personalization,Homepage — Market Banner image/flag loads correctly per market,tests/global/market-badge.spec.ts,
+25258,automated,critical,high,Pages > Homepage (/) > Homepage — Markets Personalization,Homepage — Market Badge: header badge and hero banner are in sync (same market text),tests/global/market-badge.spec.ts,
+25259,automated,normal,medium,Pages > Homepage (/) > Homepage — Markets Personalization,Homepage — Market Banner: 'Product of Europe' shown for Europe timezone,tests/global/market-badge.spec.ts,
+25260,manual,critical,high,Pages > Homepage (/) > Homepage — Markets Personalization,SSR renders correct market reviews and rating on first paint (server-side by IP),,server-side by IP -> needs VPN
+25261,partial,normal,medium,Pages > Homepage (/) > Homepage — Design & Responsiveness,Design Compliance — Homepage matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25262,partial,normal,high,Pages > Homepage (/) > Homepage — Design & Responsiveness,Responsiveness — Homepage: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25263,automated,normal,medium,Pages > Homepage (/) > Homepage — Design & Responsiveness,"Homepage — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25264,automated,critical,high,Pages > Work Page (/work) > Work — Functional,"Work — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25265,automated,normal,high,Pages > Work Page (/work) > Work — Functional,Work — no broken images on cards (Network check),tests/pages/work.spec.ts,
+25266,automated,normal,high,Pages > Work Page (/work) > Work — Functional,Work — all industry filter tabs present,tests/pages/work.spec.ts,
+25267,automated,normal,high,Pages > Work Page (/work) > Work — Functional,Work — clicking category filter shows only matching projects,tests/pages/work.spec.ts,
+25268,automated,normal,medium,Pages > Work Page (/work) > Work — Functional,"Work — filter controls: globe icon opens country filter, filter icon opens category filters (all categories)",tests/pages/work.spec.ts,
+25269,automated,critical,high,Pages > Work Page (/work) > Work — Functional,Work — search bar: typing a keyword filters projects and technologies,tests/pages/work.spec.ts,
+25270,automated,normal,high,Pages > Work Page (/work) > Work — Functional,Work — search bar: no results state shown for unknown keyword,tests/pages/work.spec.ts,
+25271,automated,normal,high,Pages > Work Page (/work) > Work — Functional,Work — search bar: clearing input restores all projects,tests/pages/work.spec.ts,
+25272,automated,normal,high,Pages > Work Page (/work) > Work — Functional,"Work — project cards contain title, image, and country flag",tests/pages/work.spec.ts,
+25273,automated,normal,high,Pages > Work Page (/work) > Work — Functional,Work — clicking a card navigates to correct project detail page,tests/pages/work.spec.ts,
+25274,automated,normal,high,Pages > Work Page (/work) > Work — Functional,Work — infinite scroll or pagination loads more cards,tests/pages/work.spec.ts,
+25275,automated,normal,high,Pages > Work Page (/work) > Work — Functional,"Work — carousel: arrows navigate smoothly, handle rapid clicks, cards have hover animation",tests/pages/work.spec.ts,
+25276,automated,normal,high,Pages > Work Page (/work) > Work — Functional,Work — carousel: project images match their names and descriptions,tests/pages/work.spec.ts,
+25277,automated,normal,medium,Pages > Work Page (/work) > Work — Functional,Work — vertical pagination tracks current section,tests/pages/work.spec.ts,
+25278,automated,major,high,Pages > Work Page (/work) > Work — Functional,Work — deep link with query params applies filters on direct open and reload,tests/pages/work.spec.ts,
+25279,automated,normal,medium,Pages > Work Page (/work) > Work — Functional,Work — 'Get in touch' bottom CTA opens 'Ready for cooperation?' form,tests/pages/work.spec.ts,
+25280,automated,normal,high,Pages > Work Page (/work) > Work — Functional,Redirect — /work/{slug} HTTP→HTTPS redirect works,tests/pages/work.spec.ts,
+25281,automated,normal,medium,Pages > Work Page (/work) > Work — SEO,SSR — Work first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25282,automated,normal,high,Pages > Work Page (/work) > Work — SEO,HTML SEO meta tags — Work,tests/templated/seo.spec.ts,
+25283,automated,normal,medium,Pages > Work Page (/work) > Work — SEO,SEO — JSON-LD structured data present and valid on /work,tests/templated/seo.spec.ts,
+25284,automated,normal,medium,Pages > Work Page (/work) > Work — SEO,"Performance — PageSpeed: Work (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25285,automated,normal,medium,Pages > Work Page (/work) > Work — SEO,Work — canonical URL matches current page,tests/templated/seo.spec.ts,
+25286,automated,normal,high,Pages > Work Page (/work) > Work — SEO,Work — filtered URLs return noindex instead of canonical,tests/pages/work.spec.ts,
+25287,partial,normal,medium,Pages > Work Page (/work) > Work — Design & Responsiveness,Design Compliance — Work matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25288,partial,normal,high,Pages > Work Page (/work) > Work — Design & Responsiveness,Responsiveness — Work: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25289,automated,normal,medium,Pages > Work Page (/work) > Work — Design & Responsiveness,"Work — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25290,automated,critical,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,"Project Detail — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25291,automated,normal,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Project — all images load (no 404 in Network),tests/pages/project-detail.spec.ts,
+25292,automated,normal,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Project — hero image loads and title is correct,tests/pages/project-detail.spec.ts,
+25293,automated,normal,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Project — all content sections are populated,tests/pages/project-detail.spec.ts,
+25294,automated,normal,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Project — metadata fields are all populated with real data,tests/pages/project-detail.spec.ts,
+25295,automated,normal,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Project — external link opens correct site in new tab,tests/pages/project-detail.spec.ts,
+25296,automated,normal,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,"Project Detail — screenshots modal slider: open, arrow navigation, swipe, close",tests/pages/project-detail.spec.ts,
+25297,automated,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Project Detail — review video plays when play button clicked,tests/pages/project-detail.spec.ts,
+25298,partial,normal,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,"Project Detail — Solution section CTAs: Book a call, Let's talk/chat, Fill out form all work",tests/pages/project-detail.spec.ts,opens CTAs; reCAPTCHA submit manual
+25299,automated,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Project Detail — Shopify App Store link (right of About block) points to the correct app,tests/pages/project-detail.spec.ts,
+25300,automated,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Project Detail — technology tag links filter /work by technology,tests/pages/project-detail.spec.ts,
+25301,automated,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Project Detail — category/tag links filter /work correctly,tests/pages/project-detail.spec.ts,
+25302,automated,normal,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Work — filter links have rel='nofollow' (project card tags + footer),tests/pages/work.spec.ts,
+25303,partial,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,"Project Detail — 'I want similar' section: present, hover animation, 'Get in touch' opens form",tests/pages/project-detail.spec.ts,opens form; submit manual
+25304,automated,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — Functional,Project Detail — breadcrumb / back navigation returns to /work,tests/pages/project-detail.spec.ts,
+25305,automated,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — SEO,SSR — Project Detail first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25306,automated,normal,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — SEO,HTML SEO meta tags — Single project – Real America's Voice,tests/templated/seo.spec.ts,
+25307,automated,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — SEO,SEO — JSON-LD structured data present and valid on /work/real-americas-voice,tests/templated/seo.spec.ts,
+25308,automated,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — SEO,"Performance — PageSpeed: Project Detail (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25309,automated,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — SEO,Project Detail — canonical URL matches current page,tests/templated/seo.spec.ts,
+25310,partial,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — Design & Responsiveness,Design Compliance — Project Detail matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25311,partial,normal,high,Pages > Project Detail Page (/work/{slug}) > Project Detail — Design & Responsiveness,Responsiveness — Project Detail: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25312,automated,normal,medium,Pages > Project Detail Page (/work/{slug}) > Project Detail — Design & Responsiveness,"Project Detail — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25313,automated,critical,high,Pages > Contact Page (/contact) > Contact — Functional,"Contact — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25314,automated,normal,high,Pages > Contact Page (/contact) > Contact — Functional,"Contact — routing modal 'Need help with an app?': appears on load, all actions work",tests/pages/contact.spec.ts,
+25315,automated,normal,high,Pages > Contact Page (/contact) > Contact — Functional,Contact — 'Book a call' opens form with all fields,tests/pages/contact.spec.ts,
+25316,manual,normal,high,Pages > Contact Page (/contact) > Contact — Functional,Contact — form integration: submitting sends the lead to Microsoft (integration works),,Microsoft integration - external side
+25317,automated,normal,medium,Pages > Contact Page (/contact) > Contact — Functional,Contact — 'Request callback' button opens callback form,tests/pages/contact.spec.ts,
+25318,automated,normal,medium,Pages > Contact Page (/contact) > Contact — Functional,Contact — 'Open live chat' button opens chat widget,tests/pages/contact.spec.ts,
+25319,automated,normal,medium,Pages > Contact Page (/contact) > Contact — Functional,Contact — all office location Google Maps links open in new tab,tests/pages/contact.spec.ts,
+25320,automated,normal,high,Pages > Contact Page (/contact) > Contact — Functional,Contact — phone numbers display with flags and are tel: links,tests/pages/contact.spec.ts,
+25321,automated,normal,high,Pages > Contact Page (/contact) > Contact — Functional,Contact — hi@devit.group opens mail client,tests/pages/contact.spec.ts,
+25322,automated,normal,medium,Pages > Contact Page (/contact) > Contact — Functional,Contact — 'Start cooperation' header button opens cooperation form (click-open only),tests/pages/contact.spec.ts,
+25323,automated,normal,medium,Pages > Contact Page (/contact) > Contact — SEO,SSR — Contact first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25324,automated,normal,high,Pages > Contact Page (/contact) > Contact — SEO,HTML SEO meta tags — Contact,tests/templated/seo.spec.ts,
+25325,automated,normal,medium,Pages > Contact Page (/contact) > Contact — SEO,SEO — JSON-LD structured data present and valid on /contact,tests/templated/seo.spec.ts,
+25326,automated,normal,medium,Pages > Contact Page (/contact) > Contact — SEO,"Performance — PageSpeed: Contact (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25327,automated,normal,medium,Pages > Contact Page (/contact) > Contact — SEO,Contact — canonical URL matches current page,tests/templated/seo.spec.ts,
+25328,partial,normal,medium,Pages > Contact Page (/contact) > Contact — Design & Responsiveness,Design Compliance — Contact matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25329,partial,normal,high,Pages > Contact Page (/contact) > Contact — Design & Responsiveness,Responsiveness — Contact: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25330,automated,normal,medium,Pages > Contact Page (/contact) > Contact — Design & Responsiveness,"Contact — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25331,automated,critical,high,Pages > Shopify Page (/shopify) > Shopify — Functional,"Shopify — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25332,automated,normal,high,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — no broken images on page,tests/pages/shopify.spec.ts,
+25333,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — hero: animated text cycles through variants + 'EXPLORE MORE' rotating CTA works,tests/pages/shopify.spec.ts,
+25334,automated,normal,high,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — 'Estimate Project' hero CTA navigates to /calculator,tests/pages/shopify.spec.ts,
+25335,automated,normal,high,Pages > Shopify Page (/shopify) > Shopify — Functional,"Shopify — service sections: all 6 blocks render on scroll (01, 02, 03…) with working CTA buttons",tests/pages/shopify.spec.ts,
+25336,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Functional,"Shopify — stats section: non-zero realistic values, accurate for current date",tests/pages/shopify.spec.ts,
+25337,automated,normal,high,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — case cards: display correctly and link to correct project detail pages,tests/pages/shopify.spec.ts,
+25338,automated,normal,high,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — page has no JS errors in console on load,tests/pages/shopify.spec.ts,
+25339,automated,normal,high,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — 'Launch My Shopify App' external link opens in new tab,tests/pages/shopify.spec.ts,
+25340,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — 'Get in touch' / bottom CTA opens contact form,tests/pages/shopify.spec.ts,
+25341,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — 'Built on Experience' timeline renders correctly,tests/pages/shopify.spec.ts,
+25342,automated,minor,medium,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — Tech stack carousel scrollable across all entries,tests/pages/shopify.spec.ts,
+25343,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — 'See our story in motion' video button opens video,tests/pages/shopify.spec.ts,
+25344,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — 'Proven Shopify Results' stats blocks link to filtered /work pages,tests/pages/shopify.spec.ts,
+25345,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — 'Conversion-Oriented Shopify Themes' section: theme cards and 'View all Themes',tests/pages/shopify.spec.ts,
+25346,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Functional,Shopify — 'Explore Our Apps' buttons: 'Shopify App Store' and 'Our Portfolio' navigate correctly,tests/pages/shopify.spec.ts,
+25347,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — SEO,SSR — Shopify first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25348,automated,normal,high,Pages > Shopify Page (/shopify) > Shopify — SEO,HTML SEO meta tags — Shopify,tests/templated/seo.spec.ts,
+25349,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — SEO,SEO — JSON-LD structured data present and valid on /shopify,tests/templated/seo.spec.ts,
+25350,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — SEO,"Performance — PageSpeed: Shopify (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25351,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — SEO,Shopify — canonical URL matches current page,tests/templated/seo.spec.ts,
+25352,automated,critical,high,Pages > Shopify Page (/shopify) > Shopify — Market Personalization,Shopify — Review cards display country/region label,tests/pages/shopify.spec.ts,
+25353,manual,critical,high,Pages > Shopify Page (/shopify) > Shopify — Market Personalization,"Shopify — Reviews: EU market shows EU reviews first, correct on first paint (server-side by IP)",,server-side by IP -> needs VPN
+25354,manual,critical,high,Pages > Shopify Page (/shopify) > Shopify — Market Personalization,"Shopify — Reviews: Canada market shows Canadian reviews first, correct on first paint (server-side by IP)",,server-side by IP -> needs VPN
+25355,manual,critical,high,Pages > Shopify Page (/shopify) > Shopify — Market Personalization,"Shopify — Reviews: US market shows US reviews first, correct on first paint (server-side by IP)",,server-side by IP -> needs VPN
+25356,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Market Personalization,Shopify — Reviews can be filtered or navigated by app name,tests/pages/shopify.spec.ts,
+25357,automated,normal,high,Pages > Shopify Page (/shopify) > Shopify — Market Personalization,Shopify — Review slider navigation (prev/next) works,tests/pages/shopify.spec.ts,
+25358,automated,normal,high,Pages > Shopify Page (/shopify) > Shopify — Market Personalization,Shopify — App rating (5.0 average) displayed correctly,tests/pages/shopify.spec.ts,
+25359,automated,normal,high,Pages > Shopify Page (/shopify) > Shopify — Market Personalization,Shopify — In-house apps carousel shows 6 apps with correct ratings,tests/pages/shopify.spec.ts,
+25360,partial,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Design & Responsiveness,Design Compliance — Shopify matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25361,partial,normal,high,Pages > Shopify Page (/shopify) > Shopify — Design & Responsiveness,Responsiveness — Shopify: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25362,automated,normal,medium,Pages > Shopify Page (/shopify) > Shopify — Design & Responsiveness,"Shopify — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25363,automated,critical,high,Pages > About Page (/about) > About — Functional,"About — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25364,automated,normal,high,Pages > About Page (/about) > About — Functional,About — Video: autoplays muted and H1 'We are DevIT' is present,tests/pages/about.spec.ts,
+25365,partial,normal,high,Pages > About Page (/about) > About — Functional,About — Video: PLAY button sticks to cursor when paused,tests/pages/about.spec.ts,button follows cursor only
+25366,automated,normal,medium,Pages > About Page (/about) > About — Functional,"About — Video: control panel hidden during playback, video loops",tests/pages/about.spec.ts,
+25367,automated,normal,medium,Pages > About Page (/about) > About — Functional,About — 'Where are our clients from' section: slider and hover,tests/pages/about.spec.ts,
+25368,automated,normal,medium,Pages > About Page (/about) > About — Functional,About — 'Some numbers about us' stats are up to date,tests/pages/about.spec.ts,
+25369,automated,normal,medium,Pages > About Page (/about) > About — Functional,About — Leaderboard section: team photos and hover animation,tests/pages/about.spec.ts,
+25370,automated,normal,medium,Pages > About Page (/about) > About — Functional,About — Representatives section: photos with names and country flags,tests/pages/about.spec.ts,
+25371,automated,normal,medium,Pages > About Page (/about) > About — Functional,About — 'How we are working' section: all process items present,tests/pages/about.spec.ts,
+25372,automated,normal,medium,Pages > About Page (/about) > About — Functional,About — bottom CTA: 'Get in touch' button works,tests/pages/about.spec.ts,
+25373,automated,major,medium,Pages > About Page (/about) > About — Functional,About — 'Some numbers about us' counters animate on scroll and do not remain at '000',tests/pages/about.spec.ts,
+25374,automated,normal,medium,Pages > About Page (/about) > About — Functional,About — Leadership card: LinkedIn icon and Booking button work,tests/pages/about.spec.ts,
+25375,partial,normal,medium,Pages > About Page (/about) > About — Functional,"About — Representative Video Interview: hover shows play, opens in modal",tests/pages/about.spec.ts,opens player; focus trap manual
+25376,partial,normal,medium,Pages > About Page (/about) > About — Functional,"About — 'Meet our CEO' video: preview plays, click opens and restarts from 0:00",tests/pages/about.spec.ts,preview + open; restart position approximate
+25377,automated,normal,medium,Pages > About Page (/about) > About — SEO,SSR — About first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25378,automated,normal,high,Pages > About Page (/about) > About — SEO,HTML SEO meta tags — About,tests/templated/seo.spec.ts,
+25379,automated,normal,medium,Pages > About Page (/about) > About — SEO,SEO — JSON-LD structured data present and valid on /about,tests/templated/seo.spec.ts,
+25380,automated,normal,medium,Pages > About Page (/about) > About — SEO,"Performance — PageSpeed: About (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25381,automated,normal,medium,Pages > About Page (/about) > About — SEO,About — canonical URL matches current page,tests/templated/seo.spec.ts,
+25382,partial,normal,medium,Pages > About Page (/about) > About — Design & Responsiveness,Design Compliance — About matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25383,partial,normal,high,Pages > About Page (/about) > About — Design & Responsiveness,Responsiveness — About: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25384,automated,normal,medium,Pages > About Page (/about) > About — Design & Responsiveness,"About — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25385,automated,critical,high,Pages > Calculator Page (/calculator) > Calculator — Functional,"Calculator — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25386,automated,normal,high,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — step 1: industry dropdown appears and is selectable,tests/pages/calculator.spec.ts,
+25387,automated,normal,high,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — 'Next' button advances to step 2,tests/pages/calculator.spec.ts,
+25388,automated,normal,high,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — 'Next' button is blocked if no option selected,tests/pages/calculator.spec.ts,
+25389,automated,normal,high,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — complete all 5 steps and reach summary,tests/pages/calculator.spec.ts,
+25390,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — progress indicator updates correctly on each step,tests/pages/calculator.spec.ts,
+25391,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — Summary panel: 'Let's talk' CTA navigates to contact,tests/pages/calculator.spec.ts,
+25392,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — FAQ section: all 5 questions expand and collapse,tests/pages/calculator.spec.ts,
+25393,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — bottom CTA: 'Book a call' and 'Request callback' work,tests/pages/calculator.spec.ts,
+25394,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — no JS errors in console during interaction,tests/pages/calculator.spec.ts,
+25395,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — 'Back' button on each step returns to previous step,tests/pages/calculator.spec.ts,
+25396,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — step navigation via summary panel,tests/pages/calculator.spec.ts,
+25397,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — 'Let's chat' (Live Chat section) opens chat widget (click-open only),tests/pages/calculator.spec.ts,
+25398,automated,minor,low,Pages > Calculator Page (/calculator) > Calculator — Functional,Calculator — page refresh mid-flow: no broken state,tests/pages/calculator.spec.ts,
+25399,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — SEO,SSR — Calculator first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25400,automated,normal,high,Pages > Calculator Page (/calculator) > Calculator — SEO,HTML SEO meta tags — Calculator,tests/templated/seo.spec.ts,
+25401,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — SEO,SEO — JSON-LD structured data present and valid on /calculator,tests/templated/seo.spec.ts,
+25402,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — SEO,"Performance — PageSpeed: Calculator (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25403,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — SEO,Calculator — canonical URL matches current page,tests/templated/seo.spec.ts,
+25404,partial,normal,medium,Pages > Calculator Page (/calculator) > Calculator — Design & Responsiveness,Design Compliance — Calculator matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25405,partial,normal,high,Pages > Calculator Page (/calculator) > Calculator — Design & Responsiveness,Responsiveness — Calculator: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25406,automated,normal,medium,Pages > Calculator Page (/calculator) > Calculator — Design & Responsiveness,"Calculator — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25407,automated,critical,high,Pages > Blog (/blog) > Blog — Functional,"Blog — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25408,automated,normal,medium,Pages > Blog (/blog) > Blog — Functional,Blog — no broken images on article cards,tests/pages/blog.spec.ts,
+25409,automated,normal,high,Pages > Blog (/blog) > Blog — Functional,"Blog — article cards display title, category, read time, and date",tests/pages/blog.spec.ts,
+25410,automated,normal,high,Pages > Blog (/blog) > Blog — Functional,Blog — category filter checkboxes work correctly,tests/pages/blog.spec.ts,
+25411,automated,normal,high,Pages > Blog (/blog) > Blog — Functional,Blog — clicking an article card opens the article page,tests/pages/blog.spec.ts,
+25412,automated,normal,medium,Pages > Blog (/blog) > Blog — Functional,Blog — pagination works (Prev / Next / page numbers),tests/pages/blog.spec.ts,
+25413,automated,normal,medium,Pages > Blog (/blog) > Blog — Functional,Blog — category filter shows correct articles,tests/pages/blog.spec.ts,
+25414,automated,normal,medium,Pages > Blog (/blog) > Blog — Functional,Blog — blog article page (/blog/{slug}) accessible from listing,tests/pages/blog.spec.ts,
+25415,automated,normal,medium,Pages > Blog (/blog) > Blog — SEO,SSR — Blog first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25416,automated,normal,high,Pages > Blog (/blog) > Blog — SEO,HTML SEO meta tags — Blog,tests/templated/seo.spec.ts,
+25417,automated,normal,medium,Pages > Blog (/blog) > Blog — SEO,SEO — JSON-LD structured data present and valid on /blog,tests/templated/seo.spec.ts,
+25418,automated,normal,medium,Pages > Blog (/blog) > Blog — SEO,"Performance — PageSpeed: Blog (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25419,automated,normal,medium,Pages > Blog (/blog) > Blog — SEO,Blog — canonical URL matches current page,tests/templated/seo.spec.ts,
+25420,partial,normal,medium,Pages > Blog (/blog) > Blog — Design & Responsiveness,Design Compliance — Blog matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25421,partial,normal,high,Pages > Blog (/blog) > Blog — Design & Responsiveness,Responsiveness — Blog: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25422,automated,normal,medium,Pages > Blog (/blog) > Blog — Design & Responsiveness,"Blog — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25423,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — Functional,Blog — article page (/blog/{slug}) loads with correct content,tests/templated/page-health.spec.ts,
+25424,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — Functional,Blog article — social share links open in new tab,tests/pages/blog.spec.ts,
+25425,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — Functional,Blog article — 'Back to blog' or breadcrumb returns to /blog,tests/pages/blog.spec.ts,
+25426,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — Functional,Blog article — 'Table of content' anchor links scroll to correct sections,tests/pages/blog.spec.ts,
+25427,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — Functional,Blog article — FAQ accordion expands and collapses,tests/pages/blog.spec.ts,
+25428,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — Functional,Blog article — 'Get a Quote' promo banner navigates to /calculator,tests/pages/blog.spec.ts,
+25429,automated,minor,low,Pages > Blog Article (/blog/{slug}) > Blog Article — Functional,Blog article — external links in article body open in new tab and are not broken,tests/pages/blog.spec.ts,
+25430,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — SEO,Blog Article — SSR: first section renders without JavaScript,tests/templated/ssr.spec.ts,
+25431,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — SEO,"Blog Article — HTML meta tags: title, description, canonical",tests/templated/seo.spec.ts,
+25432,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — SEO,Blog Article — JSON-LD structured data present (BlogPosting or Article),tests/templated/seo.spec.ts,
+25433,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — SEO,Blog Article — OG tags verified via opengraph.xyz,tests/templated/seo.spec.ts,
+25434,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — SEO,Blog Article — canonical URL matches current article URL,tests/templated/seo.spec.ts,
+25435,partial,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — Design & Responsiveness,Blog Article — Design Compliance: article layout matches Figma,tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25436,partial,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — Design & Responsiveness,Blog Article — Responsiveness: display and functionality at 375px / 768px / 1440px,tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25437,automated,normal,medium,Pages > Blog Article (/blog/{slug}) > Blog Article — Design & Responsiveness,"Blog Article — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25438,automated,critical,high,Pages > Awards Page (/awards) > Awards — Functional,"Awards — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25439,automated,normal,high,Pages > Awards Page (/awards) > Awards — Functional,Awards — all 5 platform sections are visible and have titles,tests/pages/awards.spec.ts,
+25440,automated,normal,medium,Pages > Awards Page (/awards) > Awards — Functional,Awards — review counts are numeric and non-zero,tests/pages/awards.spec.ts,
+25441,automated,normal,medium,Pages > Awards Page (/awards) > Awards — Functional,Awards — review carousel displays and navigates,tests/pages/awards.spec.ts,
+25442,automated,normal,medium,Pages > Awards Page (/awards) > Awards — Functional,Awards — external platform links open correctly,tests/pages/awards.spec.ts,
+25443,partial,normal,medium,Pages > Awards Page (/awards) > Awards — Functional,Awards — 'Let's talk' CTA at bottom opens the contact form,tests/pages/awards.spec.ts,opens form; submit manual
+25444,automated,normal,medium,Pages > Awards Page (/awards) > Awards — Functional,Awards — Clutch badge links to DevIT Clutch profile,tests/pages/awards.spec.ts,
+25445,automated,normal,medium,Pages > Awards Page (/awards) > Awards — Functional,Awards — Shopify Partner badge links to Shopify Partner directory,tests/pages/awards.spec.ts,
+25446,automated,normal,medium,Pages > Awards Page (/awards) > Awards — Functional,Awards — Google / GoodFirms / other platform links open in new tab,tests/pages/awards.spec.ts,
+25447,automated,normal,medium,Pages > Awards Page (/awards) > Awards — Functional,Awards — 'Share Your Experience' Clutch review link opens review form,tests/pages/awards.spec.ts,
+25448,automated,normal,high,Pages > Awards Page (/awards) > Awards — SEO,Awards — SSR: GET /awards returns HTML with content (no blank page without JS),tests/templated/ssr.spec.ts,
+25449,automated,normal,medium,Pages > Awards Page (/awards) > Awards — SEO,Awards — page has correct <title> and meta description,tests/templated/seo.spec.ts,
+25450,automated,normal,medium,Pages > Awards Page (/awards) > Awards — SEO,SEO — JSON-LD structured data present and valid on /awards,tests/templated/seo.spec.ts,
+25451,automated,normal,medium,Pages > Awards Page (/awards) > Awards — SEO,"Performance — PageSpeed: Awards (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25452,automated,normal,medium,Pages > Awards Page (/awards) > Awards — SEO,Awards — canonical URL matches current page,tests/templated/seo.spec.ts,
+25453,partial,normal,medium,Pages > Awards Page (/awards) > Awards — Design & Responsiveness,Design Compliance — Awards matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25454,partial,normal,high,Pages > Awards Page (/awards) > Awards — Design & Responsiveness,Responsiveness — Awards: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25455,automated,normal,medium,Pages > Awards Page (/awards) > Awards — Design & Responsiveness,"Awards — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25456,automated,critical,high,Pages > Case Studies Page (/case-studies) > Case Studies — Functional,"Case Studies — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25457,automated,normal,medium,Pages > Case Studies Page (/case-studies) > Case Studies — Functional,Case Studies — no broken images (background images load),tests/pages/case-studies.spec.ts,
+25458,automated,normal,high,Pages > Case Studies Page (/case-studies) > Case Studies — Functional,Case Studies — all case study slides are present and populated,tests/pages/case-studies.spec.ts,
+25459,automated,normal,high,Pages > Case Studies Page (/case-studies) > Case Studies — Functional,Case Studies — slider navigation works (1/4 → 2/4 → 3/4 → 4/4),tests/pages/case-studies.spec.ts,
+25460,automated,normal,high,Pages > Case Studies Page (/case-studies) > Case Studies — Functional,Case Studies — clicking a case study navigates to its detail page,tests/pages/case-studies.spec.ts,
+25461,automated,normal,medium,Pages > Case Studies Page (/case-studies) > Case Studies — Functional,Case Studies — 'View all work' or bottom CTA navigates to /work,tests/pages/case-studies.spec.ts,
+25462,automated,normal,medium,Pages > Case Studies Page (/case-studies) > Case Studies — Functional,Case Studies — each case study has correct external or internal link,tests/pages/case-studies.spec.ts,
+25463,automated,normal,medium,Pages > Case Studies Page (/case-studies) > Case Studies — SEO,SSR — Case Studies first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25464,automated,normal,high,Pages > Case Studies Page (/case-studies) > Case Studies — SEO,HTML SEO meta tags — Case Studies,tests/templated/seo.spec.ts,
+25465,automated,normal,medium,Pages > Case Studies Page (/case-studies) > Case Studies — SEO,SEO — JSON-LD structured data present and valid on /case-studies,tests/templated/seo.spec.ts,
+25466,automated,normal,medium,Pages > Case Studies Page (/case-studies) > Case Studies — SEO,"Performance — PageSpeed: Case Studies (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25467,automated,normal,medium,Pages > Case Studies Page (/case-studies) > Case Studies — SEO,Case Studies — canonical URL matches current page,tests/templated/seo.spec.ts,
+25468,partial,normal,medium,Pages > Case Studies Page (/case-studies) > Case Studies — Design & Responsiveness,Design Compliance — Case Studies matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25469,partial,normal,high,Pages > Case Studies Page (/case-studies) > Case Studies — Design & Responsiveness,Responsiveness — Case Studies: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25470,automated,normal,medium,Pages > Case Studies Page (/case-studies) > Case Studies — Design & Responsiveness,"Case Studies — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25471,automated,critical,high,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — Functional,"Privacy Policy — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25472,automated,normal,high,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — Functional,Privacy Policy — all required sections are present,tests/pages/legal.spec.ts,
+25473,automated,normal,medium,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — Functional,Privacy Policy — contact email hi@devit.group is a working mailto link,tests/pages/legal.spec.ts,
+25474,automated,minor,low,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — Functional,"Privacy Policy — 'Updated Feb 21, 2024' date label is visible",tests/pages/legal.spec.ts,
+25475,automated,normal,medium,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — Functional,Privacy Policy — cross-link to Cookie Policy page works,tests/pages/legal.spec.ts,
+25476,automated,normal,medium,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — SEO,SSR — Privacy Policy first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25477,automated,normal,medium,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — SEO,Privacy Policy — page has correct <title> and meta description,tests/templated/seo.spec.ts,
+25478,automated,normal,medium,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — SEO,SEO — JSON-LD structured data present and valid on /privacy-policy,tests/templated/seo.spec.ts,
+25479,automated,normal,medium,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — SEO,"Performance — PageSpeed: Privacy Policy (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25480,automated,normal,medium,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — SEO,Privacy Policy — canonical URL matches current page,tests/templated/seo.spec.ts,
+25481,partial,normal,high,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — Design & Responsiveness,Responsiveness — Privacy Policy: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25482,automated,normal,medium,Pages > Privacy Policy Page (/privacy-policy) > Privacy Policy — Design & Responsiveness,"Privacy Policy — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25483,automated,critical,high,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — Functional,"Cookie Policy — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25484,automated,normal,high,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — Functional,Cookie Policy — all 4 cookie category sections are present,tests/pages/legal.spec.ts,
+25485,automated,normal,medium,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — Functional,Cookie Policy — cookie tables have all required columns,tests/pages/legal.spec.ts,
+25486,automated,normal,high,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — Functional,Cookie Policy — 'Open cookie preferences' button triggers the cookie preferences modal,tests/pages/legal.spec.ts,
+25487,automated,minor,low,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — Functional,Cookie Policy — 'Click here' link for guide leads to external guide or section,tests/pages/legal.spec.ts,
+25488,automated,normal,medium,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — Functional,Cookie Policy — 'Click here to proceed' link goes to Privacy Policy page,tests/pages/legal.spec.ts,
+25489,automated,minor,low,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — Functional,"Cookie Policy — 'Updated Feb 21, 2024' date label is visible",tests/pages/legal.spec.ts,
+25490,automated,normal,medium,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — SEO,SSR — Cookie Policy first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25491,automated,normal,medium,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — SEO,Cookie Policy — page has correct <title> and meta description,tests/templated/seo.spec.ts,
+25492,automated,normal,medium,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — SEO,SEO — JSON-LD structured data present and valid on /cookie-policy,tests/templated/seo.spec.ts,
+25493,automated,normal,medium,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — SEO,"Performance — PageSpeed: Cookie Policy (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25494,automated,normal,medium,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — SEO,Cookie Policy — canonical URL matches current page,tests/templated/seo.spec.ts,
+25495,partial,normal,high,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — Design & Responsiveness,Responsiveness — Cookie Policy: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25496,automated,normal,medium,Pages > Cookie Policy Page (/cookie-policy) > Cookie Policy — Design & Responsiveness,"Cookie Policy — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25497,automated,critical,high,Pages > ReSell App Page (/resell) > ReSell — Functional,"ReSell — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25498,automated,normal,high,Pages > ReSell App Page (/resell) > ReSell — Functional,"ReSell — hero rating, review count, and CTA buttons (Install / Book a demo / pricing) work",tests/pages/resell.spec.ts,
+25499,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,"ReSell — stats section shows 3 key metrics (AOV uplift, revenue, orders count)",tests/pages/resell.spec.ts,
+25500,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — sales channels carousel shows 5 items and is navigable,tests/pages/resell.spec.ts,
+25501,automated,normal,high,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — pricing switcher Monthly/Yearly toggles plan prices,tests/pages/resell.spec.ts,
+25502,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — pricing order volume slider updates plan recommendation,tests/pages/resell.spec.ts,
+25503,automated,critical,high,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — pricing plan CTAs ('30-day free trial' buttons) link to Shopify App Store,tests/pages/resell.spec.ts,
+25504,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — reviews carousel shows review cards and navigates,tests/pages/resell.spec.ts,
+25505,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — FAQ section expands and collapses each question,tests/pages/resell.spec.ts,
+25506,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — 'Join affiliate program' link is not broken,tests/pages/resell.spec.ts,
+25507,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — 'Talk to enterprise team' CTA opens contact or booking form,tests/pages/resell.spec.ts,
+25508,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — 'Other Shopify Apps' section shows 4 app cards with links,tests/pages/resell.spec.ts,
+25509,automated,minor,low,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — 'Visit our Help Center' link is not broken,tests/pages/resell.spec.ts,
+25510,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — Shopify App Store link in header opens install page,tests/pages/resell.spec.ts,
+25511,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — customer review links to Shopify App Store reviews,tests/pages/resell.spec.ts,
+25512,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — 'View demo store' opens resell-demo.myshopify.com in new tab,tests/pages/resell.spec.ts,
+25513,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — 'Other Shopify Apps by DevIT' cross-links to React Flow,tests/pages/resell.spec.ts,
+25514,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — live chat opens on ReSell page,tests/pages/resell.spec.ts,
+25515,partial,normal,high,Pages > ReSell App Page (/resell) > ReSell — Functional,"ReSell — rating, review count and pricing tiers match Shopify App Store",tests/pages/resell.spec.ts,rating vs App Store; pricing compare manual
+25516,partial,critical,high,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — 'Local Growth' section shows merchant count for active market,tests/pages/resell.spec.ts,"timezone+geolocation, not IP"
+25517,partial,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — Local Growth section updates for different markets,tests/pages/resell.spec.ts,"timezone+geolocation, not IP"
+25518,automated,critical,high,Pages > ReSell App Page (/resell) > ReSell — Functional,ReSell — Pricing plans display correctly for active market currency,tests/pages/resell.spec.ts,
+25519,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — SEO,SSR — ReSell first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25520,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — SEO,"ReSell — page has correct <title>, meta description, og:tags",tests/templated/seo.spec.ts,
+25521,automated,normal,high,Pages > ReSell App Page (/resell) > ReSell — SEO,ReSell — SSR: GET /resell returns HTML with pricing and hero content,tests/templated/ssr.spec.ts,
+25522,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — SEO,SEO — JSON-LD structured data present and valid on /resell,tests/templated/seo.spec.ts,
+25523,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — SEO,"Performance — PageSpeed: ReSell (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25524,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — SEO,ReSell — canonical URL matches current page,tests/templated/seo.spec.ts,
+25525,partial,normal,high,Pages > ReSell App Page (/resell) > ReSell — Design & Responsiveness,Responsiveness — ReSell: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25526,partial,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Design & Responsiveness,[Mobile 375px / Tablet 768px / Desktop 1440px] ReSell — Design Compliance: layout matches Figma at all breakpoints,tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25527,automated,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Design & Responsiveness,"ReSell — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25528,automated,critical,high,Pages > ReSell App Page (/resell) > ReSell — Market Personalization,ReSell — Review cards display country label,tests/pages/resell.spec.ts,
+25529,manual,critical,high,Pages > ReSell App Page (/resell) > ReSell — Market Personalization,"ReSell — Reviews: EU market shows EU reviews first, correct on first paint (server-side by IP)",,server-side by IP -> needs VPN
+25530,manual,critical,high,Pages > ReSell App Page (/resell) > ReSell — Market Personalization,"ReSell — Reviews: US market shows US reviews first, correct on first paint (server-side by IP)",,server-side by IP -> needs VPN
+25531,manual,normal,medium,Pages > ReSell App Page (/resell) > ReSell — Market Personalization,"ReSell — Reviews: MENA market shows Middle East reviews first, correct on first paint (server-side by IP)",,server-side by IP -> needs VPN
+25532,automated,normal,high,Pages > ReSell App Page (/resell) > ReSell — Market Personalization,"ReSell — Review slider: total count visible, navigation works",tests/pages/resell.spec.ts,
+25533,automated,critical,high,Pages > React Flow App Page (/react-flow) > React Flow — Functional,"React Flow — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25534,automated,critical,high,Pages > React Flow App Page (/react-flow) > React Flow — Functional,"React Flow — hero: main heading, rating, review count, and CTA button visible",tests/pages/react-flow.spec.ts,
+25535,automated,critical,high,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — CTA buttons present and clickable,tests/pages/react-flow.spec.ts,
+25536,automated,normal,high,Pages > React Flow App Page (/react-flow) > React Flow — Functional,"React Flow — key sections rendered (features, pricing, etc.)",tests/pages/react-flow.spec.ts,
+25537,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — pricing section: plan CTAs are clickable,tests/pages/react-flow.spec.ts,
+25538,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — features section renders all items,tests/pages/react-flow.spec.ts,
+25539,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — Shopify App Store link opens in new tab,tests/pages/react-flow.spec.ts,
+25540,partial,normal,high,Pages > React Flow App Page (/react-flow) > React Flow — Functional,"React Flow — rating, review count and pricing tiers match Shopify App Store",tests/pages/react-flow.spec.ts,rating vs App Store; pricing compare manual
+25541,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — 'View demo store' opens reactflow-demo.myshopify.com in new tab,tests/pages/react-flow.spec.ts,
+25542,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — 'Other Shopify Apps by DevIT' cards link to each app's Shopify Store page,tests/pages/react-flow.spec.ts,
+25543,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — affiliate program link works,tests/pages/react-flow.spec.ts,
+25544,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — live chat opens,tests/pages/react-flow.spec.ts,
+25545,automated,normal,high,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — product header anchor nav (Features / Pricing / Reviews / Contacts) scrolls to sections,tests/pages/react-flow.spec.ts,
+25546,automated,major,high,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — pricing switcher Monthly/Yearly toggles prices and shows '20% Save',tests/pages/react-flow.spec.ts,
+25547,automated,major,high,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — 'total runs per month' slider updates recommended plan,tests/pages/react-flow.spec.ts,
+25548,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — FAQ section: all 10 questions expand and collapse,tests/pages/react-flow.spec.ts,
+25549,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — reviews carousel ('Trusted. Proven. Rated 4.97') navigates through all slides,tests/pages/react-flow.spec.ts,
+25550,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Functional,React Flow — content carousels: 'Shopify Functions' (1/4) and 'Top Templates' (1/7) navigate correctly,tests/pages/react-flow.spec.ts,
+25551,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — SEO,SSR — React Flow first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25552,automated,critical,high,Pages > React Flow App Page (/react-flow) > React Flow — SEO,React Flow — <title> tag from Strapi SEO field,tests/templated/seo.spec.ts,
+25553,automated,normal,high,Pages > React Flow App Page (/react-flow) > React Flow — SEO,React Flow — meta description from Strapi SEO field,tests/templated/seo.spec.ts,
+25554,automated,normal,high,Pages > React Flow App Page (/react-flow) > React Flow — SEO,React Flow — OG tags and og:image verified via opengraph.xyz,tests/templated/seo.spec.ts,
+25555,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — SEO,SEO — JSON-LD structured data present and valid on /react-flow,tests/templated/seo.spec.ts,
+25556,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — SEO,"Performance — PageSpeed: React Flow (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25557,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — SEO,React Flow — canonical URL matches current page,tests/templated/seo.spec.ts,
+25558,partial,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Design & Responsiveness,Design Compliance — React Flow matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25559,partial,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Design & Responsiveness,Responsiveness — React Flow: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25560,automated,normal,medium,Pages > React Flow App Page (/react-flow) > React Flow — Design & Responsiveness,"React Flow — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25561,automated,critical,high,Pages > Support Page (/support) > Support — Functional,"Support — page loads with HTTP 200, layout intact, no JS errors",tests/templated/page-health.spec.ts,
+25562,automated,critical,high,Pages > Support Page (/support) > Support — Functional,Support — main heading visible,tests/pages/support.spec.ts,
+25563,automated,normal,high,Pages > Support Page (/support) > Support — Functional,"Support — routing modal 'Need help with an app?': appears on load, all actions work",tests/pages/support.spec.ts,
+25564,automated,normal,medium,Pages > Support Page (/support) > Support — Functional,Support — live chat or help CTA triggers correct action,tests/pages/support.spec.ts,
+25565,automated,normal,medium,Pages > Support Page (/support) > Support — Functional,Support — request callback button opens callback form,tests/pages/support.spec.ts,
+25566,automated,normal,medium,Pages > Support Page (/support) > Support — Functional,Support — Messenger link opens m.me/103228279146400 in new tab,tests/pages/support.spec.ts,
+25567,automated,normal,medium,Pages > Support Page (/support) > Support — Functional,Support — Discord link opens DevIT community in new tab,tests/pages/support.spec.ts,"TC outdated: Discord removed on purpose; test checks no Discord links + WhatsApp — update case in Qase"
+25568,automated,normal,medium,Pages > Support Page (/support) > Support — Functional,Support — Telegram bot link opens in new tab,tests/pages/support.spec.ts,
+25569,automated,normal,medium,Pages > Support Page (/support) > Support — Functional,Support — FAQ section: all 10 questions expand and collapse,tests/pages/support.spec.ts,
+25570,automated,critical,high,Pages > Support Page (/support) > Support — Functional,Support — help/contact CTAs present and functional,tests/pages/support.spec.ts,
+25571,automated,normal,medium,Pages > Support Page (/support) > Support — Functional,Support — product links navigate to correct product pages,tests/pages/support.spec.ts,
+25572,automated,normal,medium,Pages > Support Page (/support) > Support — Functional,Support — documentation or help center links open in new tab,tests/pages/support.spec.ts,
+25573,automated,normal,medium,Pages > Support Page (/support) > Support — Functional,Support — email or contact links work,tests/pages/support.spec.ts,
+25574,automated,normal,medium,Pages > Support Page (/support) > Support — SEO,SSR — Support first section renders without JavaScript (Next.js SSR check),tests/templated/ssr.spec.ts,
+25575,automated,critical,high,Pages > Support Page (/support) > Support — SEO,Support — <title> from Strapi SEO field,tests/templated/seo.spec.ts,
+25576,automated,normal,high,Pages > Support Page (/support) > Support — SEO,Support — meta description from Strapi SEO field,tests/templated/seo.spec.ts,
+25577,automated,normal,high,Pages > Support Page (/support) > Support — SEO,Support — OG tags and og:image verified via opengraph.xyz,tests/templated/seo.spec.ts,
+25578,automated,normal,medium,Pages > Support Page (/support) > Support — SEO,SEO — JSON-LD structured data present and valid on /support,tests/templated/seo.spec.ts,
+25579,automated,normal,medium,Pages > Support Page (/support) > Support — SEO,"Performance — PageSpeed: Support (Desktop ≥ 90, Mobile ≥ 70, avg of 5 runs)",tests/templated/performance.spec.ts,needs PSI_API_KEY
+25580,automated,normal,medium,Pages > Support Page (/support) > Support — SEO,Support — canonical URL matches current page,tests/templated/seo.spec.ts,
+25581,partial,normal,medium,Pages > Support Page (/support) > Support — Design & Responsiveness,Design Compliance — Support matches Figma design (Desktop + Mobile),tests/templated/visual.spec.ts,screenshot baseline vs approved build; Figma compare manual
+25582,partial,normal,medium,Pages > Support Page (/support) > Support — Design & Responsiveness,Responsiveness — Support: display and main functionality at Mobile (375px) / Tablet (768px) / Desktop (1440px),tests/templated/responsive.spec.ts,layout/no h-scroll/images/nav/tap targets; visual review manual
+25583,automated,normal,medium,Pages > Support Page (/support) > Support — Design & Responsiveness,"Support — Cross-browser: renders and functions correctly in Chrome, Firefox, Safari",tests/templated/cross-browser.spec.ts,
+25584,manual,critical,high,SEO Audit — Screaming Frog > SF-01 — Налаштування та запуск краулу,SF — Crawl starts from the correct start URL,,Screaming Frog desktop audit
+25585,manual,normal,medium,SEO Audit — Screaming Frog > SF-01 — Налаштування та запуск краулу,SF — User-Agent is set to Googlebot,,Screaming Frog desktop audit
+25586,manual,normal,high,SEO Audit — Screaming Frog > SF-01 — Налаштування та запуск краулу,SF — Sitemap loads and all URLs are found,,Screaming Frog desktop audit
+25587,manual,critical,high,SEO Audit — Screaming Frog > SF-02 — HTTP статуси та помилки,"SF — No URLs with 4xx response (404, 403, 410)",,Screaming Frog desktop audit
+25588,manual,critical,high,SEO Audit — Screaming Frog > SF-02 — HTTP статуси та помилки,SF — No URLs with 5xx response (server errors),,Screaming Frog desktop audit
+25589,manual,normal,medium,SEO Audit — Screaming Frog > SF-02 — HTTP статуси та помилки,SF — Redirects (3xx): chains no longer than 1 hop,,Screaming Frog desktop audit
+25590,manual,normal,medium,SEO Audit — Screaming Frog > SF-02 — HTTP статуси та помилки,SF — Broken external links,,Screaming Frog desktop audit
+25591,manual,critical,high,SEO Audit — Screaming Frog > SF-03 — Title теги,SF — Missing title tags,,Screaming Frog desktop audit
+25592,manual,normal,high,SEO Audit — Screaming Frog > SF-03 — Title теги,SF — Duplicate title tags,,Screaming Frog desktop audit
+25593,manual,normal,medium,SEO Audit — Screaming Frog > SF-03 — Title теги,SF — Title too long (over 60 chars),,Screaming Frog desktop audit
+25594,manual,minor,low,SEO Audit — Screaming Frog > SF-03 — Title теги,SF — Title too short (under 30 chars),,Screaming Frog desktop audit
+25595,manual,normal,high,SEO Audit — Screaming Frog > SF-04 — Meta Description,SF — Missing meta description,,Screaming Frog desktop audit
+25596,manual,normal,medium,SEO Audit — Screaming Frog > SF-04 — Meta Description,SF — Duplicate meta descriptions,,Screaming Frog desktop audit
+25597,manual,normal,medium,SEO Audit — Screaming Frog > SF-04 — Meta Description,SF — Meta description too long (over 155 chars),,Screaming Frog desktop audit
+25598,manual,minor,low,SEO Audit — Screaming Frog > SF-04 — Meta Description,SF — Meta description too short (under 70 chars),,Screaming Frog desktop audit
+25599,manual,critical,high,SEO Audit — Screaming Frog > SF-05 — H1 заголовки,SF — Missing H1,,Screaming Frog desktop audit
+25600,manual,normal,medium,SEO Audit — Screaming Frog > SF-05 — H1 заголовки,SF — Duplicate H1,,Screaming Frog desktop audit
+25601,manual,normal,medium,SEO Audit — Screaming Frog > SF-05 — H1 заголовки,SF — Multiple H1 on one page,,Screaming Frog desktop audit
+25602,manual,minor,low,SEO Audit — Screaming Frog > SF-05 — H1 заголовки,SF — H1 does not match Title tag (report),,Screaming Frog desktop audit
+25603,manual,normal,high,SEO Audit — Screaming Frog > SF-06 — Зображення (Images),SF — Images without alt attribute,,Screaming Frog desktop audit
+25604,manual,normal,medium,SEO Audit — Screaming Frog > SF-06 — Зображення (Images),SF — Images with empty alt (alt == blank),,Screaming Frog desktop audit
+25605,manual,normal,medium,SEO Audit — Screaming Frog > SF-06 — Зображення (Images),SF — Large images (over 100KB),,Screaming Frog desktop audit
+25606,manual,normal,medium,SEO Audit — Screaming Frog > SF-07 — Внутрішні посилання (Internal Links),SF — Orphan pages (no inbound links),,Screaming Frog desktop audit
+25607,manual,normal,medium,SEO Audit — Screaming Frog > SF-07 — Внутрішні посилання (Internal Links),SF — Links with nofollow attribute,,Screaming Frog desktop audit
+25608,manual,minor,low,SEO Audit — Screaming Frog > SF-07 — Внутрішні посилання (Internal Links),SF — Anchor text is not 'click here' or empty,,Screaming Frog desktop audit
+25609,manual,normal,high,SEO Audit — Screaming Frog > SF-08 — Canonical теги,SF — Missing canonical tags,,Screaming Frog desktop audit
+25610,manual,normal,medium,SEO Audit — Screaming Frog > SF-08 — Canonical теги,SF — Self-referencing canonicals,,Screaming Frog desktop audit
+25611,manual,normal,medium,SEO Audit — Screaming Frog > SF-09 — Hreflang (мова та регіон),SF — Hreflang tags present on all pages,,Screaming Frog desktop audit
+25612,manual,normal,medium,SEO Audit — Screaming Frog > SF-09 — Hreflang (мова та регіон),SF — Hreflang: missing return links,,Screaming Frog desktop audit
+25613,manual,critical,high,SEO Audit — Screaming Frog > SF-10 — Robots.txt та Indexability,SF — No page is blocked by robots.txt,,Screaming Frog desktop audit
+25614,manual,critical,high,SEO Audit — Screaming Frog > SF-10 — Robots.txt та Indexability,SF — Noindex pages: check none are unintentionally hidden,,Screaming Frog desktop audit
+25615,manual,normal,medium,SEO Audit — Screaming Frog > SF-11 — Structured Data (JSON-LD),SF — Structured data present on key pages,,Screaming Frog desktop audit
+25616,manual,normal,medium,SEO Audit — Screaming Frog > SF-11 — Structured Data (JSON-LD),SF — Structured data has no validation errors,,Screaming Frog desktop audit
+25617,manual,normal,high,SEO Audit — Screaming Frog > SF-12 — Page Speed Integration (Screaming Frog + PSI API),SF — PageSpeed Desktop: all main pages ≥ 80,,Screaming Frog desktop audit
+25618,manual,normal,high,SEO Audit — Screaming Frog > SF-12 — Page Speed Integration (Screaming Frog + PSI API),SF — PageSpeed Mobile: all main pages ≥ 70,,Screaming Frog desktop audit
+25619,manual,normal,high,SEO Audit — Screaming Frog > SF-12 — Page Speed Integration (Screaming Frog + PSI API),"SF — Core Web Vitals: LCP, CLS, FID/INP within thresholds",,Screaming Frog desktop audit
+25620,manual,critical,high,SEO Audit — Screaming Frog > SF-13 — Sitemap.xml валідація,SF — Sitemap contains no 4xx or 5xx URLs,,Screaming Frog desktop audit
+25621,manual,normal,medium,SEO Audit — Screaming Frog > SF-13 — Sitemap.xml валідація,SF — Sitemap: lastmod dates present for blog and work pages,,Screaming Frog desktop audit
+25622,manual,normal,medium,SEO Audit — Screaming Frog > SF-14 — Експорт та звітність,SF — Bulk Export: all internal URLs to CSV,,Screaming Frog desktop audit
+25623,manual,normal,medium,SEO Audit — Screaming Frog > SF-14 — Експорт та звітність,SF — Save crawl file (.seospider) for reuse,,Screaming Frog desktop audit

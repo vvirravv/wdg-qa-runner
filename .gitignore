@@ -10,3 +10,5 @@ public/visual-diffs/
 tests/playwright-report/
 tests/snapshots/
 test-results/
+tests_backup_old/
+tests/visual/

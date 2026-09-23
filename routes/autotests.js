@@ -139,19 +139,22 @@ router.post('/:id/run', requireAutotestAccess, (req, res) => {
 
   let args, tmpFile = null;
   const videoArgs = ['--video=on', `--output=${videoDir}`];
+  const isTs = t.specFile && t.specFile.endsWith('.ts');
   if (t.specFile && t.testName) {
     const grepPattern = t.testName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     args = ['playwright', 'test', `tests/${t.specFile}`, '--grep', grepPattern,
-      ...videoArgs, ...extraArgs, '--reporter=list', '--timeout=30000'];
+      '--project=chromium', ...videoArgs, ...extraArgs, '--reporter=list'];
+    if (!isTs) args.push('--timeout=30000');
   } else if (t.specFile) {
     args = ['playwright', 'test', `tests/${t.specFile}`,
-      ...videoArgs, ...extraArgs, '--reporter=list', '--timeout=45000'];
+      '--project=chromium', ...videoArgs, ...extraArgs, '--reporter=list'];
+    if (!isTs) args.push('--timeout=45000');
   } else {
     const tmpName = `_at_${t.id}_${Date.now()}.spec.js`;
     tmpFile = path.join(SPECS_DIR, tmpName);
     fs.writeFileSync(tmpFile, t.code);
     args = ['playwright', 'test', `tests/${tmpName}`,
-      ...videoArgs, ...extraArgs, '--reporter=list', '--timeout=30000'];
+      '--project=chromium', ...videoArgs, ...extraArgs, '--reporter=list', '--timeout=30000'];
   }
 
   const proc = spawn('npx', args, { cwd: TESTS_DIR, env });
@@ -173,13 +176,15 @@ router.post('/:id/run', requireAutotestAccess, (req, res) => {
     } catch {}
   };
 
+  // TypeScript spec files can have many tests — allow up to 10 minutes
+  const RUN_TIMEOUT = isTs ? 600000 : 60000;
   const timer = setTimeout(() => {
     proc.kill();
     const videoFile = findVideo(videoDir);
     saveLastRun('timeout', videoFile);
     send({ type: 'done', status: 'timeout', output: fullOutput + '\n[Timeout exceeded]', exitCode: -1, videoFile: videoFile || null });
     cleanup(); res.end();
-  }, 60000);
+  }, RUN_TIMEOUT);
 
   proc.on('close', code => {
     clearTimeout(timer);
